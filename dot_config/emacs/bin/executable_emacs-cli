@@ -1,0 +1,415 @@
+#!/bin/bash
+set -e
+
+# --- Environment Setup ---
+# Explicitly add standard paths to ensure Git is found
+export PATH="/usr/bin:/usr/local/bin:$PATH"
+
+# Load mise environment if available
+if command -v mise &> /dev/null; then
+    eval "$(mise activate bash --shims)"
+fi
+
+# --- Configuration Paths ---
+EMACS="emacs"
+EMACSCLIENT="emacsclient"
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+INIT_FILE="$PROJECT_ROOT/init.el"
+
+# --- Options ---
+VERBOSE=false
+SAFE_MODE=false
+DRY_RUN=false
+BACKGROUND=false
+SKIP_WAIT=false
+TIMEOUT=600  # Default timeout: 10 minutes (in seconds)
+
+function print_usage() {
+    echo "Usage: $(basename "$0") [command] [options]"
+    echo ""
+    echo "Commands:"
+    echo "  sync, install     Install missing packages and prune orphans (Batch mode)"
+    echo "  update, upgrade   Update all packages to their latest versions"
+    echo "  purge             Remove builds and caches (to fix compilation errors)"
+    echo "  check, validate   Validate syntax of config.org and core Elisp files"
+    echo "  doctor            Check system health and config.org integrity"
+    echo "  help, --help, -h  Show this help message"
+    echo ""
+    echo "Options (for sync/update):"
+    echo "  -v, --verbose      Show detailed progress and package information"
+    echo "  -s, --safe         Skip problematic packages (safe mode)"
+    echo "  -d, --dry-run      Preview what would be installed (no changes)"
+    echo "  -b, --background   Run in background (log to file)"
+    echo "  -t, --timeout N    Set timeout in seconds (default: 600)"
+    echo "  --skip-wait        Skip elpaca-wait (for debugging)"
+}
+
+function parse_options() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -v|--verbose)
+                VERBOSE=true
+                shift
+                ;;
+            -s|--safe)
+                SAFE_MODE=true
+                shift
+                ;;
+            -d|--dry-run)
+                DRY_RUN=true
+                shift
+                ;;
+            -b|--background)
+                BACKGROUND=true
+                shift
+                ;;
+            -t|--timeout)
+                TIMEOUT="$2"
+                shift 2
+                ;;
+            --skip-wait)
+                SKIP_WAIT=true
+                shift
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
+function log_info() {
+    echo -e "\033[1;34m==>\033[0m $1"
+}
+
+function log_success() {
+    echo -e "\033[1;32m✅\033[0m $1"
+}
+
+function log_error() {
+    echo -e "\033[1;31m❌\033[0m $1"
+}
+
+function stop_server() {
+    log_info "Stopping Emacs server..."
+    if $EMACSCLIENT -e '(kill-emacs)' -a '' >/dev/null 2>&1; then
+        log_info "Emacs server stopped."
+    else
+        log_info "No running Emacs server found."
+    fi
+}
+
+function cmd_check() {
+    local exit_code=0
+
+    log_info "Validating Org blocks in config.org..."
+    if [ -f "$PROJECT_ROOT/bin/validate-org-blocks" ]; then
+        if "$PROJECT_ROOT/bin/validate-org-blocks" "$PROJECT_ROOT/config.org"; then
+            log_success "config.org blocks are valid."
+        else
+            log_error "config.org blocks are invalid!"
+            exit_code=1
+        fi
+    else
+        echo "⚠️  validate-org-blocks not found, skipping Org validation."
+    fi
+
+    log_info "Validating Elisp syntax..."
+    if [ -f "$PROJECT_ROOT/bin/validate-lisp-syntax.py" ]; then
+        if python3 "$PROJECT_ROOT/bin/validate-lisp-syntax.py" "$PROJECT_ROOT/init.el" "$PROJECT_ROOT/early-init.el"; then
+            log_success "Core Elisp files are valid."
+        else
+            log_error "Elisp syntax errors detected!"
+            exit_code=1
+        fi
+    else
+        echo "⚠️  validate-lisp-syntax.py not found, skipping Elisp validation."
+    fi
+
+    return $exit_code
+}
+
+function cmd_sync() {
+    local cmd_args=()
+    local elisp_code=""
+
+    # Handle background mode
+    if [ "$BACKGROUND" = true ]; then
+        local log_file="$PROJECT_ROOT/.local/emacs-sync-$(date +%Y%m%d-%H%M%S).log"
+        log_info "Running sync in background. Log: $log_file"
+        mkdir -p "$(dirname "$log_file")"
+        nohup "$0" sync ${VERBOSE:+-v} ${SAFE_MODE:+-s} --timeout "$TIMEOUT" > "$log_file" 2>&1 &
+        local pid=$!
+        echo "Background process PID: $pid"
+        echo "Monitor with: tail -f $log_file"
+        return 0
+    fi
+
+    # Set up verbose mode
+    if [ "$VERBOSE" = true ]; then
+        log_info "Verbose mode enabled"
+        cmd_args+=("--eval" "(setq elpaca-log-events t)")
+    fi
+
+    # Set up safe mode
+    if [ "$SAFE_MODE" = true ]; then
+        log_info "Safe mode enabled - will skip problematic packages"
+        elisp_code="(setq elpaca-queue-limit 1)"
+    fi
+
+    # Set up dry run
+    if [ "$DRY_RUN" = true ]; then
+        log_info "Dry run mode - no changes will be made"
+        elisp_code="$elisp_code (setq elpaca-menu-disabled '(elpaca-menu-melpa elpaca-menu-elpa))"
+    fi
+
+    log_info "Syncing packages with Elpaca..."
+    log_info "Timeout set to ${TIMEOUT} seconds"
+
+    # Run Emacs in batch mode with proper config directory and timeout
+    local sync_start=$(date +%s)
+    local elapsed=0
+    local log_file="/tmp/emacs-sync-output-$$.log"
+
+    # Convert bash booleans to Elisp booleans
+    local elisp_verbose=$( [ "$VERBOSE" = true ] && echo "t" || echo "nil" )
+    local elisp_skip_wait=$( [ "$SKIP_WAIT" = true ] && echo "t" || echo "nil" )
+
+    # Build the Elisp code for Elpaca sync
+    elisp_code="(progn
+      (setq user-emacs-directory \"$PROJECT_ROOT/\")
+      (when $elisp_verbose
+        (message \"Starting package sync...\")
+        (message \"Elpaca directory: %s\" elpaca-directory))
+      (run-at-time 5 nil
+        (lambda ()
+          (when $elisp_verbose
+            (message \"Packages in queue: %d\"
+                     (length elpaca--queue)))))
+      (unless $elisp_skip_wait
+        (elpaca-wait))
+      (message \"✨ Sync complete.\"))"
+
+    # Use timeout command to enforce the timeout
+    # Capture output to log file and also display it
+    timeout "$TIMEOUT" $EMACS -Q --batch \
+           --eval "(progn (setq user-emacs-directory \"$PROJECT_ROOT/\") (setq gc-cons-threshold 100000000))" \
+           "${cmd_args[@]}" \
+           -l "$INIT_FILE" \
+           --eval "$elisp_code" 2>&1 | tee "$log_file"
+    local exit_code=$?
+
+    local sync_end=$(date +%s)
+    elapsed=$((sync_end - sync_start))
+
+    if [ $exit_code -eq 124 ]; then
+        log_error "Sync timed out after ${elapsed} seconds"
+        log_info "Last 20 lines of output:"
+        tail -20 "$log_file"
+        log_info ""
+        log_info "A package may be stuck. Try:"
+        log_info "  1. Run 'emacs-cli sync --safe' to skip problematic packages"
+        log_info "  2. Run 'emacs-cli purge' to clear build caches"
+        log_info "  3. Run 'emacs-cli doctor' for diagnostic info"
+        rm -f "$log_file"
+        return $exit_code
+    elif [ $exit_code -ne 0 ]; then
+        log_error "Elpaca sync failed with exit code $exit_code after ${elapsed} seconds"
+        log_info "Last 20 lines of output:"
+        tail -20 "$log_file"
+        rm -f "$log_file"
+        return $exit_code
+    fi
+
+    if [ $VERBOSE = true ]; then
+        log_info "Sync completed in ${elapsed} seconds"
+    fi
+
+    rm -f "$log_file"
+    return 0
+}
+
+function cmd_update() {
+    local cmd_args=()
+    local elisp_code=""
+
+    # Handle background mode
+    if [ "$BACKGROUND" = true ]; then
+        local log_file="$PROJECT_ROOT/.local/emacs-update-$(date +%Y%m%d-%H%M%S).log"
+        log_info "Running update in background. Log: $log_file"
+        mkdir -p "$(dirname "$log_file")"
+        nohup "$0" update ${VERBOSE:+-v} --timeout "$TIMEOUT" > "$log_file" 2>&1 &
+        local pid=$!
+        echo "Background process PID: $pid"
+        echo "Monitor with: tail -f $log_file"
+        return 0
+    fi
+
+    # Set up verbose mode
+    if [ "$VERBOSE" = true ]; then
+        log_info "Verbose mode enabled"
+        cmd_args+=("--eval" "(setq elpaca-log-events t)")
+    fi
+
+    log_info "Updating packages with Elpaca..."
+    log_info "Timeout set to ${TIMEOUT} seconds"
+
+    # Convert bash boolean to Elisp boolean
+    local elisp_verbose=$( [ "$VERBOSE" = true ] && echo "t" || echo "nil" )
+
+    # Build the Elisp code for Elpaca update
+    elisp_code="(progn
+      (setq user-emacs-directory \"$PROJECT_ROOT/\")
+      (when $elisp_verbose
+        (message \"Starting package update...\"))
+      (message \"Updating all packages via Elpaca...\")
+      (elpaca-update-all)
+      (run-at-time 5 nil
+        (lambda ()
+          (when $elisp_verbose
+            (message \"Packages in queue: %d\"
+                     (length elpaca--queue)))))
+      (elpaca-wait)
+      (message \"✨ Update complete.\"))"
+
+    # Run Emacs in batch mode with proper config directory and timeout
+    local update_start=$(date +%s)
+    local log_file="/tmp/emacs-update-output-$$.log"
+
+    # Use timeout command to enforce the timeout
+    # Capture output to log file and also display it
+    timeout "$TIMEOUT" $EMACS -Q --batch \
+           --eval "(progn (setq user-emacs-directory \"$PROJECT_ROOT/\") (setq gc-cons-threshold 100000000))" \
+           "${cmd_args[@]}" \
+           -l "$INIT_FILE" \
+           --eval "$elisp_code" 2>&1 | tee "$log_file"
+    local exit_code=$?
+
+    local update_end=$(date +%s)
+    local elapsed=$((update_end - update_start))
+
+    if [ $exit_code -eq 124 ]; then
+        log_error "Update timed out after ${elapsed} seconds"
+        log_info "Last 20 lines of output:"
+        tail -20 "$log_file"
+        log_info ""
+        log_info "A package may be stuck. Try:"
+        log_info "  1. Run 'emacs-cli sync --safe' to skip problematic packages"
+        log_info "  2. Run 'emacs-cli purge' to clear build caches"
+        rm -f "$log_file"
+        return $exit_code
+    elif [ $exit_code -ne 0 ]; then
+        log_error "Package update failed with exit code $exit_code after ${elapsed} seconds"
+        log_info "Last 20 lines of output:"
+        tail -20 "$log_file"
+        rm -f "$log_file"
+        return $exit_code
+    fi
+
+    if [ $VERBOSE = true ]; then
+        log_info "Update completed in ${elapsed} seconds"
+    fi
+
+    rm -f "$log_file"
+    return 0
+}
+
+function cmd_purge() {
+    log_info "Purging Elpaca build directories..."
+    # Targets the custom local package directory
+    if [ -d "$PROJECT_ROOT/.local/packages/elpaca/builds/" ]; then
+        rm -rf "$PROJECT_ROOT/.local/packages/elpaca/builds/"
+        log_info "Purge complete. Run 'sync' to rebuild."
+    else
+        log_info "No build directory found to purge."
+    fi
+}
+
+function cmd_doctor() {
+    local exit_code=0
+    log_info "Running Doctor..."
+    echo ""
+    echo "=== System Info ==="
+    echo "Emacs version: $($EMACS --version | head -n 1)"
+    echo "Git path: $(which git)"
+    echo "Working directory: $PROJECT_ROOT"
+    echo ""
+    echo "=== Configuration ==="
+    echo "Init file: $INIT_FILE"
+    echo "Config file: $PROJECT_ROOT/config.org"
+    echo ""
+    echo "=== Elpaca Status ==="
+    if [ -d "$PROJECT_ROOT/.local/packages/elpaca" ]; then
+        echo "✅ Elpaca directory found at: $PROJECT_ROOT/.local/packages/elpaca"
+        if [ -f "$PROJECT_ROOT/.local/packages/elpaca/repos/elpaca/elpaca.el" ]; then
+            echo "✅ Elpaca core file exists (repos)"
+        elif [ -f "$PROJECT_ROOT/.local/packages/elpaca/builds/elpaca/elpaca.el" ]; then
+            echo "✅ Elpaca core file exists (builds)"
+        else
+            echo "⚠️ Elpaca core file missing"
+        fi
+        echo "  Build directory: $PROJECT_ROOT/.local/packages/elpaca/builds/"
+        echo "  Repo directory: $PROJECT_ROOT/.local/packages/elpaca/repos/"
+        echo "  Repo count: $(find "$PROJECT_ROOT/.local/packages/elpaca/repos/" -maxdepth 1 -type d 2>/dev/null | wc -l)"
+    else
+        echo "⚠️ Elpaca directory not found. Run 'sync' to initialize."
+        exit_code=1
+    fi
+    echo ""
+    echo "=== Configuration Size ==="
+    ls -lh "$PROJECT_ROOT/config.org" | awk '{print "config.org size: " $5}'
+    echo ""
+    echo "=== Validation ==="
+    if [ -f "$PROJECT_ROOT/bin/validate-org-blocks" ]; then
+        echo "Validating config.org blocks..."
+        if ! "$PROJECT_ROOT/bin/validate-org-blocks" "$PROJECT_ROOT/config.org"; then
+            exit_code=1
+        fi
+    else
+        echo "⚠️ validate-org-blocks not found"
+    fi
+
+    if [ -f "$PROJECT_ROOT/bin/validate-lisp-syntax.py" ]; then
+        echo "Validating Elisp syntax..."
+        if ! python3 "$PROJECT_ROOT/bin/validate-lisp-syntax.py" "$PROJECT_ROOT/init.el" "$PROJECT_ROOT/early-init.el"; then
+            exit_code=1
+        fi
+    else
+        echo "⚠️ validate-lisp-syntax.py not found"
+    fi
+    echo ""
+    if [ $exit_code -eq 0 ]; then
+        log_success "All checks passed!"
+    else
+        log_error "Some checks failed"
+    fi
+    return $exit_code
+}
+
+# --- Command Dispatch ---
+if [ -z "$1" ]; then
+    print_usage
+    exit 1
+fi
+
+# Store the command
+COMMAND="$1"
+shift
+
+# Parse options (only for sync and update commands)
+if [[ "$COMMAND" == "sync" || "$COMMAND" == "install" || "$COMMAND" == "update" || "$COMMAND" == "upgrade" ]]; then
+    parse_options "$@"
+fi
+
+# Execute command
+case "$COMMAND" in
+    sync|install) cmd_sync ;;
+    update|upgrade) cmd_update ;;
+    purge) cmd_purge ;;
+    check|validate) cmd_check ;;
+    doctor) cmd_doctor ;;
+    help|--help|-h) print_usage ;;
+    *) echo "Unknown command: $COMMAND"; print_usage; exit 1 ;;
+esac
+
+exit $?

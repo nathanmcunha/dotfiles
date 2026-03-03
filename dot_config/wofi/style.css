@@ -1,0 +1,74 @@
+/* Reset Global */
+* {
+    /* Sua fonte do sistema */
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-weight: 500; /* 500 = Medium (Essencial para Light Mode) */
+    font-size: 14px;
+}
+
+#window {
+    background-color: #151310;
+    color: #e8e1dc;
+    border: 2px solid #dbc495;
+    border-radius: 12px;
+}
+
+#input {
+    background-color: #2c2a26;
+    color: #e8e1dc;
+    border: none;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+#inner-box {
+    margin: 10px;
+    background-color: transparent;
+}
+
+#outer-box {
+    margin: 0px;
+    border: none;
+    background-color: transparent;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+/* --- LISTA DE APPS --- */
+#entry {
+    margin: 2px 0px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+/* Item Selecionado */
+#entry:selected {
+    background-color: #dbc495;
+    color: #3d2e0c;
+}
+
+/* --- ÍCONE E TEXTO --- */
+
+/* Espaço entre o ícone e o texto */
+#img {
+    margin-right: 12px;
+    background-color: transparent;
+}
+
+/* O texto do app */
+#text {
+    margin: 0px;
+    border: none;
+    color: #e8e1dc;
+}
+
+/* Texto quando selecionado (precisa forçar a cor de contraste) */
+#entry:selected #text {
+    color: #3d2e0c;
+}

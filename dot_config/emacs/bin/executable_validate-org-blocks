@@ -1,0 +1,41 @@
+#!/bin/bash
+# Check for unbalanced #+begin_src / #+end_src blocks in an org file
+
+CONFIG_FILE="$1"
+
+if [ -z "$CONFIG_FILE" ]; then
+    echo "Usage: $0 <file.org>"
+    exit 1
+fi
+
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: File $CONFIG_FILE not found."
+    exit 1
+fi
+
+awk '
+  tolower($0) ~ /#\+begin_src/ { 
+    count++; 
+    stack[count] = NR; 
+  }
+  tolower($0) ~ /#\+end_src/   { 
+    if (count > 0) {
+        count--; 
+    } else { 
+        print "❌ ERROR: Extra #+end_src at line " NR; 
+        exit 1 
+    } 
+  }
+  END { 
+    if (count > 0) { 
+        print "❌ ERROR: Missing #+end_src!";
+        for (i=1; i<=count; i++) {
+            print "   - Unclosed block starting at line " stack[i];
+        }
+        exit 1 
+    } else if (count == 0) {
+        print "✅ Org blocks are balanced."
+        exit 0
+    }
+  }
+' "$CONFIG_FILE"

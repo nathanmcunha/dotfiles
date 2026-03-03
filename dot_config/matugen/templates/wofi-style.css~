@@ -1,0 +1,37 @@
+#window {
+    /* Pega a cor de fundo da imagem */
+    background-color: {{colors.surface_container_lowest.default.hex}};
+    /* Pega a cor de texto adequada */
+    color: {{colors.on_surface.default.hex}};
+    /* Pega a cor principal (acento) para a borda */
+    border: 2px solid {{colors.primary.default.hex}};
+    border-radius: 12px;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 14px;
+}
+
+#input {
+    background-color: {{colors.surface_container_high.default.hex}};
+    color: {{colors.on_surface.default.hex}};
+    border: none;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px;
+}
+
+#inner-box { margin: 10px; background-color: transparent; }
+#outer-box { margin: 0px; border: none; background-color: transparent; }
+#scroll { margin: 0px; border: none; }
+#text { margin: 5px; border: none; color: {{colors.on_surface.default.hex}}; }
+
+#entry:selected {
+    /* Item selecionado ganha a cor principal */
+    background-color: {{colors.primary.default.hex}};
+    color: {{colors.on_primary.default.hex}};
+    border-radius: 8px;
+    outline: none;
+}
+
+#entry:selected #text {
+    color: {{colors.on_primary.default.hex}};
+}

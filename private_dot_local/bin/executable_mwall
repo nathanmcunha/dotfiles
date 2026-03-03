@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# ================= CONFIG =================
+if [ -z "$1" ]; then
+    echo "❌ Erro: Informe a imagem."
+    exit 1
+fi
+
+IMG_PATH=$(realpath "$1")
+MONITOR="HDMI-A-4" # <--- Confirme seu monitor
+PANEL_JSON="$HOME/.config/hyprpanel/config.json"
+# ==========================================
+
+echo "🚀 Aplicando tema Light (Global)..."
+
+# 1. Hyprpaper (Wallpaper na tela)
+if ! pgrep -x "hyprpaper" > /dev/null; then
+    hyprpaper &
+    sleep 0.5
+fi
+hyprctl hyprpaper preload "$IMG_PATH"
+hyprctl hyprpaper wallpaper "$MONITOR,$IMG_PATH"
+
+# 2. Matugen Externo (Para Wofi, Kitty e Bordas)
+# Gera os arquivos de tema para os apps externos
+matugen image "$IMG_PATH" --mode light
+
+# 3. Injeção no HyprPanel (A Mágica)
+# Atualiza o caminho da imagem no JSON limpo
+sed -i "s|\"wallpaper.image\": \".*\"|\"wallpaper.image\": \"$IMG_PATH\"|g" "$PANEL_JSON"
+
+# Garante que o modo seja light (caso tenha mudado)
+sed -i 's/"theme.matugen_settings.mode": "dark"/"theme.matugen_settings.mode": "light"/g' "$PANEL_JSON"
+
+# 4. Reiniciar Painel
+# Como o JSON está limpo, ao reiniciar ele vai ler a imagem nova
+# e gerar as cores claras automaticamente.
+# hyprpanel -q
+# hyprpanel &
+
+echo "✅ Feito!"

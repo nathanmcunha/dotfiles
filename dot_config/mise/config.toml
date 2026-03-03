@@ -1,0 +1,15 @@
+[tools]
+go = "1.25"
+gradle = "latest"
+java = "temurin-25"
+maven = "latest"
+node = "24"
+python = "3.12"
+rust = "latest"
+
+[env]
+_.file = "~/.config/mise/.env"
+GEMINI_API_KEY = "REPLACE_ME"
+
+[settings]
+experimental = true

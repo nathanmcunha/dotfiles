@@ -1,0 +1,9 @@
+window, 
+.background, 
+.window-frame, 
+.csd, 
+.solid-csd, 
+decoration, 
+headerbar {
+    border-radius: 0px !important;
+}

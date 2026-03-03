@@ -1,0 +1,13 @@
+[config]
+reload_apps = true
+
+# --- WOFI ---
+[templates.wofi]
+input_path = "~/.config/matugen/templates/wofi-style.css"
+output_path = "~/.config/wofi/style.css"
+
+# --- HYPRLAND (Recarrega as bordas automaticamente) ---
+[templates.hyprland]
+input_path = "~/.config/matugen/templates/hyprland-colors.conf"
+output_path = "~/.config/hypr/colors.conf"
+post_hook = "hyprctl reload"

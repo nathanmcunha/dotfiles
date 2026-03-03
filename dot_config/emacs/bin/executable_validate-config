@@ -1,0 +1,21 @@
+#!/bin/bash
+# Validates config.org by attempting to tangle it.
+# This catches unclosed source blocks and invalid Org structure.
+
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CONFIG_FILE="$PROJECT_ROOT/config.org"
+
+echo "🔍 Validating $CONFIG_FILE..."
+
+# Attempt to tangle the file. 
+# We ignore the output unless it fails.
+if emacs --batch --eval "(require 'org)" --eval "(org-babel-tangle-file \"$CONFIG_FILE\")" >/dev/null 2>&1; then
+    echo "✅ Configuration is valid (tangle successful)."
+    exit 0
+else
+    echo "❌ Validation failed! Structure or syntax error in config.org:"
+    echo "---------------------------------------------------"
+    # Run again to show the actual error message
+    emacs --batch --eval "(require 'org)" --eval "(org-babel-tangle-file \"$CONFIG_FILE\")"
+    exit 1
+fi

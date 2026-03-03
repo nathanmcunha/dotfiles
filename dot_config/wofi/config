@@ -1,0 +1,12 @@
+# --- Ícones ---
+show_icons=true
+allow_images=true
+# Escolha um tema instalado. 'Adwaita' vem com o Fedora. 
+# Se tiver instalado o 'Papirus-Dark', use ele para melhor contraste.
+icon_theme=Papirus-Light
+
+# --- Comportamento ---
+mode=drun
+allow_markup=true
+no_actions=true
+insensitive=true

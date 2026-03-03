@@ -1,0 +1,100 @@
+# --- 1. Inicialização do Zinit ---
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# --- 2. Configurações Básicas ---
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=100000
+export SAVEHIST=100000
+
+setopt HIST_IGNORE_ALL_DUPS
+setopt AUTO_CD
+
+setopt INC_APPEND_HISTORY       # Salva o comando no arquivo imediatamente (não espera fechar o terminal)
+setopt SHARE_HISTORY            # Sincroniza o histórico entre várias abas/janelas abertas em tempo real
+setopt HIST_IGNORE_ALL_DUPS     # Se você digitar um comando repetido, ele apaga o mais antigo e guarda o novo
+setopt HIST_IGNORE_SPACE        # NÃO salva comandos que começam com espaço (perfeito para digitar tokens/senhas)
+setopt HIST_REDUCE_BLANKS       # Remove espaços em branco extras do comando antes de salvar
+setopt EXTENDED_HISTORY         # Salva o timestamp (data e hora) e a duração da execução do comando
+
+# Cache para velocidade
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$HOME/.zcompcache"
+
+# --- 3. CORREÇÃO DE CORES SOLARIZED (ADICIONADO) ---
+# Isso é essencial para o Solarized. Define pastas como azul claro/ciano
+# para não sumir no fundo escuro.
+if command -v dircolors >/dev/null 2>&1; then
+    # Definição manual segura para Solarized
+    export LS_COLORS="di=34:ln=36:so=35:pi=33:ex=32:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+else
+    export CLICOLOR=1
+fi
+
+# --- 4. Plugins via Zinit ---
+zinit ice wait"0b" lucid
+zinit light zsh-users/zsh-syntax-highlighting
+
+# Autosuggestions (com ajuste de cor para Solarized - cinza visível)
+zinit ice wait"0a" lucid atload"_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+# Fix: garante que a sugestão não fique ilegível no Solarized
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
+
+zinit ice wait"0c" lucid blockf
+zinit light zsh-users/zsh-completions
+
+zinit ice wait"0" lucid
+zinit snippet OMZL::git.zsh
+zinit ice wait"0" lucid
+zinit snippet OMZL::history.zsh
+
+# --- 5. Autocomplete System ---
+autoload -Uz compinit
+if [[ -n ${ZINIT[COMPINIT_OPTS]} ]]; then
+    zinit cdreplay -q
+fi
+compinit
+
+# --- 6. Starship (Prompt) ---
+# DICA: Rode uma vez no terminal: "starship preset solarized-powerline -o ~/.config/starship.toml"
+eval "$(starship init zsh)"
+
+# --- 7. Aliases e Ferramentas ---
+alias update='sudo dnf update'
+alias ll='ls -l --color=auto' # Forçando cor no ls
+alias ls='ls --color=auto'    # Adicionado para garantir
+eval "$(mise activate zsh)"
+
+# Paths
+export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+source ~/.env
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/nathanmcunha/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# --- 8. FZF: Integração e Configuração Avançada ---
+# Carrega os atalhos do fzf nativos do Fedora (Ctrl+R, Ctrl+T, Alt+C)
+if [[ -f /usr/share/fzf/shell/key-bindings.zsh ]]; then
+  source /usr/share/fzf/shell/key-bindings.zsh
+fi
+
+# Configuração visual do FZF (combinando com Solarized)
+export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --border --info=inline --margin=1,2 --color=light"
+
+# Usa o 'fd' como buscador padrão
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
+
+# Configura Ctrl+T (Busca de arquivos com preview usando bat)
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+# Configura Alt+C (Busca de pastas)
+export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git"
+export FZF_ALT_C_OPTS="--preview 'ls --color=always -l {} | head -200'"
