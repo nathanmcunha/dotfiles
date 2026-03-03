@@ -8,7 +8,6 @@ export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=100000
 export SAVEHIST=100000
 
-setopt HIST_IGNORE_ALL_DUPS
 setopt AUTO_CD
 
 setopt INC_APPEND_HISTORY       # Salva o comando no arquivo imediatamente (não espera fechar o terminal)
@@ -17,6 +16,8 @@ setopt HIST_IGNORE_ALL_DUPS     # Se você digitar um comando repetido, ele apag
 setopt HIST_IGNORE_SPACE        # NÃO salva comandos que começam com espaço (perfeito para digitar tokens/senhas)
 setopt HIST_REDUCE_BLANKS       # Remove espaços em branco extras do comando antes de salvar
 setopt EXTENDED_HISTORY         # Salva o timestamp (data e hora) e a duração da execução do comando
+
+typeset -U path
 
 # Cache para velocidade
 zstyle ':completion:*' use-cache on
@@ -53,10 +54,8 @@ zinit snippet OMZL::history.zsh
 
 # --- 5. Autocomplete System ---
 autoload -Uz compinit
-if [[ -n ${ZINIT[COMPINIT_OPTS]} ]]; then
-    zinit cdreplay -q
-fi
 compinit
+zinit cdreplay -q
 
 # --- 6. Starship (Prompt) ---
 # DICA: Rode uma vez no terminal: "starship preset solarized-powerline -o ~/.config/starship.toml"
@@ -71,10 +70,10 @@ eval "$(mise activate zsh)"
 # Paths
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-source ~/.env
+[[ -f ~/.env ]] && source ~/.env
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/nathanmcunha/.lmstudio/bin"
+export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section
 
 # --- 8. FZF: Integração e Configuração Avançada ---

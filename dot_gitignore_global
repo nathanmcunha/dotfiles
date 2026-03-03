@@ -1,4 +1,19 @@
+# Secrets
 .env
 .env.*
 *.key
 *.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+*~
+
+# Editor artifacts
+*.swp
+*.swo
+\#*\#
+.dir-locals.el
+
+# Compiled
+*.elc
