@@ -13,7 +13,6 @@
 .config/emacs/.venv
 .config/emacs/.git/
 .config/emacs/.gitignore
-.config/emacs/elpa/
 .config/emacs/dirvish/
 .config/emacs/eglot-java-eclipse-jdt-cache/
 .config/emacs/.agent-shell
@@ -27,5 +26,4 @@
 .config/emacs/places
 .config/emacs/tramp/
 **/.git/
-dot_config/copyq/*.dat
 dot_config/copyq/*.dat
