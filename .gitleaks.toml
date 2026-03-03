@@ -1,0 +1,6 @@
+[allowlist]
+description = "Allowlist for known non-secret patterns in dotfiles"
+paths = [
+  # Theme and image assets don't contain secrets
+  '''dot_config/alacritty/themes/''',
+]
