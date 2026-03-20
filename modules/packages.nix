@@ -17,6 +17,7 @@
     neovim
     gcc
     cmake
+    mise
 
     # Nix tools
     nixfmt-rfc-style

@@ -44,6 +44,9 @@
 
       # LS_COLORS for completions
       zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
+
+      # mise (project-level runtime manager)
+      command -v mise &>/dev/null && eval "$(mise activate zsh)"
     '';
   };
 
