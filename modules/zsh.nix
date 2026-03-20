@@ -31,9 +31,6 @@
     shellAliases = {
       ll  = "ls -l --color=auto";
       ls  = "ls --color=auto";
-      e   = "emacsclient -n .";
-      ec  = "emacsclient -c -a ''";
-      et  = "emacsclient -t";
     };
 
     initContent = ''
@@ -47,9 +44,6 @@
 
       # LS_COLORS for completions
       zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
-
-      # mise
-      eval "$(mise activate zsh)"
     '';
   };
 

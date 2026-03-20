@@ -15,7 +15,6 @@
 
     # Dev tools
     neovim
-    mise
     gcc
     cmake
 
