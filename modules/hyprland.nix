@@ -10,6 +10,16 @@
     ".config/hypr/hyprpaper.conf".source = ../files/hypr/hyprpaper.conf;
     ".config/hypr/rules.conf".source     = ../files/hypr/rules.conf;
 
+    # Scripts (executable)
+    ".config/hypr/scripts/screenshot.sh" = {
+      source = ../files/hypr/scripts/screenshot.sh;
+      executable = true;
+    };
+    ".config/hypr/scripts/wallpaper_rotate.sh" = {
+      source = ../files/hypr/scripts/wallpaper_rotate.sh;
+      executable = true;
+    };
+
     # Hyprpanel
     ".config/hyprpanel/config.json".source = ../files/hyprpanel/config.json;
 
