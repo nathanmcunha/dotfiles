@@ -2,9 +2,8 @@
 
 {
   programs.alacritty = {
-    enable = false; # binary managed by dnf, not nix
+    enable = true;
 
-    # We manage only the config file
     settings = {
       general.live_config_reload = true;
 
@@ -27,11 +26,6 @@
         normal = { family = "FiraCode Nerd Font"; style = "Regular"; };
         bold   = { family = "FiraCode Nerd Font"; style = "Bold"; };
         italic = { family = "FiraCode Nerd Font"; style = "Italic"; };
-      };
-
-      terminal.shell = {
-        program = "/usr/bin/zsh";
-        args = [ "-l" ];
       };
 
       colors = {
