@@ -1,0 +1,80 @@
+# ~/.config/alacritty/alacritty.toml
+
+[general]
+live_config_reload = true
+import = ["~/.config/alacritty/themes/themes/solarized_light.toml"]
+
+[env]
+TERM = "alacritty"
+
+[window]
+# Adiciona um respiro nas bordas (estética)
+padding = { x = 10, y = 10 }
+
+# Opacidade (0.0 a 1.0). 0.95 é um bom equilíbrio.
+opacity = 0.99
+
+# Título da Janela
+title = "Alacritty"
+
+# Decorações: "Full" (com barra de título do GNOME) ou "None" (minimalista total)
+decorations = "Full"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+size = 12.0
+
+[font.normal]
+family = "FiraCode Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "FiraCode Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "FiraCode Nerd Font"
+style = "Italic"
+
+# Garante que usamos o Zsh que configuramos com Zinit
+[terminal.shell]
+program = "/usr/bin/zsh"
+args = ["-l"]
+
+
+# # --- Cores Gruvbox Light (Hard Contrast) ---
+#
+# [colors.primary]
+# background = "#fbf1c7"  # Creme claro
+# foreground = "#3c3836"  # Cinza escuro
+#
+# [colors.cursor]
+# text = "CellBackground"
+# cursor = "CellForeground"
+#
+# [colors.normal]
+# black   = "#fbf1c7"
+# red     = "#cc241d"
+# green   = "#98971a"
+# yellow  = "#d79921"
+# blue    = "#458588"
+# magenta = "#b16286"
+# cyan    = "#689d6a"
+# white   = "#7c6f64"
+#
+# [colors.bright]
+# black   = "#928374"
+# red     = "#9d0006"
+# green   = "#79740e"
+# yellow  = "#b57614"
+# blue    = "#076678"
+# magenta = "#8f3f71"
+# cyan    = "#427b58"
+# white   = "#3c3836"
+#
+# [colors.selection]
+# background = "#d5c4a1"
+# text = "#3c3836"
