@@ -17,4 +17,3 @@
     ./modules/hyprland.nix
   ];
 }
-# this won't work as-is, let me give you the proper way

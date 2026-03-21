@@ -1,70 +1,62 @@
 {
-  "bar.layouts": {
-    "*": {
-      "left": [
-        "dashboard",
-        "workspaces",
-        "windowtitle"
-      ],
-      "middle": [
-        "clock"
-      ],
-      "right": [
-        "ram",
-        "cpu",
-        "cputemp",
-        "volume",
-        "network",
-        "bluetooth",
-        "systray",
-        "notifications"
-      ]
-    }
-  },
-  "bar.workspaces.show_icons": true,
-  "bar.workspaces.map_icons": true,
-  "bar.workspaces.app_icons": {
-    "Alacritty": "",
-    "kitty": "",
-    "wezterm": "",
-    "brave-browser": "",
-    "firefox": "",
-    "google-chrome": "",
-    "emacs": "",
-    "Code": "󰨞",
-    "zed": "󰔚",
-    "nautilus": "󰝰",
-    "thunar": "󰝰",
-    "discord": "󰙯",
-    "Slack": "󰒱",
-    "telegram-desktop": "",
-    "spotify": "",
-    "copyq": "󰆊",
-    "elephant": "󰛄",
-    "walker": "󰀻",
-    "Lutris": "󰺵",
-    "steam": "󰓓"
-  },
-  "theme.font.name": "JetBrainsMonoNL Nerd Font Mono",
-  "theme.font.size": "13px",
-  "menus.weather.enabled": false,
-  "bar.customModules.storage.paths": [
-    "/"
-  ],
-  "theme.matugen": false,
-  "theme.matugen_settings.mode": "light",
-  "theme.matugen_settings.scheme_type": "fidelity",
-  "theme.matugen_settings.variation": "standard_1",
-  "wallpaper.image": "/home/nathanmcunha/Pictures/Wallpapers/The_Backwater.png",
-  "theme.bar.transparent": true,
-  "menus.clock.time.military": true,
-  "menus.clock.weather.location": "Rio de Janeiro",
-  "menus.dashboard.shortcuts.left.shortcut1.command": "brave-browser",
-  "menus.dashboard.shortcuts.left.shortcut1.icon": "brave-browser",
-  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Brave",
-  "menus.dashboard.icon": "󰣛",
-  "theme.font.style": "italic",
-  "theme.font.label": "JetBrainsMonoNL Nerd Font Mono Bold Italic",
-  "theme.bar.floating": false,
-  "theme.bar.buttons.enableBorders": false
+    "bar.layouts": {
+        "*": {
+            "left": ["dashboard", "workspaces", "windowtitle"],
+            "middle": ["clock"],
+            "right": [
+                "ram",
+                "cpu",
+                "cputemp",
+                "volume",
+                "network",
+                "bluetooth",
+                "systray",
+                "notifications"
+            ]
+        }
+    },
+    "bar.workspaces.show_icons": true,
+    "bar.workspaces.map_icons": true,
+    "bar.workspaces.app_icons": {
+        "Alacritty": "",
+        "kitty": "",
+        "wezterm": "",
+        "brave-browser": "",
+        "firefox": "",
+        "google-chrome": "",
+        "emacs": "",
+        "Code": "󰨞",
+        "zed": "󰔚",
+        "nautilus": "󰝰",
+        "thunar": "󰝰",
+        "discord": "󰙯",
+        "Slack": "󰒱",
+        "telegram-desktop": "",
+        "spotify": "",
+        "copyq": "󰆊",
+        "elephant": "󰛄",
+        "walker": "󰀻",
+        "Lutris": "󰺵",
+        "steam": "󰓓"
+    },
+    "theme.font.name": "JetBrainsMonoNL Nerd Font Mono",
+    "theme.font.size": "13px",
+    "menus.weather.enabled": false,
+    "bar.customModules.storage.paths": ["/"],
+    "theme.matugen": true,
+    "theme.matugen_settings.mode": "light",
+    "theme.matugen_settings.scheme_type": "fidelity",
+    "theme.matugen_settings.variation": "standard_1",
+    "wallpaper.image": "/home/nathanmcunha/Pictures/Wallpapers/The_Backwater.png",
+    "theme.bar.transparent": true,
+    "menus.clock.time.military": true,
+    "menus.clock.weather.location": "Rio de Janeiro",
+    "menus.dashboard.shortcuts.left.shortcut1.command": "brave-browser",
+    "menus.dashboard.shortcuts.left.shortcut1.icon": "brave-browser",
+    "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Brave",
+    "menus.dashboard.icon": "󰣛",
+    "theme.font.style": "italic",
+    "theme.font.label": "JetBrainsMonoNL Nerd Font Mono Bold Italic",
+    "theme.bar.floating": false,
+    "theme.bar.buttons.enableBorders": false
 }
