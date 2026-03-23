@@ -40,8 +40,11 @@ systemd.user.services.emacs = {
     # Rust
     rustup
 
-    # SQL LSP
-    sqls
+    # LSP servers
+    sqls                                          # SQL
+    yaml-language-server                          # YAML
+    nodePackages.vscode-langservers-extracted     # HTML + CSS + JSON
+    nodePackages.dockerfile-language-server-nodejs # Dockerfile
 
     # Required by jinx
     enchant_2

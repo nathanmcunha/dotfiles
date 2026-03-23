@@ -1,0 +1,149 @@
+#+TITLE: Home Manager Workflow
+#+AUTHOR: Nathan Martins Cunha
+#+DATE: 2026-03-21
+#+STARTUP: overview
+#+OPTIONS: toc:t num:t
+
+* Adding a New Tool to Home Manager
+
+** Step 1 — Find the package name
+
+#+begin_src bash
+nix search nixpkgs <toolname>
+#+end_src
+
+** Step 2 — Check if Home Manager has a module
+
+Go to https://home-manager-options.extl.eu and search for the tool.
+
+- *Has a module* → use =programs.<tool>= (like we did for git, zsh, starship)
+- *No module* → just add to =home.packages= and manage config via =home.file=
+
+** Step 3A — If it has a Home Manager module
+
+Create =~/.config/home-manager/modules/<tool>.nix=:
+
+#+begin_src nix
+{ pkgs, ... }:
+
+{
+  programs.<tool> = {
+    enable = true;
+    # settings here
+  };
+}
+#+end_src
+
+** Step 3B — If it's just a package + raw config file
+
+Add to =modules/packages.nix=:
+
+#+begin_src nix
+home.packages = with pkgs; [
+  existing-tools
+  new-tool      # add here
+];
+#+end_src
+
+Copy config file:
+
+#+begin_src bash
+mkdir -p ~/.config/home-manager/files/<tool>
+cp ~/.config/<tool>/config ~/.config/home-manager/files/<tool>/
+#+end_src
+
+Add symlink to an existing or new module:
+
+#+begin_src nix
+home.file.".config/<tool>/config".source = ../files/<tool>/config;
+#+end_src
+
+** Step 4 — Register the module in =home.nix=
+
+#+begin_src nix
+imports = [
+  ./modules/packages.nix
+  ./modules/git.nix
+  ./modules/zsh.nix
+  # ... existing modules ...
+  ./modules/<tool>.nix  # add here
+];
+#+end_src
+
+** Step 5 — Track with Git
+
+#+begin_src bash
+cd ~/.config/home-manager
+git add .
+#+end_src
+
+#+begin_quote
+⚠️ Nix won't see untracked files!
+#+end_quote
+
+** Step 6 — Apply
+
+#+begin_src bash
+home-manager switch --flake ~/.config/home-manager#nathanmcunha
+#+end_src
+
+** Step 7 — Backup existing config if needed
+
+If Home Manager complains about existing files:
+
+#+begin_src bash
+mv ~/.config/<tool>/config ~/.config/<tool>/config.bak
+home-manager switch --flake ~/.config/home-manager#nathanmcunha
+#+end_src
+
+** Step 8 — Commit
+
+#+begin_src bash
+cd ~/.config/home-manager
+git add .
+git commit -m "feat: add <tool>"
+git push
+#+end_src
+
+* Quick Reference
+
+| Situation                | Command                                                                                      |
+|--------------------------+----------------------------------------------------------------------------------------------|
+| Find a package           | =nix search nixpkgs <name>=                                                                  |
+| Try without installing   | =nix run nixpkgs#<name>=                                                                     |
+| Apply changes            | =home-manager switch --flake ~/.config/home-manager#nathanmcunha=                           |
+| Update all packages      | =nix flake update && home-manager switch --flake ~/.config/home-manager#nathanmcunha=       |
+| See installed packages   | =home-manager packages=                                                                      |
+| Rollback last switch     | =home-manager generations= then =home-manager switch --switch-generation <N>=               |
+
+* Current Setup Overview
+
+#+begin_src text
+Nix/Home Manager  → CLI tools, runtimes, dotfiles, emacs daemon
+dnf               → system only (kernel, drivers, firmware)
+mise              → per-project runtime versions
+Flatpak/dnf       → GUI apps
+#+end_src
+
+* Managed Modules
+
+| Module       | Type              | Notes                              |
+|--------------+-------------------+------------------------------------|
+| packages.nix | home.packages     | CLI tools, dev tools, runtimes     |
+| git.nix      | programs.git      | Git config and global ignores      |
+| zsh.nix      | programs.zsh      | Shell, aliases, fzf integration    |
+| starship.nix | programs.starship | Prompt with Solarized theme        |
+| alacritty.nix| programs.alacritty| Terminal config with Solarized     |
+| emacs.nix    | programs.emacs    | emacs-pgtk daemon via emacs-overlay|
+| hyprland.nix | home.file         | Hyprland, hyprpaper, walker, matugen, scripts |
+| btop.nix     | programs.btop     | System monitor config              |
+
+* Flake Inputs
+
+#+begin_src nix
+inputs = {
+  nixpkgs.url       = "github:nixos/nixpkgs/nixos-unstable";
+  home-manager.url  = "github:nix-community/home-manager";
+  emacs-overlay.url = "github:nix-community/emacs-overlay";
+};
+#+end_src

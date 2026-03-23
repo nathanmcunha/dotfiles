@@ -47,6 +47,9 @@
 
       # mise (project-level runtime manager)
       command -v mise &>/dev/null && eval "$(mise activate zsh)"
+
+      # direnv (auto-activate .envrc on cd)
+      command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
     '';
   };
 

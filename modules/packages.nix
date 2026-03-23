@@ -12,6 +12,7 @@
     wget
     unzip
     tree
+    gemini-cli
 
     # Dev tools
     neovim
@@ -22,5 +23,14 @@
     # Nix tools
     nixfmt-rfc-style
     nix-tree
+
+    # Container & K8s
+    podman
+    podman-compose
+    kubectl
+    kubernetes-helm
+    k9s
+    kubectx
+    kind
   ];
 }
