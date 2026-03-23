@@ -4,7 +4,7 @@ Personal development environment managed with [Nix](https://nixos.org/) and [Hom
 
 ## Overview
 
-This repository contains my full user-space configuration for an `x86_64-linux` workstation running [Hyprland](https://hyprland.org/) (Wayland compositor). Everything is declared in Nix, so the entire environment is reproducible and version-controlled.
+This repository contains my full user-space configuration for an `x86_64-linux` **Fedora** workstation running [Hyprland](https://hyprland.org/) (Wayland compositor). Nix is installed via [Determinate Nix](https://docs.determinate.systems/determinate-nix/). Everything is declared in Nix, so the entire environment is reproducible and version-controlled.
 
 ## Features
 
@@ -71,13 +71,16 @@ Rootless Podman configured as a `docker` drop-in (aliases `docker` → `podman`,
 
 ## Prerequisites
 
-- [Nix](https://nixos.org/download/) with **flakes** and **nix-command** experimental features enabled
-- A running Linux system (the flake targets `x86_64-linux`)
+- **Fedora** (or any `x86_64-linux` system with systemd)
+- [Determinate Nix](https://docs.determinate.systems/determinate-nix/) — an opinionated Nix distribution that ships with **flakes** and **nix-command** enabled out of the box (no manual `nix.conf` edits required)
 
-Enable flakes permanently by adding to `/etc/nix/nix.conf` (or `~/.config/nix/nix.conf`):
+Install Determinate Nix with a single command:
+
+```bash
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 ```
-experimental-features = nix-command flakes
-```
+
+> Determinate Nix handles SELinux, systemd integration, and multi-user setup automatically on Fedora.
 
 ## Installation
 
