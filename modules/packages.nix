@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, claude-code, ... }:
 
 {
   home.packages = with pkgs; [
@@ -32,5 +32,9 @@
     k9s
     kubectx
     kind
+
+    #Claude Code
+    claude-code.packages.${system}.default
+
   ];
 }

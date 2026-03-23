@@ -15,5 +15,6 @@
     ./modules/emacs.nix
     ./modules/alacritty.nix
     ./modules/hyprland.nix
+    ./modules/podman.nix
   ];
 }
