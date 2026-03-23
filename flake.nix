@@ -11,9 +11,12 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, emacs-overlay, ... }:
+  outputs = { nixpkgs, home-manager, emacs-overlay, claude-code, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -24,6 +27,7 @@
       homeConfigurations."nathanmcunha" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
+        extraSpecialArgs = { inherit claude-code system; };
       };
     };
 }
