@@ -1,6 +1,15 @@
-{ pkgs, claude-code, ... }:
+{ pkgs, claude-code, system, lib, ... }:
 
 {
+  home.activation.installRtk = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if ! command -v rtk &>/dev/null; then
+      $DRY_RUN_CMD ${pkgs.bash}/bin/sh -c '
+        export PATH="${pkgs.curl}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:${pkgs.gnutar}/bin:${pkgs.gzip}/bin:$PATH"
+        curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
+      '
+    fi
+  '';
+
   home.packages = with pkgs; [
     # CLI essentials
     fzf
@@ -21,7 +30,7 @@
     mise
 
     # Nix tools
-    nixfmt-rfc-style
+    nixfmt
     nix-tree
 
     # Container & K8s
