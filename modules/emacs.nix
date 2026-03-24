@@ -34,8 +34,8 @@ systemd.user.services.emacs = {
     ruff
 
     # Node tools
-    nodePackages.prettier
-    nodePackages.typescript-language-server
+    prettier
+    typescript-language-server
 
     # Rust
     rustup
@@ -43,17 +43,10 @@ systemd.user.services.emacs = {
     # LSP servers
     sqls                                          # SQL
     yaml-language-server                          # YAML
-    nodePackages.vscode-langservers-extracted     # HTML + CSS + JSON
-    nodePackages.dockerfile-language-server-nodejs # Dockerfile
+    vscode-langservers-extracted                  # HTML + CSS + JSON
+    dockerfile-language-server                     # Dockerfile
 
     # Required by jinx
     enchant_2
   ];
-programs.zsh.initContent= ''
-  e()   { emacsclient -c "$@" }
-  ec()  { emacsclient -cn "$@" }
-  et()  { emacsclient -t "$@"}
-  edk() { emacsclient -e '(kill-emacs)' }
-  er()  { edk && sleep 2 && ec }
-'';
 }
