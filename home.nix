@@ -16,5 +16,6 @@
     ./modules/alacritty.nix
     ./modules/hyprland.nix
     ./modules/podman.nix
+    ./modules/claude.nix
   ];
 }
