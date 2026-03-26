@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git restore:*)",
+      "Bash(journalctl --user -u matugen -n 50)",
+      "Bash(journalctl --user -g matugen -n 50)",
+      "Bash(journalctl --user -u hyprland -n 80)",
+      "Bash(journalctl -g hyprland -n 80)",
+      "Bash(hyprctl monitors:*)",
+      "Bash(hyprctl -j systeminfo)",
+      "Bash(hyprctl errors:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
