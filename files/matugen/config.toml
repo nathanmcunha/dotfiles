@@ -1,6 +1,7 @@
 [config]
 reload_apps = true
 mode = "light"
+prefer = "chroma"
 # --- WOFI ---
 [templates.wofi]
 input_path = "~/.config/matugen/templates/wofi-style.css"

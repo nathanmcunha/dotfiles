@@ -21,6 +21,9 @@
     wget
     unzip
     tree
+    eza
+    zsh-fzf-tab
+    zoxide
     gemini-cli
 
     # Dev tools
