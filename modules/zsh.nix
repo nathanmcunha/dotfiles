@@ -29,35 +29,34 @@
     };
 
     initExtra = ''
-      # Emacs client helpers (mantendo os seus)
+      # Emacs client helpers
       e()   { emacsclient -c "$@" }
       ec()  { emacsclient -cn "$@" }
-      # ... (restante dos seus helpers emacs e envs) ...
 
-      # --- MELHORIAS DO ZSH COMPLETION ---
-      # Ativa cache para completions (deixa mais rápido)
+      # --- COMPLETION ---
+      # Cache completions for faster startup
       zstyle ':completion:*' use-cache on
       zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
 
-      # Completions Case-insensitive e suporte a fuzzy/partial matching
+      # Case-insensitive and fuzzy/partial matching
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-      # Cores no menu de completion padrão (O seu LS_COLORS atual)
+      # Colorize the default completion menu
       zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
 
-      # --- INICIALIZAÇÃO DE NOVAS FERRAMENTAS ---
+      # --- TOOLS ---
 
-      # Zoxide (Substituto inteligente do cd)
+      # Zoxide (smart cd replacement)
       eval "$(zoxide init zsh)"
 
-      # mise e direnv (mantendo os seus)
+      # Runtime managers
       command -v mise &>/dev/null && eval "$(mise activate zsh)"
       command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
 
-      # Ativando o FZF-Tab (Garante que a tecla TAB use o FZF)
+      # FZF-Tab: replace default TAB completion with fzf
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
-      # Opcional: Configura o preview do fzf-tab para o comando cd/zoxide usando o eza
+      # Preview directory contents when completing cd/z
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
       zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
     '';

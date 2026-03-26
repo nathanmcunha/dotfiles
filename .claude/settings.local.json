@@ -8,7 +8,9 @@
       "Bash(journalctl -g hyprland -n 80)",
       "Bash(hyprctl monitors:*)",
       "Bash(hyprctl -j systeminfo)",
-      "Bash(hyprctl errors:*)"
+      "Bash(hyprctl errors:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
