@@ -1,0 +1,19 @@
+{
+  "tools": [
+    {
+      "name": "rtk",
+      "repo": "rtk-ai/rtk",
+      "version": "0.34.2",
+      "type": "nix",
+      "asset": "rtk-x86_64-unknown-linux-musl.tar.gz"
+    },
+    {
+      "name": "qwen-code",
+      "repo": "QwenLM/qwen-code",
+      "version": "0.13.2",
+      "type": "nix",
+      "asset": "cli.js",
+      "binary_name": "qwen"
+    }
+  ]
+}
