@@ -1,4 +1,9 @@
-{ pkgs, claude-code, system, ... }:
+{
+  pkgs,
+  claude-code,
+  system,
+  ...
+}:
 
 {
   home.packages = with pkgs; [
@@ -17,6 +22,8 @@
     zoxide
     gh
     gemini-cli
+    jq
+    pass
 
     # Dev tools
     neovim

@@ -25,6 +25,9 @@
       update-externals = "bash ~/.config/home-manager/files/scripts/update-externals.sh";
 
       nix-update = "nix flake update ~/.config/home-manager && update-externals check && home-manager switch --flake ~/.config/home-manager#nathanmcunha";
+
+      # Quick open
+      o = "xdg-open";
     };
 
     sessionVariables = {
@@ -82,6 +85,26 @@
       # Preview directory contents when completing cd/z
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
       zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
+
+      # --- OPENING THINGS ---
+      # Suffix aliases: Open files by typing their name directly
+      alias -s {pdf,PDF}='xdg-open'
+      alias -s {png,jpg,jpeg,gif,svg,PNG,JPG,JPEG,GIF,SVG}='xdg-open'
+      alias -s {mp4,mkv,mov,avi,webm,MP4,MKV,MOV,AVI,WEBM}='xdg-open'
+      alias -s {mp3,flac,wav,ogg,MP3,FLAC,WAV,OGG}='xdg-open'
+      alias -s {html,htm,HTML,HTM}='xdg-open'
+
+      # Smart open function: Handles files, URLs, and Web Searches
+      open() {
+        if [[ -z "$1" ]]; then
+          xdg-open .
+        elif [[ -f "$1" || -d "$1" || "$1" =~ ^https?:// ]]; then
+          xdg-open "$1"
+        else
+          # Assume it's a search query if it's not a file or URL
+          xdg-open "https://www.google.com/search?q=$*"
+        fi
+      }
     '';
   };
 
