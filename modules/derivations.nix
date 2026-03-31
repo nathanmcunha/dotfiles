@@ -28,8 +28,7 @@ let
     dontUnpack = true;
     installPhase = ''
       mkdir -p $out/bin
-      echo '#!/usr/bin/env node' > $out/bin/qwen
-      cat $src >> $out/bin/qwen
+      cp $src $out/bin/qwen
       chmod +x $out/bin/qwen
     '';
   };
