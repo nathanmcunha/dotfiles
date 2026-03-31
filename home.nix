@@ -9,6 +9,7 @@
 
   imports = [
     ./modules/packages.nix
+    ./modules/derivations.nix
     ./modules/git.nix
     ./modules/zsh.nix
     ./modules/starship.nix
@@ -17,5 +18,6 @@
     ./modules/hyprland.nix
     ./modules/podman.nix
     ./modules/claude.nix
+    ./modules/external-tools.nix
   ];
 }

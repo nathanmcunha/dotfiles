@@ -22,13 +22,36 @@
       ll = "eza -al --icons=always --color=always --git";
 
       cat = "bat --style=plain --paging=never";
+      update-externals = "bash ~/.config/home-manager/files/scripts/update-externals.sh";
+
+      nix-update = "nix flake update ~/.config/home-manager && update-externals check && home-manager switch --flake ~/.config/home-manager#nathanmcunha";
     };
 
     sessionVariables = {
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=60";
+
+      # XDG-aligned tool homes (moved from ~/.*)
+      CARGO_HOME = "$HOME/.config/cargo";
+      DOCKER_CONFIG = "$HOME/.config/docker";
+      DENO_DIR = "$HOME/.config/deno";
+      RUSTUP_HOME = "$HOME/.config/rustup";
+      BUN_INSTALL = "$HOME/.config/bun";
+      GRADLE_USER_HOME = "$HOME/.config/gradle";
     };
 
-    initExtra = ''
+    initContent = ''
+      # --- PATH ---
+      path=(
+        "$HOME/.local/bin"
+        "$HOME/.config/emacs/bin"
+        "$HOME/.config/cargo/bin"
+        $path
+        "$HOME/.lmstudio/bin"
+      )
+
+      # Load secrets if present
+      [[ -f ~/.env ]] && source ~/.env
+
       # Emacs client helpers
       e()   { emacsclient -c "$@" }
       ec()  { emacsclient -cn "$@" }

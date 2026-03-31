@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m json.tool)",
+      "Read(//home/nathanmcunha/.config/hypr-ecosystem/matugen/**)",
+      "Read(//nix/store/**)"
+    ]
+  }
+}
