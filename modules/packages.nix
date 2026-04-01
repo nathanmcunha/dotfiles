@@ -47,5 +47,10 @@
     #Claude Code
     claude-code.packages.${system}.default
 
+    # Java, AI & desktop tools
+    google-java-format
+    opencode
+    elephant
+
   ];
 }

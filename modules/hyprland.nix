@@ -82,6 +82,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
+        Type = "forking";
         ExecStart = "/usr/bin/copyq --start-server";
         Restart = "on-failure";
         RestartSec = "2";
