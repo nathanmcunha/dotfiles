@@ -29,6 +29,9 @@
     gcc
     cmake
     mise
+    pinentry-tty
+    pass
+    gnupg 
 
     # Nix tools
     nixfmt

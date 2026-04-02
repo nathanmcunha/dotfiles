@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   homeDir = config.home.homeDirectory;
@@ -14,23 +14,13 @@ in
     executable = true;
   };
 
-  home.activation.injectMinimaxKey = ''
-    export PATH="$HOME/.nix-profile/bin:$PATH"
-    export GPG_TTY=$(tty 2>/dev/null || echo "")
-    export HOME=''${HOME:-/home/nathanmcunha}
-    MINIMAX_API_KEY=$(pass show minimax/api-key 2>/dev/null | head -1)
-    if [ -n "$MINIMAX_API_KEY" ]; then
-      SETTINGS_FILE="$HOME/.claude/settings.json"
-      if [ -f "$SETTINGS_FILE" ]; then
-        jq --arg key "$MINIMAX_API_KEY" ".env.ANTHROPIC_API_KEY = $key" "$SETTINGS_FILE" > /tmp/settings.json.tmp
-        mv /tmp/settings.json.tmp "$SETTINGS_FILE"
-      fi
-    fi
-  '';
+programs.zsh.initExtra = ''
+  export GNUPGHOME="$HOME/.gnupg"
+  export GPG_AGENT_INFO="/run/user/1000/gnupg/S.gpg-agent:0:1"
+  export ANTHROPIC_API_KEY=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
+'';
 
-  home.sessionVariables.ANTHROPIC_API_KEY = "REPLACED_AT_ACTIVATION";
-
-  home.file.".claude/settings.json" = {
+home.file.".claude/settings.json" = {
     force = true;
     text = builtins.toJSON {
       env = {

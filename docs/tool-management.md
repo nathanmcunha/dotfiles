@@ -43,7 +43,7 @@ update-externals nix-update rtk      # one tool
 
 **Apply:**
 ```bash
-home-manager switch --flake ~/.config/home-manager#nathanmcunha
+    home-manager switch --flake ~/.config/home-manager#nathanmcunha
 ```
 
 `nix-update` does three things automatically: fetches the new version from GitHub, runs `nix-prefetch-url` for the new hash, and patches both `derivations.nix` and `versions.json`.

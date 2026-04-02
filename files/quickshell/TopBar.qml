@@ -781,7 +781,8 @@ PanelWindow {
                         property bool initAnimTrigger: false
                         Timer { running: rightLayout.showLayout && !parent.initAnimTrigger; interval: 0; onTriggered: parent.initAnimTrigger = true }
                         opacity: initAnimTrigger ? 1 : 0
-                        transform: Translate { y: parent.initAnimTrigger ? 0 : 15; Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                        y: initAnimTrigger ? 0 : 15
+                        Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } }
                         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                         RowLayout { id: kbLayoutRow; anchors.centerIn: parent; spacing: 8
@@ -822,7 +823,8 @@ PanelWindow {
                         property bool initAnimTrigger: false
                         Timer { running: rightLayout.showLayout && !parent.initAnimTrigger; interval: 50; onTriggered: parent.initAnimTrigger = true }
                         opacity: initAnimTrigger ? 1 : 0
-                        transform: Translate { y: parent.initAnimTrigger ? 0 : 15; Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                        y: initAnimTrigger ? 0 : 15
+                        Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } }
                         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                         // FIXED: Collapse spacing and hide text until slow data is ready to prevent looking "turned off"
@@ -872,7 +874,8 @@ PanelWindow {
                         property bool initAnimTrigger: false
                         Timer { running: rightLayout.showLayout && !parent.initAnimTrigger; interval: 100; onTriggered: parent.initAnimTrigger = true }
                         opacity: initAnimTrigger ? 1 : 0
-                        transform: Translate { y: parent.initAnimTrigger ? 0 : 15; Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                        y: initAnimTrigger ? 0 : 15
+                        Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } }
                         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                         // FIXED: Collapse spacing when there is no text so it initializes as a clean square
@@ -920,7 +923,8 @@ PanelWindow {
                         property bool initAnimTrigger: false
                         Timer { running: rightLayout.showLayout && !parent.initAnimTrigger; interval: 150; onTriggered: parent.initAnimTrigger = true }
                         opacity: initAnimTrigger ? 1 : 0
-                        transform: Translate { y: parent.initAnimTrigger ? 0 : 15; Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                        y: initAnimTrigger ? 0 : 15
+                        Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } }
                         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                         RowLayout { id: volLayoutRow; anchors.centerIn: parent; spacing: 8
@@ -967,7 +971,8 @@ PanelWindow {
                         property bool initAnimTrigger: false
                         Timer { running: rightLayout.showLayout && !parent.initAnimTrigger; interval: 200; onTriggered: parent.initAnimTrigger = true }
                         opacity: initAnimTrigger ? 1 : 0
-                        transform: Translate { y: parent.initAnimTrigger ? 0 : 15; Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                        y: initAnimTrigger ? 0 : 15
+                        Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } }
                         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                         RowLayout { id: batLayoutRow; anchors.centerIn: parent; spacing: 8

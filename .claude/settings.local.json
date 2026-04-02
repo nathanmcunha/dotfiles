@@ -10,7 +10,19 @@
       "Bash(hyprctl -j systeminfo)",
       "Bash(hyprctl errors:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(nix search:*)",
+      "Bash(copilot --version)",
+      "Bash(for pkg:*)",
+      "Bash(do echo:*)",
+      "Bash(done)",
+      "Bash(systemctl:*)",
+      "Bash(dnf list:*)",
+      "Bash(python3:*)",
+      "Bash(journalctl:*)",
+      "Bash(/bin/ls -la ~/.config/hypr/scripts/quickshell/)",
+      "Bash(/bin/cat -v)",
+      "Bash(/bin/ls -la ~/.config/hypr/scripts/quickshell.bak/)"
     ]
   }
 }
