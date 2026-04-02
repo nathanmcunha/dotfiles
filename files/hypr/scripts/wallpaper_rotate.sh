@@ -1,35 +1,27 @@
 #!/bin/bash
 
-# Configuração
-MONITOR="HDMI-A-4"
 DIR="/home/nathanmcunha/Pictures/Wallpapers"
-INTERVALO=6000  # Tempo em segundos (300s = 5 minutos)
+INTERVALO=6000
+
+# Wait for swww daemon to be ready
+for i in {1..10}; do
+    swww query &>/dev/null && break
+    sleep 0.5
+done
 
 first_run=true
 
 while true; do
-    # Escolhe uma imagem aleatória .png da pasta
-    WALLPAPER=$(find "$DIR" -name "*.png" | shuf -n 1)
+    WALLPAPER=$(find "$DIR" -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" | shuf -n 1)
 
-    # Manda o Hyprpaper trocar a imagem
-    # Retry connection to hyprpaper if needed
-    for i in {1..5}; do
-        if hyprctl hyprpaper wallpaper "$MONITOR,$WALLPAPER" 2>/dev/null; then
-            break
-        fi
-        sleep 0.5
-    done
+    swww img "$WALLPAPER" --transition-type grow --transition-duration 2 --transition-fps 60
 
     matugen image "$WALLPAPER" --prefer darkness
 
-    # On first run, restart hyprpanel so it picks up the matugen theme from
-    # scratch. Without this, hyprpanel starts before matugen generates colors
-    # and the GTK reload signal is not enough to fully re-apply the theme.
     if $first_run; then
         first_run=false
-        systemctl --user restart hyprpanel.service
+        sleep 1
     fi
 
-    # Espera o tempo definido
     sleep $INTERVALO
 done

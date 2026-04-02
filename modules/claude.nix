@@ -15,6 +15,7 @@ in
   };
 
   home.activation.injectMinimaxKey = ''
+    export PATH="$HOME/.nix-profile/bin:$PATH"
     export GPG_TTY=$(tty 2>/dev/null || echo "")
     export HOME=''${HOME:-/home/nathanmcunha}
     MINIMAX_API_KEY=$(pass show minimax/api-key 2>/dev/null | head -1)

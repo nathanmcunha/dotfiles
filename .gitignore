@@ -1,0 +1,26 @@
+# Build artifacts
+result
+*.result
+
+# Archives & media
+*.zip
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+
+# Documentation & plans
+*.md
+!README.md
+
+# Local config (per-machine)
+.claude/settings.local.json
+docs/
+
+# Cleanup scripts (not part of dotfiles)
+files/cleanup-app-manager/
+
+# Nix build
+*.drv
+*.out

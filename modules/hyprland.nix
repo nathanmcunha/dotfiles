@@ -1,12 +1,6 @@
 { lib, ... }:
 
 {
-  # HyprPanel writes back to its config at runtime, so it cannot be a read-only
-  # Nix symlink. Copy it on activation instead; re-applying HM will refresh it.
-  home.activation.copyHyprpanelConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    $DRY_RUN_CMD install -Dm644 ${../files/hyprpanel/config.json} "$HOME/.config/hyprpanel/config.json"
-  '';
-
   # All Wayland daemons are managed as systemd user services rather than bare
   # exec-once binaries. Benefits: automatic restart on failure, proper dependency
   # ordering, and logs accessible via `journalctl --user -u <service>`.
@@ -14,36 +8,9 @@
   # None use WantedBy=graphical-session.target because WAYLAND_DISPLAY must be
   # imported by Hyprland first. They are triggered from hyprland.conf instead.
   systemd.user.services = {
-    hyprpanel = {
-      Unit = {
-        Description = "HyprPanel status bar";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "/usr/local/bin/hyprpanel-wrapper";
-        Restart = "on-failure";
-        RestartSec = "2";
-      };
-    };
-
-    hyprpaper = {
-      Unit = {
-        Description = "Hyprpaper wallpaper daemon";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "/usr/local/bin/hyprpaper";
-        Restart = "on-failure";
-        RestartSec = "2";
-      };
-    };
-
     wallpaper-rotate = {
       Unit = {
         Description = "Rotate wallpaper and regenerate matugen colors";
-        # hyprpaper must be ready before the script can set a wallpaper
-        After = [ "hyprpaper.service" ];
-        Requires = [ "hyprpaper.service" ];
       };
       Service = {
         ExecStart = "%h/.config/hypr/scripts/wallpaper_rotate.sh";
@@ -105,11 +72,10 @@
 
   home.file = {
     # Hypr configs
-    ".config/hypr/hyprland.conf".source  = ../files/hypr/hyprland.conf;
-    ".config/hypr/hypridle.conf".source  = ../files/hypr/hypridle.conf;
-    ".config/hypr/hyprlock.conf".source  = ../files/hypr/hyprlock.conf;
-    ".config/hypr/hyprpaper.conf".source = ../files/hypr/hyprpaper.conf;
-    ".config/hypr/rules.conf".source     = ../files/hypr/rules.conf;
+    ".config/hypr/hyprland.conf".source = ../files/hypr/hyprland.conf;
+    ".config/hypr/hypridle.conf".source = ../files/hypr/hypridle.conf;
+    ".config/hypr/hyprlock.conf".source = ../files/hypr/hyprlock.conf;
+    ".config/hypr/rules.conf".source = ../files/hypr/rules.conf;
 
     # Scripts (executable)
     ".config/hypr/scripts/screenshot.sh" = {
@@ -126,7 +92,8 @@
 
     # Matugen
     ".config/matugen/config.toml".source = ../files/matugen/config.toml;
-    ".config/matugen/templates/hyprland-colors.conf".source = ../files/matugen/templates/hyprland-colors.conf;
-    ".config/matugen/templates/wofi-style.css".source       = ../files/matugen/templates/wofi-style.css;
+    ".config/matugen/templates/hyprland-colors.conf".source =
+      ../files/matugen/templates/hyprland-colors.conf;
+    ".config/matugen/templates/wofi-style.css".source = ../files/matugen/templates/wofi-style.css;
   };
 }

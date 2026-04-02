@@ -24,7 +24,6 @@
     gemini-cli
     jq
     pass
-
     # Dev tools
     neovim
     gcc

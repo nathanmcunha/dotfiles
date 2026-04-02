@@ -32,6 +32,7 @@ let
       chmod +x $out/bin/qwen
     '';
   };
+
 in
 {
   home.packages = [ rtk qwen-code ];

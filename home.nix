@@ -16,6 +16,7 @@
     ./modules/emacs.nix
     ./modules/alacritty.nix
     ./modules/hyprland.nix
+    ./modules/quickshell.nix
     ./modules/podman.nix
     ./modules/claude.nix
     ./modules/external-tools.nix

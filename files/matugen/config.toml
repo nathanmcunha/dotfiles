@@ -12,3 +12,8 @@ output_path = "~/.config/wofi/style.css"
 input_path = "~/.config/matugen/templates/hyprland-colors.conf"
 output_path = "~/.config/hypr/colors.conf"
 post_hook = "hyprctl reload"
+
+# --- QUICKSHELL (Dynamic colors for the bar and popups) ---
+[templates.quickshell]
+input_path = "~/.config/matugen/templates/qs-colors.json"
+output_path = "/tmp/qs_colors.json"
