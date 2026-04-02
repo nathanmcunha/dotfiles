@@ -101,7 +101,7 @@ FloatingWindow {
                 focus: true
                 
                 // Key bubbling catch-all.
-                Keys.onEscapePressed: {
+                Keys.onEscapePressed: (event) => {
                     Quickshell.execDetached(["bash", Quickshell.env("HOME") + "/.config/hypr/scripts/qs_manager.sh", "close"])
                     event.accepted = true
                 }
