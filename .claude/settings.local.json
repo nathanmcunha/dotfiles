@@ -22,7 +22,10 @@
       "Bash(journalctl:*)",
       "Bash(/bin/ls -la ~/.config/hypr/scripts/quickshell/)",
       "Bash(/bin/cat -v)",
-      "Bash(/bin/ls -la ~/.config/hypr/scripts/quickshell.bak/)"
+      "Bash(/bin/ls -la ~/.config/hypr/scripts/quickshell.bak/)",
+      "Bash(quickshell:*)",
+      "Bash(hyprctl clients:*)",
+      "Bash(hyprctl dispatch:*)"
     ]
   }
 }

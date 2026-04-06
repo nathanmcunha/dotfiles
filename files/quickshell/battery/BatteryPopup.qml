@@ -221,7 +221,7 @@ Item {
         // Outer Border
         Rectangle {
             anchors.fill: parent
-            radius: 20
+            radius: 6
             color: window.base
             border.color: window.surface0 // Back to neutral so it doesn't clash
             border.width: 1
@@ -282,10 +282,10 @@ Item {
                 
                 // Hours Box
                 Rectangle {
-                    width: 44; height: 48; radius: 10
+                    width: 44; height: 48; radius: 4
                     color: "#0dffffff"; border.color: "#1affffff"; border.width: 1
                     
-                    Rectangle { anchors.fill: parent; radius: 10; color: window.ambientPrimary; opacity: 0.05; Behavior on color { ColorAnimation { duration: 1000 } } }
+                    Rectangle { anchors.fill: parent; radius: 4; color: window.ambientPrimary; opacity: 0.05; Behavior on color { ColorAnimation { duration: 1000 } } }
                     Column {
                         anchors.centerIn: parent
                         Text { 
@@ -321,10 +321,10 @@ Item {
 
                 // Mins Box
                 Rectangle {
-                    width: 44; height: 48; radius: 10
+                    width: 44; height: 48; radius: 4
                     color: "#0dffffff"; border.color: "#1affffff"; border.width: 1
                     
-                    Rectangle { anchors.fill: parent; radius: 10; color: window.ambientSecondary; opacity: 0.05; Behavior on color { ColorAnimation { duration: 1000 } } }
+                    Rectangle { anchors.fill: parent; radius: 4; color: window.ambientSecondary; opacity: 0.05; Behavior on color { ColorAnimation { duration: 1000 } } }
                     Column {
                         anchors.centerIn: parent
                         Text { 
@@ -348,7 +348,7 @@ Item {
                 anchors.top: parent.top; anchors.right: parent.right
                 anchors.margins: 25
                 width: logoutMa.containsMouse ? 44 + usernameText.implicitWidth + 12 : 44
-                height: 44; radius: 14
+                height: 44; radius: 4
                 color: logoutMa.containsMouse ? "#1affffff" : "transparent"
                 border.color: logoutMa.containsMouse ? "#33ffffff" : "transparent"
                 clip: true
@@ -656,7 +656,7 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 96
-                    radius: 14
+                    radius: 4
                     color: "#05ffffff"
                     border.color: "#1affffff"
                     border.width: 1
@@ -864,7 +864,7 @@ Item {
                             id: actionCapsule
                             Layout.fillWidth: true
                             Layout.fillHeight: true
-                            radius: 14
+                            radius: 4
 
                             // Staggered entry animation based on index
                             opacity: introActions
@@ -949,7 +949,7 @@ Item {
                             }
 
                             Rectangle {
-                                anchors.fill: parent; radius: 14; color: "#ffffff"
+                                anchors.fill: parent; radius: 4; color: "#ffffff"
                                 opacity: actionCapsule.flashOpacity
                                 PropertyAnimation on opacity { id: cardFlashAnim; to: 0; duration: 500; easing.type: Easing.OutExpo }
                             }
@@ -1026,7 +1026,7 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 54
-                    radius: 14
+                    radius: 4
                     color: "#0dffffff" 
                     border.color: "#1affffff"
                     border.width: 1
@@ -1039,7 +1039,7 @@ Item {
                         width: (parent.width - 2) / 3 
                         height: parent.height - 2
                         y: 1
-                        radius: 10
+                        radius: 4
                         x: {
                             if (window.powerProfile === "performance") return 1;
                             if (window.powerProfile === "balanced") return width + 1;

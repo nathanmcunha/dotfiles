@@ -494,7 +494,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            radius: 20
+            radius: 6
             color: window.crust
             border.color: Qt.alpha(window.surface1, 0.2)
             border.width: 1
@@ -544,7 +544,7 @@ Item {
                             // Universal Return Arrow (Back to Daily / App List)
                             Rectangle {
                                 anchors.fill: parent
-                                radius: 20
+                                radius: 6
                                 color: backMa.containsMouse ? window.surface0 : "transparent"
                                 opacity: (window.selectedAppClass !== "" || window.isWeekView) ? 1.0 : 0.0
                                 visible: opacity > 0
@@ -570,7 +570,7 @@ Item {
                             // Week View Open Button
                             Rectangle {
                                 anchors.fill: parent
-                                radius: 20
+                                radius: 6
                                 color: weekMa.containsMouse ? window.surface0 : "transparent"
                                 opacity: (window.selectedAppClass === "" && !window.isWeekView) ? 1.0 : 0.0
                                 visible: opacity > 0
@@ -589,7 +589,7 @@ Item {
                         Rectangle {
                             Layout.preferredWidth: 40
                             Layout.preferredHeight: 40
-                            radius: 20
+                            radius: 6
                             color: prevWeekMa.containsMouse ? window.surface0 : "transparent"
                             Behavior on color { ColorAnimation { duration: 150 } }
                             Text { anchors.centerIn: parent; font.family: "Iosevka Nerd Font"; text: "󰅁"; color: window.text; font.pixelSize: 18 }
@@ -638,7 +638,7 @@ Item {
                     Rectangle {
                         Layout.preferredWidth: 40
                         Layout.preferredHeight: 40
-                        radius: 20
+                        radius: 6
                         color: nextWeekMa.containsMouse ? window.surface0 : "transparent"
                         Behavior on color { ColorAnimation { duration: 150 } }
                         Text { anchors.centerIn: parent; font.family: "Iosevka Nerd Font"; text: "󰅂"; color: window.text; font.pixelSize: 18 }
@@ -684,7 +684,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: 200
-                                radius: 14
+                                radius: 2
                                 color: window.base
                                 border.color: Qt.alpha(window.surface1, 0.3)
                                 border.width: 1
@@ -725,7 +725,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: 300
-                                radius: 14
+                                radius: 2
                                 color: window.base
                                 border.color: Qt.alpha(window.surface1, 0.3)
                                 border.width: 1
@@ -749,7 +749,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: 200
-                                radius: 14
+                                radius: 2
                                 color: window.base
                                 border.color: Qt.alpha(window.surface1, 0.3)
                                 border.width: 1
@@ -830,7 +830,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: 400 
-                                radius: 14
+                                radius: 2
                                 color: window.base
                                 border.color: Qt.alpha(window.surface1, 0.3)
                                 border.width: 1
@@ -874,7 +874,7 @@ Item {
 
                                                 Rectangle {
                                                     anchors.fill: parent
-                                                    radius: 4 
+                                                    radius: 2 
                                                     color: window.surface0
                                                     visible: !model.isTarget
                                                     opacity: barMa.containsMouse ? 0.7 : 1.0
@@ -883,7 +883,7 @@ Item {
 
                                                 Rectangle {
                                                     anchors.fill: parent
-                                                    radius: 4 
+                                                    radius: 2 
                                                     visible: model.isTarget
                                                     opacity: barMa.containsMouse ? 0.7 : 1.0
                                                     gradient: Gradient {
@@ -914,7 +914,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 Layout.preferredWidth: 300
-                                radius: 14
+                                radius: 2
                                 color: window.base
                                 border.color: Qt.alpha(window.surface1, 0.3)
                                 border.width: 1
@@ -947,7 +947,7 @@ Item {
                                             delegate: Rectangle {
                                                 width: 18 
                                                 height: 18 
-                                                radius: 4
+                                                radius: 2
                                                 color: model.total === -1 ? "transparent" : (model.total === 0 ? window.surface0 : Qt.rgba(window.mauve.r, window.mauve.g, window.mauve.b, Math.min(1.0, 0.3 + 0.7 * (model.total / window.maxMonthTotal))))
                                                 Behavior on color { ColorAnimation { duration: 700; easing.type: Easing.OutQuint } }
 
@@ -985,7 +985,7 @@ Item {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true 
-                            radius: 14
+                            radius: 2
                             color: window.base
                             border.color: Qt.alpha(window.surface1, 0.3)
                             border.width: 1
@@ -1026,7 +1026,7 @@ Item {
                                         width: ListView.view.width
                                         height: 58 
                                         color: "transparent"
-                                        radius: 10
+                                        radius: 2
 
                                         // Micro-staggering cascading animation inside the list
                                         opacity: introBottom
@@ -1034,7 +1034,7 @@ Item {
 
                                         Rectangle {
                                             anchors.fill: parent
-                                            radius: 10
+                                            radius: 2
                                             color: rowMa.containsMouse ? window.surface0 : "transparent"
                                             Behavior on color { ColorAnimation { duration: 150 } }
                                         }
@@ -1211,7 +1211,7 @@ Item {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 260
-                            radius: 14
+                            radius: 2
                             color: window.base
                             border.color: Qt.alpha(window.surface1, 0.3)
                             border.width: 1
@@ -1262,7 +1262,7 @@ Item {
                                                 Rectangle {
                                                     Layout.fillWidth: true
                                                     Layout.fillHeight: true
-                                                    radius: 10
+                                                    radius: 2
                                                     color: "transparent"
                                                     clip: true
 
@@ -1305,7 +1305,7 @@ Item {
                                         Rectangle {
                                             Layout.fillWidth: true
                                             Layout.fillHeight: true
-                                            radius: 10
+                                            radius: 2
                                             color: window.surface0
 
                                             ColumnLayout {
@@ -1334,7 +1334,7 @@ Item {
                                         Rectangle {
                                             Layout.fillWidth: true
                                             Layout.fillHeight: true
-                                            radius: 10
+                                            radius: 2
                                             color: window.surface0
 
                                             ColumnLayout {
@@ -1388,7 +1388,7 @@ Item {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
-                            radius: 14
+                            radius: 2
                             color: window.base
                             border.color: Qt.alpha(window.surface1, 0.3)
                             border.width: 1
@@ -1420,14 +1420,14 @@ Item {
                                     width: ListView.view.width
                                     height: 58 
                                     color: "transparent"
-                                    radius: 10
+                                    radius: 2
 
                                     opacity: introBottom
                                     transform: Translate { y: (index * 12) * (1 - introBottom) }
 
                                     Rectangle {
                                         anchors.fill: parent
-                                        radius: 10
+                                        radius: 2
                                         color: weekRowMa.containsMouse ? window.surface0 : "transparent"
                                         Behavior on color { ColorAnimation { duration: 150 } }
                                     }

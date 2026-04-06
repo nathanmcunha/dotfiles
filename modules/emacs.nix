@@ -10,15 +10,15 @@
     enable = true;
     startWithUserSession = true;
   };
-systemd.user.services.emacs = {
-  Service = {
-    Environment = [
-      "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
-      "PKG_CONFIG_PATH=${pkgs.enchant_2}/lib/pkgconfig"
-    ];
-    PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
+  systemd.user.services.emacs = {
+    Service = {
+      Environment = [
+        "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
+        "PKG_CONFIG_PATH=${pkgs.enchant_2}/lib/pkgconfig"
+      ];
+      PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
+    };
   };
-};
 
   home.packages = with pkgs; [
     # Runtimes
@@ -41,11 +41,12 @@ systemd.user.services.emacs = {
     rustup
 
     # LSP servers
-    sqls                                          # SQL
-    yaml-language-server                          # YAML
-    vscode-langservers-extracted                  # HTML + CSS + JSON
-    dockerfile-language-server                     # Dockerfile
-
+    sqls # SQL
+    yaml-language-server # YAML
+    vscode-langservers-extracted # HTML + CSS + JSON
+    dockerfile-language-server # Dockerfile
+    nixd
+    qt6.qtbase.dev
     # Required by jinx
     enchant_2
   ];

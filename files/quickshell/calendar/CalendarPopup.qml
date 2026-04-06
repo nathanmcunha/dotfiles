@@ -426,7 +426,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            radius: 20
+            radius: 6
             color: window.base
             border.color: window.surface0
             border.width: 1
@@ -674,7 +674,7 @@ Item {
                                     Text { 
                                         Layout.alignment: Qt.AlignHCenter
                                         text: modelData.time
-                                        font.family: "JetBrains Mono"; font.weight: Font.Bold; font.pixelSize: 12
+                                        font.family: "JetBrains Mono"; font.weight: Font.Bold; font.pixelSize: 11
                                         color: isHighlighted ? window.base : (hrMa.containsMouse ? window.text : window.overlay1)
                                     }
                                     
@@ -712,7 +712,7 @@ Item {
                 width: 320
                 height: 420
                 color: Qt.alpha(window.surface0, 0.2) 
-                radius: 14
+                radius: 4
                 border.color: Qt.alpha(window.surface1, 0.4)
                 border.width: 1
                 z: 10 
@@ -816,7 +816,7 @@ Item {
                                 Layout.fillHeight: true
                                 
                                 color: isToday ? window.textAccent : (dayMa.containsMouse ? Qt.alpha(window.surface2, 0.4) : "transparent")
-                                radius: 10
+                                radius: 4
                                 scale: dayMa.containsMouse ? 1.2 : 1.0
                                 border.color: isToday ? window.surface0 : (dayMa.containsMouse ? window.overlay0 : "transparent")
                                 border.width: isToday || dayMa.containsMouse ? 1 : 0
@@ -828,8 +828,8 @@ Item {
                                     anchors.centerIn: parent
                                     text: dayNum
                                     font.family: "JetBrains Mono"
-                                    font.weight: isToday ? Font.Black : Font.Bold
-                                    font.pixelSize: 14
+                                    font.weight: isToday ? Font.Bold : Font.Normal
+                                    font.pixelSize: 12
                                     color: isToday ? window.base : (isCurrentMonth ? window.text : window.surface0)
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
@@ -1139,7 +1139,7 @@ Item {
                         spacing: 15
                         
                         Rectangle {
-                            width: 40; height: 40; radius: 20; color: window.surface0
+                            width: 40; height: 40; radius: 6; color: window.surface0
                             Text { anchors.centerIn: parent; text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: 18; color: window.textAccent }
                         }
                         
@@ -1154,7 +1154,7 @@ Item {
                         Item { Layout.fillWidth: true }
                         
                         Rectangle {
-                            width: 120; height: 36; radius: 10
+                            width: 120; height: 36; radius: 4
                             color: schLinkMa.containsMouse ? window.mauve : Qt.alpha(window.surface1, 0.5)
                             border.color: window.mauve; border.width: 1
                             Behavior on color { ColorAnimation { duration: 150 } }
@@ -1285,25 +1285,26 @@ Item {
                                                 Text {
                                                     text: modelData.subject || ""
                                                     font.family: "JetBrains Mono"
-                                                    font.weight: Font.Black
-                                                    font.pixelSize: 16
+                                                    font.weight: Font.Bold
+                                                    font.pixelSize: 13
                                                     color: classNode.isActive ? window.mauve : (classNode.isPast ? window.overlay0 : window.text)
                                                     elide: Text.ElideRight
                                                     Layout.fillWidth: true
+                                                    Layout.maximumWidth: 200
                                                 }
 
                                                 RowLayout {
                                                     visible: !modelData.is_compact
                                                     spacing: 8
-                                                    Text { text: "󰅐"; font.family: "Iosevka Nerd Font"; font.pixelSize: 14; color: classNode.isActive ? window.mauve : window.overlay1 }
-                                                    Text { text: modelData.time || ""; font.family: "JetBrains Mono"; font.weight: Font.Bold; font.pixelSize: 14; color: classNode.isActive ? window.text : window.overlay1 }
+                                                    Text { text: "󰅐"; font.family: "Iosevka Nerd Font"; font.pixelSize: 12; color: classNode.isActive ? window.mauve : window.overlay1 }
+                                                    Text { text: modelData.time || ""; font.family: "JetBrains Mono"; font.weight: Font.Bold; font.pixelSize: 12; color: classNode.isActive ? window.text : window.overlay1 }
                                                 }
 
                                                 RowLayout {
                                                     visible: !modelData.is_compact && (modelData.room || "") !== ""
                                                     spacing: 8
-                                                    Text { text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: 14; color: classNode.isPast ? window.surface2 : window.peach }
-                                                    Text { text: modelData.room || ""; font.family: "JetBrains Mono"; font.weight: Font.Bold; font.pixelSize: 14; color: window.subtext1; elide: Text.ElideRight; Layout.fillWidth: true }
+                                                    Text { text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: 12; color: classNode.isPast ? window.surface2 : window.peach }
+                                                    Text { text: modelData.room || ""; font.family: "JetBrains Mono"; font.weight: Font.Bold; font.pixelSize: 12; color: window.subtext1; elide: Text.ElideRight; Layout.fillWidth: true }
                                                 }
                                             }
 

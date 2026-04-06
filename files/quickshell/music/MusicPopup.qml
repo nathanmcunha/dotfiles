@@ -438,7 +438,7 @@ Item {
             anchors.fill: parent
             anchors.margins: 3
             color: root.base
-            radius: 10
+            radius: 4
 
             // FIX: This forces the entire background to render as a single hardware texture,
             // preventing the UI from dragging and causing "shadow boxes" during the StackView transition!
@@ -448,7 +448,7 @@ Item {
             Rectangle {
                 id: innerBgMask
                 anchors.fill: parent
-                radius: 10
+                radius: 4
                 visible: false
                 
                 // FIX: Masks in MultiEffect strictly require layer.enabled to correctly capture the radius during scaling!
@@ -594,7 +594,7 @@ Item {
 
                                 Rectangle {
                                     width: 40; height: 40
-                                    radius: 20; color: "#000000"
+                                    radius: 6; color: "#000000"
                                     opacity: 0.8; anchors.centerIn: parent
                                 }
                             }
@@ -969,7 +969,7 @@ Item {
                         Rectangle {
                             Layout.preferredHeight: 28
                             Layout.preferredWidth: applyTxt.width + 30
-                            radius: 10
+                            radius: 4
                             color: root.eqData.pending ? root.mauve : root.surface1
                             border.color: root.eqData.pending ? root.mauve : root.surface2
                             border.width: 1

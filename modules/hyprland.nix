@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 
 {
   # All Wayland daemons are managed as systemd user services rather than bare

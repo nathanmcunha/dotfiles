@@ -204,3 +204,30 @@ if [[ "$ACTION" == "open" || "$ACTION" == "toggle" ]]; then
     fi
     exit 0
 fi
+
+# -----------------------------------------------------------------------------
+# RESTART ACTION (For wake from sleep/lock)
+# -----------------------------------------------------------------------------
+if [[ "$ACTION" == "restart" ]]; then
+    # Kill existing Quickshell processes
+    pkill -f "quickshell.*Main\.qml" 2>/dev/null
+    pkill -f "quickshell.*TopBar\.qml" 2>/dev/null
+    sleep 0.2
+
+    # Restart Main.qml (master widget window)
+    quickshell -p "$MAIN_QML_PATH" >/dev/null 2>&1 &
+    disown
+    for _ in {1..20}; do
+        if hyprctl clients -j | grep -q "qs-master"; then
+            sleep 0.1
+            break
+        fi
+        sleep 0.05
+    done
+
+    # Restart TopBar.qml (panel bar)
+    quickshell -p "$BAR_QML_PATH" >/dev/null 2>&1 &
+    disown
+
+    exit 0
+fi
