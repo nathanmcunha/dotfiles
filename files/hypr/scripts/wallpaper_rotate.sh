@@ -16,7 +16,7 @@ while true; do
 
     swww img "$WALLPAPER" --transition-type grow --transition-duration 2 --transition-fps 60
 
-    matugen image "$WALLPAPER" --prefer darkness
+    matugen image "$WALLPAPER"
 
     if $first_run; then
         first_run=false

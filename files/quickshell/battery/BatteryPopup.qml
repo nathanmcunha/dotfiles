@@ -37,7 +37,7 @@ Item {
     // STATE & POLLING
     // -------------------------------------------------------------------------
     property int batCapacity: 0
-    property string batStatus: "Unknown"
+    property string batStatus: "None"
     property string powerProfile: "balanced"
     
     property int upHours: 0
@@ -592,46 +592,72 @@ Item {
                     }
 
                     ColumnLayout {
-                        anchors.centerIn: parent
-                        spacing: -2
-                        
-                        RowLayout {
-                            Layout.alignment: Qt.AlignHCenter
-                            spacing: 8
-                            
-                            Text {
-                                font.family: "Iosevka Nerd Font"
-                                font.pixelSize: 28
-                                color: window.batColorStart
-                                text: window.isCharging ? "󰂄" : (window.batCapacity > 20 ? "󰁹" : "󰂃")
-                                Behavior on color { ColorAnimation { duration: 400 } }
-                            }
-                            
-                            Text {
-                                font.family: "JetBrains Mono"
-                                font.weight: Font.Black
-                                font.pixelSize: 54
-                                color: window.text
-                                text: Math.round(window.animCapacity) + "%" 
-                            }
-                        }
+    anchors.centerIn: parent
+    spacing: -2
 
-                        Text {
-                            Layout.alignment: Qt.AlignHCenter
-                            font.family: "JetBrains Mono"
-                            font.weight: Font.Bold
-                            font.pixelSize: 13
-                            
-                            color: window.isCharging 
-                                    ? Qt.tint(window.green, Qt.rgba(1, 1, 1, parent.textPulse * 0.4)) 
-                                    : (centralCore.isDangerState ? Qt.tint(window.red, Qt.rgba(1, 1, 1, parent.textPulse * 0.3)) : window.subtext0)
-                                    
-                            text: window.batStatus.toUpperCase()
-                            Behavior on color { ColorAnimation { duration: 300 } }
-                        }
-                    }
-                }
+    // Desktop PC — no battery
+    ColumnLayout {
+        Layout.alignment: Qt.AlignHCenter
+        spacing: 8
+        visible: window.batStatus === "None" || window.batStatus === "Unknown"
 
+        Text {
+            Layout.alignment: Qt.AlignHCenter
+            font.family: "Iosevka Nerd Font"
+            font.pixelSize: 64
+            color: window.blue
+            text: "󰍛"
+        }
+        Text {
+            Layout.alignment: Qt.AlignHCenter
+            font.family: "JetBrains Mono"
+            font.weight: Font.Bold
+            font.pixelSize: 13
+            color: window.subtext0
+            text: "DESKTOP PC"
+        }
+    }
+
+    // Laptop — has battery
+    ColumnLayout {
+        Layout.alignment: Qt.AlignHCenter
+        spacing: -2
+        visible: window.batStatus !== "None" && window.batStatus !== "Unknown"
+
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter
+            spacing: 8
+
+            Text {
+                font.family: "Iosevka Nerd Font"
+                font.pixelSize: 28
+                color: window.batColorStart
+                text: window.isCharging ? "󰂄" : (window.batCapacity > 20 ? "󰁹" : "󰂃")
+                Behavior on color { ColorAnimation { duration: 400 } }
+            }
+
+            Text {
+                font.family: "JetBrains Mono"
+                font.weight: Font.Black
+                font.pixelSize: 54
+                color: window.text
+                text: Math.round(window.animCapacity) + "%"
+            }
+        }
+
+        Text {
+            Layout.alignment: Qt.AlignHCenter
+            font.family: "JetBrains Mono"
+            font.weight: Font.Bold
+            font.pixelSize: 13
+            color: window.isCharging
+                    ? Qt.tint(window.green, Qt.rgba(1, 1, 1, parent.textPulse * 0.4))
+                    : (centralCore.isDangerState ? Qt.tint(window.red, Qt.rgba(1, 1, 1, parent.textPulse * 0.3)) : window.subtext0)
+            text: window.batStatus.toUpperCase()
+            Behavior on color { ColorAnimation { duration: 300 } }
+        }
+    }
+}
                 MouseArea {
                     id: heroMa
                     anchors.fill: centralCore 

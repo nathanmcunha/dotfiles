@@ -17,10 +17,10 @@ PanelWindow {
     
     // THICKER BAR, MINIMAL MARGINS
     implicitHeight: 26
-    margins { top: 8; bottom: 0; left: 4; right: 4 }
+    margins { top: 2; bottom: 2; left: 0; right: 0 }
 
     // exclusiveZone = implicitHeight (26) + top margin (8)
-    exclusiveZone: 34
+    exclusiveZone: 30
     color: "transparent"
 
     // Dynamic Matugen Palette
@@ -77,11 +77,13 @@ PanelWindow {
 
     // Derived properties for UI logic
     property bool isMediaActive: barWindow.musicData.status !== "Stopped" && barWindow.musicData.title !== ""
-    property bool isWifiOn: barWindow.wifiStatus.toLowerCase() === "enabled" || barWindow.wifiStatus.toLowerCase() === "on"
+  property bool isWifiOn: barWindow.wifiStatus.toLowerCase() === "enabled" || barWindow.wifiStatus.toLowerCase() === "on" || barWindow.wifiStatus.toLowerCase() === "wired"
+    property bool isWired: barWindow.wifiStatus.toLowerCase() === "wired"
     property bool isBtOn: barWindow.btStatus.toLowerCase() === "enabled" || barWindow.btStatus.toLowerCase() === "on"
     
     property bool isSoundActive: !barWindow.isMuted && parseInt(barWindow.volPercent) > 0
-    property int batCap: parseInt(barWindow.batPercent) || 0
+property int batCap: (barWindow.batPercent === "AC" || barWindow.batPercent === "none") ? 0 : (parseInt(barWindow.batPercent) || 0)
+    property bool isDesktopPC: barWindow.batPercent === "AC"
     property bool isCharging: barWindow.batStatus === "Charging" || barWindow.batStatus === "Full"
     property color batDynamicColor: {
         if (isCharging) return mocha.green;
@@ -797,14 +799,14 @@ PanelWindow {
                             Text { 
                                 id: wifiText
                                 // Wait for sysPollerLoaded before evaluating text so it doesn't default to "Off"
-                                text: barWindow.sysPollerLoaded ? (barWindow.isWifiOn ? (barWindow.wifiSsid !== "" ? barWindow.wifiSsid : "On") : "Off") : ""
+                                text: barWindow.sysPollerLoaded ? (barWindow.isWired ? "Wired" : (barWindow.isWifiOn ? (barWindow.wifiSsid !== "" ? barWindow.wifiSsid : "On") : "Off")) : ""
                                 visible: text !== ""
                                 font.family: "JetBrains Mono"; font.pixelSize: 13; font.weight: Font.Black; 
                                 color: barWindow.isWifiOn ? mocha.base : mocha.text; 
                                 Layout.maximumWidth: 100; elide: Text.ElideRight 
                             }
                         }
-                        MouseArea { id: wifiMouse; hoverEnabled: true; anchors.fill: parent; onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle network wifi"]) }
+                        MouseArea { id: wifiMouse; hoverEnabled: true; anchors.fill: parent; onClicked: Quickshell.execDetached(["bash", "-c", "nm-connection-editor"]) }
                     }
 
                     // Bluetooth 
@@ -854,7 +856,7 @@ PanelWindow {
                                 Layout.maximumWidth: 100; elide: Text.ElideRight 
                             }
                         }
-                        MouseArea { id: btMouse; hoverEnabled: true; anchors.fill: parent; onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle network bt"]) }
+                        MouseArea { id: btMouse; hoverEnabled: true; anchors.fill: parent; onClicked: Quickshell.execDetached(["bash", "-c", "blueman-applet & sleep 0.5 && blueman-manager"]) }
                     }
 
                     // Volume
@@ -907,6 +909,7 @@ PanelWindow {
 
                     // Battery
                     Rectangle {
+        visible: barWindow.batPercent !== "none"
                         property bool isHovered: batMouse.containsMouse
                         color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4); 
                         radius: 4; Layout.preferredHeight: sysLayout.pillHeight;
@@ -946,8 +949,7 @@ PanelWindow {
                                 Behavior on color { ColorAnimation { duration: 300 } }
                             }
                             Text { 
-                                text: barWindow.batPercent; font.family: "JetBrains Mono"; font.pixelSize: 13; font.weight: Font.Black; 
-                                color: (barWindow.isCharging || barWindow.batCap <= 20) ? mocha.base : barWindow.batDynamicColor
+                            text: barWindow.isDesktopPC ? "" : barWindow.batPercent;                                color: (barWindow.isCharging || barWindow.batCap <= 20) ? mocha.base : barWindow.batDynamicColor
                                 Behavior on color { ColorAnimation { duration: 300 } }
                             }
                         }

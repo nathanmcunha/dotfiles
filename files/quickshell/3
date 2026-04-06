@@ -13,11 +13,12 @@ FloatingWindow {
     // Helper: calls hyprctl with the correct instance signature,
     // since Quickshell may not inherit HYPRLAND_INSTANCE_SIGNATURE at launch.
     function hy(cmd) {
-    Quickshell.execDetached(["bash", "-c",
-        `HY=$(ls $XDG_RUNTIME_DIR/hypr/ 2>/dev/null | grep -v '\\.lock' | head -1); ` +
-        `HYPRLAND_INSTANCE_SIGNATURE=$HY hyprctl ` + cmd
-    ]);
-}
+        Quickshell.execDetached(["bash", "-c",
+            `HY=$(ls /tmp/hypr/ 2>/dev/null | grep -v '\\.lock' | head -1); ` +
+            `HYPRLAND_INSTANCE_SIGNATURE=$HY hyprctl ` + cmd
+        ]);
+    }
+
     Component.onCompleted: {
         hy(`dispatch resizewindowpixel "exact 1 1,title:^(qs-master)$"`);
         hy(`dispatch movewindowpixel "exact -5000 -5000,title:^(qs-master)$"`);
@@ -99,20 +100,17 @@ FloatingWindow {
                 anchors.fill: parent
                 focus: true
 
-Keys.onEscapePressed: (event) => {
+   Keys.onEscapePressed: (event) => {
+    // Clean up bluetooth scan if the network widget was open
     if (masterWindow.currentActive === "network") {
         Quickshell.execDetached(["bash", "-c",
             `kill $(cat $HOME/.cache/bt_scan_pid 2>/dev/null) 2>/dev/null
              bluetoothctl scan off > /dev/null 2>&1`
         ]);
     }
-    // Return focus to tiled windows BEFORE hiding, so Hyprland
-    // never recalculates layout with qs-master as the focused window
-    hy("dispatch focuswindow floating:0");
     switchWidget("hidden", "");
     event.accepted = true
-}
-                onCurrentItemChanged: {
+}                onCurrentItemChanged: {
                     if (currentItem) currentItem.forceActiveFocus();
                 }
 

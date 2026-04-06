@@ -2,16 +2,27 @@
 
 ## WIFI
 get_wifi_status() {
+    # Check ethernet first
+    local eth=$(ip link show 2>/dev/null | grep -E "^[0-9]+: e" | awk -F': ' '{print $2}' | head -1)
+    if [ -n "$eth" ]; then
+        local eth_state=$(cat /sys/class/net/$eth/operstate 2>/dev/null)
+        if [ "$eth_state" = "up" ]; then
+            echo "wired"
+            return
+        fi
+    fi
+    # Fall back to wifi
     nmcli -t -f WIFI g 2>/dev/null || echo "disabled"
 }
 
 get_wifi_ssid() {
-    local ssid=$(nmcli -t -f ACTIVE,SSID dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2)
-    if [ -z "$ssid" ]; then
-        echo ""
-    else
-        echo "$ssid"
+    local status=$(get_wifi_status)
+    if [ "$status" = "wired" ]; then
+        echo "Wired"
+        return
     fi
+    local ssid=$(nmcli -t -f ACTIVE,SSID dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2)
+    echo "${ssid:-}"
 }
 
 get_kb_layout() {
@@ -26,26 +37,24 @@ get_kb_layout() {
 
 get_wifi_icon() {
     local status=$(get_wifi_status)
+    if [ "$status" = "wired" ]; then
+        echo "󰈀"  # Ethernet icon
+        return
+    fi
     local ssid=$(get_wifi_ssid)
-    
     if [ "$status" = "enabled" ]; then
         if [ -n "$ssid" ]; then
-            # Get signal strength for better icon
             local signal=$(get_wifi_strength)
-            if [ "$signal" -ge 75 ]; then
-                echo "󰤨"
-            elif [ "$signal" -ge 50 ]; then
-                echo "󰤥"
-            elif [ "$signal" -ge 25 ]; then
-                echo "󰤢"
-            else
-                echo "󰤟"
+            if [ "$signal" -ge 75 ]; then echo "󰤨"
+            elif [ "$signal" -ge 50 ]; then echo "󰤥"
+            elif [ "$signal" -ge 25 ]; then echo "󰤢"
+            else echo "󰤟"
             fi
         else
-            echo "󰤯"  # WiFi on but not connected
+            echo "󰤯"
         fi
     else
-        echo "󰤮"  # WiFi off
+        echo "󰤮"
     fi
 }
 
@@ -207,63 +216,49 @@ get_volume_icon() {
 
 ## BATTERY
 get_battery_percent() {
-    if [ -f /sys/class/power_supply/BAT*/capacity ]; then
-        local percent=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1)
-        echo "${percent:-100}"
+    local bat=$(ls /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1)
+    if [ -n "$bat" ]; then
+        cat "$bat" 2>/dev/null || echo "0"
     else
-        echo "100"
+        echo "AC"  # No battery = desktop PC on AC power
     fi
 }
 
 get_battery_status() {
-    if [ -f /sys/class/power_supply/BAT*/status ]; then
-        cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1
+    local bat=$(ls /sys/class/power_supply/BAT*/status 2>/dev/null | head -1)
+    if [ -n "$bat" ]; then
+        cat "$bat" 2>/dev/null || echo "None"
     else
-        echo "Full"
+        echo "None"
     fi
 }
 
 get_battery_icon() {
-    local percent=$(get_battery_percent)
+     local percent=$(get_battery_percent)
+    if [ "$percent" = "AC" ]; then
+        echo "󰍛"  # Desktop PC icon
+        return
+    fi
     local status=$(get_battery_status)
-    
-    # Show charging icons when charging or full
     if [ "$status" = "Charging" ] || [ "$status" = "Full" ]; then
-        if [ "$percent" -ge 90 ]; then
-            echo "󰂅"  # Charging full
-        elif [ "$percent" -ge 80 ]; then
-            echo "󰂋"  # Charging 80
-        elif [ "$percent" -ge 60 ]; then
-            echo "󰂊"  # Charging 60
-        elif [ "$percent" -ge 40 ]; then
-            echo "󰢞"  # Charging 40
-        elif [ "$percent" -ge 20 ]; then
-            echo "󰂆"  # Charging 20
-        else
-            echo "󰢜"  # Charging low
+        if [ "$percent" -ge 90 ]; then echo "󰂅"
+        elif [ "$percent" -ge 80 ]; then echo "󰂋"
+        elif [ "$percent" -ge 60 ]; then echo "󰂊"
+        elif [ "$percent" -ge 40 ]; then echo "󰢞"
+        elif [ "$percent" -ge 20 ]; then echo "󰂆"
+        else echo "󰢜"
         fi
     else
-        # Discharging icons
-        if [ "$percent" -ge 90 ]; then
-            echo "󰁹"  # 100%
-        elif [ "$percent" -ge 80 ]; then
-            echo "󰂂"  # 90%
-        elif [ "$percent" -ge 70 ]; then
-            echo "󰂁"  # 80%
-        elif [ "$percent" -ge 60 ]; then
-            echo "󰂀"  # 70%
-        elif [ "$percent" -ge 50 ]; then
-            echo "󰁿"  # 60%
-        elif [ "$percent" -ge 40 ]; then
-            echo "󰁾"  # 50%
-        elif [ "$percent" -ge 30 ]; then
-            echo "󰁽"  # 40%
-        elif [ "$percent" -ge 20 ]; then
-            echo "󰁼"  # 30%
-        elif [ "$percent" -ge 10 ]; then
-            echo "󰁻"  # 20%
-        else
-            echo "󰁺"  # 10% or less
+        if [ "$percent" -ge 90 ]; then echo "󰁹"
+        elif [ "$percent" -ge 80 ]; then echo "󰂂"
+        elif [ "$percent" -ge 70 ]; then echo "󰂁"
+        elif [ "$percent" -ge 60 ]; then echo "󰂀"
+        elif [ "$percent" -ge 50 ]; then echo "󰁿"
+        elif [ "$percent" -ge 40 ]; then echo "󰁾"
+        elif [ "$percent" -ge 30 ]; then echo "󰁽"
+        elif [ "$percent" -ge 20 ]; then echo "󰁼"
+        elif [ "$percent" -ge 10 ]; then echo "󰁻"
+        else echo "󰁺"
         fi
     fi
 }
