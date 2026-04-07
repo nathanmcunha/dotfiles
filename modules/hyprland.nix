@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   # All Wayland daemons are managed as systemd user services rather than bare
@@ -8,6 +8,19 @@
   # None use WantedBy=graphical-session.target because WAYLAND_DISPLAY must be
   # imported by Hyprland first. They are triggered from hyprland.conf instead.
   systemd.user.services = {
+    # Wallpaper management
+    swww-daemon = {
+      Unit = {
+        Description = "Simple Wallpaper Daemon (swww)";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "/usr/local/bin/swww-daemon";
+        Restart = "on-failure";
+        RestartSec = "2";
+      };
+    };
+
     wallpaper-rotate = {
       Unit = {
         Description = "Rotate wallpaper and regenerate matugen colors";
@@ -19,6 +32,7 @@
       };
     };
 
+    # Hyprland components
     hypridle = {
       Unit = {
         Description = "Hypridle idle daemon";
@@ -43,6 +57,83 @@
       };
     };
 
+    # Quickshell bar and widgets
+    quickshell-main = {
+      Unit = {
+        Description = "Quickshell Main Panel";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "/usr/local/bin/quickshell -p %h/.config/hypr/scripts/quickshell/Main.qml";
+        Restart = "on-failure";
+        RestartSec = "3";
+      };
+    };
+
+    quickshell-topbar = {
+      Unit = {
+        Description = "Quickshell Top Bar";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "/usr/local/bin/quickshell -p %h/.config/hypr/scripts/quickshell/TopBar.qml";
+        Restart = "on-failure";
+        RestartSec = "3";
+      };
+    };
+
+    # Clipboard management
+    cliphist-text = {
+      Unit = {
+        Description = "Clipboard history (text)";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "/usr/bin/wl-paste --type text --watch /usr/bin/cliphist store";
+        Restart = "on-failure";
+        RestartSec = "2";
+      };
+    };
+
+    cliphist-image = {
+      Unit = {
+        Description = "Clipboard history (images)";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "/usr/bin/wl-paste --type image --watch /usr/bin/cliphist store";
+        Restart = "on-failure";
+        RestartSec = "2";
+      };
+    };
+
+    # Media player
+    playerctld = {
+      Unit = {
+        Description = "Playerctl daemon for media control";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "/usr/bin/playerctld";
+        Restart = "on-failure";
+        RestartSec = "2";
+      };
+    };
+
+    # Volume monitoring
+    volume-listener = {
+      Unit = {
+        Description = "Volume change listener for Quickshell";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "%h/.config/hypr/scripts/volume_listener.sh";
+        Restart = "on-failure";
+        RestartSec = "2";
+      };
+    };
+
+    # Clipboard manager
     copyq = {
       Unit = {
         Description = "CopyQ clipboard manager";
@@ -56,6 +147,7 @@
       };
     };
 
+    # Auxiliary app
     elephant = {
       Unit = {
         Description = "Elephant";

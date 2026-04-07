@@ -1,5 +1,3 @@
-{ config, pkgs, ... }:
-
 {
   home.username = "nathanmcunha";
   home.homeDirectory = "/home/nathanmcunha";
@@ -20,5 +18,8 @@
     ./modules/podman.nix
     ./modules/claude.nix
     ./modules/external-tools.nix
+    ./modules/hermes-agent.nix
+    ./modules/btop.nix
+    ./modules/aliases.nix
   ];
 }

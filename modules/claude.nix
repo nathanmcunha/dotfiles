@@ -1,4 +1,8 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 
 let
   homeDir = config.home.homeDirectory;
@@ -14,13 +18,13 @@ in
     executable = true;
   };
 
-programs.zsh.initExtra = ''
-  export GNUPGHOME="$HOME/.gnupg"
-  export GPG_AGENT_INFO="/run/user/1000/gnupg/S.gpg-agent:0:1"
-  export ANTHROPIC_API_KEY=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
-'';
+  programs.zsh.initContent = ''
+    export GNUPGHOME="$HOME/.gnupg"
+    export GPG_AGENT_INFO="/run/user/$(id -u)/gnupg/S.gpg-agent:0:1"
+    export ANTHROPIC_API_KEY=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
+  '';
 
-home.file.".claude/settings.json" = {
+  home.file.".claude/settings.json" = {
     force = true;
     text = builtins.toJSON {
       env = {

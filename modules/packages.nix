@@ -30,8 +30,7 @@
     cmake
     mise
     pinentry-tty
-    pass
-    gnupg 
+    gnupg
 
     # Nix tools
     nixfmt

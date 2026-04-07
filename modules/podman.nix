@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   # Rootless podman configuration
@@ -18,24 +18,4 @@
       "default": [{"type": "insecureAcceptAnything"}]
     }
   '';
-
-  # Useful aliases
-  home.shellAliases = {
-    # Podman as docker drop-in
-    docker          = "podman";
-    docker-compose  = "podman-compose";
-
-    # Shortcuts
-    p    = "podman";
-    pc   = "podman-compose";
-    pps  = "podman ps";
-    ppa  = "podman ps -a";
-    pimg = "podman images";
-    plog = "podman logs -f";
-    pex  = "podman exec -it";
-    prm  = "podman rm";
-    prmi = "podman rmi";
-    pstop = "podman stop";
-    ppull = "podman pull";
-  };
 }

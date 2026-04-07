@@ -9,14 +9,20 @@ result
 *.jpeg
 *.gif
 *.bmp
+*.pdf
+
+# Emacs backups
+*~
+\#*\#
+.\#*
 
 # Documentation & plans
 *.md
 !README.md
+!files/docs/*.md
 
 # Local config (per-machine)
 .claude/settings.local.json
-docs/
 
 # Cleanup scripts (not part of dotfiles)
 files/cleanup-app-manager/
