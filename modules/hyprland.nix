@@ -15,7 +15,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/local/bin/swww-daemon";
+        ExecStart = "/usr/bin/swww-daemon";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -64,7 +64,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/local/bin/quickshell -p %h/.config/hypr/scripts/quickshell/Main.qml";
+        ExecStart = "/usr/bin/quickshell -p %h/.config/hypr/scripts/quickshell/Main.qml";
         Restart = "on-failure";
         RestartSec = "3";
       };
@@ -76,7 +76,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/local/bin/quickshell -p %h/.config/hypr/scripts/quickshell/TopBar.qml";
+        ExecStart = "/usr/bin/quickshell -p %h/.config/hypr/scripts/quickshell/TopBar.qml";
         Restart = "on-failure";
         RestartSec = "3";
       };
