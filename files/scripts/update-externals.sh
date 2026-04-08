@@ -8,8 +8,8 @@
 
 set -euo pipefail
 
-VERSIONS_FILE="$HOME/.config/home-manager/files/external/versions.json"
-DERIVATIONS_NIX="$HOME/.config/home-manager/modules/derivations.nix"
+VERSIONS_FILE="$HOME/dotfiles/files/external/versions.json"
+DERIVATIONS_NIX="$HOME/dotfiles/modules/derivations.nix"
 
 CYAN='\033[0;36m'
 GREEN='\033[0;32m'
@@ -163,7 +163,7 @@ if updated:
     for u in updated:
         print(f"  {u}")
     print(f"\nApply with:")
-    print(f"  \033[0;34mhome-manager switch --flake ~/.config/home-manager#nathanmcunha\033[0m")
+    print(f"  \033[0;34msudo nixos-rebuild switch --flake ~/dotfiles#nathanmcunha-nixos\033[0m")
 else:
     print(f"\n\033[0;32mAll nix tools are up to date!\033[0m")
 PYEOF

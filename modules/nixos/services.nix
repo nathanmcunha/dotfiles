@@ -33,7 +33,5 @@
     imagemagick
     fastfetch
 
-    # Fonts
-    nerdfonts
   ];
 }

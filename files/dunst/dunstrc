@@ -1,7 +1,7 @@
 [global]
 frame_color = "#cad3f5"
 separator_color= frame
-font = "JetBrains Mono Regular 11"
+font = "JetBrainsMono Nerd Font Regular 11"
 corner_radius = 10
 offset = 5x5
 origin = top-right

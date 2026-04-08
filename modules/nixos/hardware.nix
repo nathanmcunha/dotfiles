@@ -2,23 +2,23 @@
 
 {
   # Intel GPU
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       libvdpau-va-gl
     ];
   };
 
   # Intel WiFi
-  hardware.enableRedistributableFirmware = true;
-  networking.wireless.enable = false;  # Use NetworkManager
+#  hardware.enableRedistributableFirmware = true;
+#  networking.wireless.enable = false;  # Use NetworkManager
 
   # Intel Audio
-  sound.enable = true;
+#  sound.enable = true;
 
   # Bluetooth
-  hardware.bluetooth.enable = true;
+#  hardware.bluetooth.enable = true;
 }

@@ -19,6 +19,7 @@
     "flakes"
   ];
   nixpkgs.config.allowUnfree = true;
+  programs.nix-ld.enable = true;
 
   # Time zone
   time.timeZone = "America/Sao_Paulo";
@@ -35,8 +36,10 @@
   # Services
   services.greetd.enable = true;
   services.greetd.settings.default_session.command =
-    "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+    "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
   services.greetd.settings.default_session.user = "greeter";
+
+  programs.zsh.enable = true;
 
   # Fstrim
   services.fstrim.enable = true;
@@ -45,6 +48,9 @@
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-color-emoji
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.symbols-only
   ];
 
   # System packages
@@ -54,12 +60,14 @@
     wget
     curl
     stow
+    gh
   ];
 
   # Users
   users.users.nathanmcunha = {
     isNormalUser = true;
     group = "nathanmcunha";
+    shell = pkgs.zsh;
     extraGroups = [
       "wheel"
       "networkmanager"

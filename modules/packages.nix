@@ -50,6 +50,7 @@
 
     # Kilocode CLI
     kilocode-cli
+    github-copilot-cli
 
     # Java, AI & desktop tools
     google-java-format

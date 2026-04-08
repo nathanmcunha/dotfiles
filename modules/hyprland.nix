@@ -155,9 +155,6 @@
       executable = true;
     };
 
-    # Walker
-    ".config/walker/config.toml".source = ../files/walker/config.toml;
-
     # Matugen
     ".config/matugen/config.toml".source = ../files/matugen/config.toml;
     ".config/matugen/templates/hyprland-colors.conf".source =

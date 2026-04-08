@@ -7,7 +7,7 @@
 
 let
   homeDir = config.home.homeDirectory;
-  hermesPkg = hermes-agent.packages.${pkgs.system}.default;
+  hermesPkg = hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   home.packages = [ hermesPkg ];
