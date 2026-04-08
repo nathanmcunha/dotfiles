@@ -62,6 +62,8 @@
     wofi
     dunst
     wlogout
+    playerctl
+    hyprsunset
     swappy
     libnotify
     pamixer

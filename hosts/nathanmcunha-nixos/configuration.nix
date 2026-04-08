@@ -70,6 +70,7 @@
     shell = pkgs.zsh;
     extraGroups = [
       "wheel"
+      "input"
       "networkmanager"
       "audio"
       "video"
