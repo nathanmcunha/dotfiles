@@ -1,0 +1,94 @@
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/nixos/hardware.nix
+    ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/services.nix
+  ];
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nixpkgs.config.allowUnfree = true;
+
+  # Time zone
+  time.timeZone = "America/Sao_Paulo";
+
+  # Network
+  networking.networkmanager.enable = true;
+
+  # i18n
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  # Console font
+  console.font = "ter-v16n";
+
+  # Services
+  services.greetd.enable = true;
+  services.greetd.settings.default_session.command =
+    "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+  services.greetd.settings.default_session.user = "greeter";
+
+  # Fstrim
+  services.fstrim.enable = true;
+
+  # Fonts
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-color-emoji
+  ];
+
+  # System packages
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    wget
+    curl
+    stow
+  ];
+
+  # Users
+  users.users.nathanmcunha = {
+    isNormalUser = true;
+    group = "nathanmcunha";
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "audio"
+      "video"
+      "bluetooth"
+    ];
+  };
+
+  users.groups.nathanmcunha = { };
+
+  # Sound
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
+  # OpenGL
+  hardware.graphics.enable = true;
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+  ];
+
+  hardware.enableRedistributableFirmware = true;
+
+  system.stateVersion = "25.05";
+}
