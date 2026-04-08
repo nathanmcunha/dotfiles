@@ -48,6 +48,9 @@
     #Claude Code
     claude-code.packages.${system}.default
 
+    # Kilocode CLI
+    kilocode-cli
+
     # Java, AI & desktop tools
     google-java-format
     opencode

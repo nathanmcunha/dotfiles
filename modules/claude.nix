@@ -21,7 +21,7 @@ in
   programs.zsh.initContent = ''
     export GNUPGHOME="$HOME/.gnupg"
     export GPG_AGENT_INFO="/run/user/$(id -u)/gnupg/S.gpg-agent:0:1"
-    export ANTHROPIC_API_KEY=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
+    export ANTHROPIC_AUTH_TOKEN=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
   '';
 
   home.file.".claude/settings.json" = {
