@@ -28,6 +28,7 @@ in
     text = builtins.toJSON {
       env = {
         ANTHROPIC_BASE_URL = "https://api.minimax.io/anthropic";
+        ANTHROPIC_AUTH_TOKEN = "$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)";
         API_TIMEOUT_MS = "3000000";
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = 1;
         ANTHROPIC_MODEL = "MiniMax-M2.7";
