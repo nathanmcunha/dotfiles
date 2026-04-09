@@ -36,8 +36,9 @@
   # Services
   services.greetd.enable = true;
   services.greetd.settings.default_session.command =
-    "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+    "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions /run/current-system/sw/share/wayland-sessions";
   services.greetd.settings.default_session.user = "greeter";
+  services.greetd.useTextGreeter = true;
 
   programs.zsh.enable = true;
 

@@ -40,7 +40,7 @@
     },
 
     "hyprland/submap": {
-        "format": "<span color='#a6da95'>Mode:</span> {}",
+        "format": "Mode: {}",
         "tooltip": false,
     },
 
@@ -71,7 +71,7 @@
 
     "clock#calendar": {
         "format": "{:%F}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<tt>{calendar}</tt>",
         "actions": {
             "on-click-right": "mode",
         },
@@ -82,11 +82,11 @@
             "on-scroll"     : 1,
             "on-click-right": "mode",
             "format": {
-                "months":     "<span color='#f4dbd6'><b>{}</b></span>",
-                "days":       "<span color='#cad3f5'><b>{}</b></span>",
-                "weeks":      "<span color='#c6a0f6'><b>W{}</b></span>",
-                "weekdays":   "<span color='#a6da95'><b>{}</b></span>",
-                "today":      "<span color='#8bd5ca'><b><u>{}</u></b></span>"
+                "months":     "<b>{}</b>",
+                "days":       "<b>{}</b>",
+                "weeks":      "<b>W{}</b>",
+                "weekdays":   "<b>{}</b>",
+                "today":      "<b><u>{}</u></b>"
             }
         },
     },
@@ -94,7 +94,7 @@
     "clock": {
         "format": "{:%I:%M %p %Ez | %a • %h | %F}",
         "format-alt": "{:%I:%M %p}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<tt>{calendar}</tt>",
         // "locale": "en_US.UTF-8",
         // "timezones": [ "Europe/Kyiv", "America/New_York" ],
         "actions": {
@@ -107,11 +107,11 @@
             "on-scroll"     : 1,
             "on-click-right": "mode",
             "format": {
-                "months":     "<span color='#f4dbd6'><b>{}</b></span>",
-                "days":       "<span color='#cad3f5'><b>{}</b></span>",
-                "weeks":      "<span color='#c6a0f6'><b>W{}</b></span>",
-                "weekdays":   "<span color='#a6da95'><b>{}</b></span>",
-                "today":      "<span color='#8bd5ca'><b><u>{}</u></b></span>"
+                "months":     "<b>{}</b>",
+                "days":       "<b>{}</b>",
+                "weeks":      "<b>W{}</b>",
+                "weekdays":   "<b>{}</b>",
+                "today":      "<b><u>{}</u></b>"
             }
         },
     },
@@ -146,24 +146,23 @@
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
         "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t({device_battery_percentage}%)",
         "max-length": 35,
-        "on-click": "/home/nathanmcunha/.config/waybar/scripts/bluetooth_toggle.sh",
-        "on-click-right": "blueman-manager",
+        "on-click": "blueman-manager",
     },
 
     "network": {
         "format": "󰤭",
         "format-wifi": "{icon}({signalStrength}%){essid}",
         "format-icons": [ "󰤯", "󰤟", "󰤢", "󰤥", "󰤨" ],
+        "format-ethernet": "󰈀 {ipaddr}/{cidr}",
+        "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰤫 Disconnected",
-        "tooltip-format": "wifi <span color='#ee99a0'>off</span>",
-        "tooltip-format-wifi":"SSID: {essid}({signalStrength}%), {frequency} MHz\nInterface: {ifname}\nIP: {ipaddr}\nGW: {gwaddr}\n\n<span color='#a6da95'>{bandwidthUpBits}</span>\t<span color='#ee99a0'>{bandwidthDownBits}</span>\t<span color='#c6a0f6'>󰹹{bandwidthTotalBits}</span>",
-        "tooltip-format-disconnected": "<span color='#ed8796'>disconnected</span>",
-        // "format-ethernet": "󰈀 {ipaddr}/{cidr}",
-        // "format-linked": "󰈀 {ifname} (No IP)",
-        // "tooltip-format-ethernet":"Interface: {ifname}\nIP: {ipaddr}\nGW: {gwaddr}\nNetmask: {netmask}\nCIDR: {cidr}\n\n<span color='#a6da95'>{bandwidthUpBits}</span>\t<span color='#ee99a0'>{bandwidthDownBits}</span>\t<span color='#c6a0f6'>󰹹{bandwidthTotalBits}</span>",
+        "tooltip-format": "wifi off",
+        "tooltip-format-wifi": "SSID: {essid}({signalStrength}%), {frequency} MHz\nInterface: {ifname}\nIP: {ipaddr}\nGW: {gwaddr}\n\n⬆{bandwidthUpBits}\t⬇{bandwidthDownBits}\t⏱{bandwidthTotalBits}",
+        "tooltip-format-ethernet": "Interface: {ifname}\nIP: {ipaddr}\nGW: {gwaddr}\nNetmask: {netmask}\nCIDR: {cidr}\n\n⬆{bandwidthUpBits}\t⬇{bandwidthDownBits}\t⏱{bandwidthTotalBits}",
+        "tooltip-format-linked": "Interface: {ifname} (No IP)\n\n⬆{bandwidthUpBits}\t⬇{bandwidthDownBits}\t⏱{bandwidthTotalBits}",
+        "tooltip-format-disconnected": "disconnected",
         "max-length": 35,
-        "on-click": "/home/nathanmcunha/.config/waybar/scripts/wifi_toggle.sh",
-        "on-click-right": "nm-connection-editor",
+        "on-click": "nm-connection-editor",
     },
 
     "group/misc": {
@@ -176,7 +175,6 @@
             "custom/media",
             "custom/dunst",
             "custom/night_mode",
-            "custom/airplane_mode",
             "idle_inhibitor",
         ],
     },
@@ -245,8 +243,8 @@
             "activated": "󰛐",
             "deactivated": "󰛑"
         },
-        "tooltip-format-activated": "idle-inhibitor <span color='#a6da95'>on</span>",
-        "tooltip-format-deactivated": "idle-inhibitor <span color='#ee99a0'>off</span>",
+        "tooltip-format-activated": "idle-inhibitor on",
+        "tooltip-format-deactivated": "idle-inhibitor off",
         "start-activated": true,
     },
 

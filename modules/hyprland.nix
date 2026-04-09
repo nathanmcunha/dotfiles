@@ -31,7 +31,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/local/bin/hypridle";
+        ExecStart = "${pkgs.hypridle}/bin/hypridle";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -43,7 +43,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/local/bin/hyprpolkitagent";
+        ExecStart = "${pkgs.hyprpolkitagent}/bin/hyprpolkitagent";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -55,7 +55,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/bin/wl-paste --type text --watch /usr/bin/cliphist store";
+        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -67,7 +67,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/bin/wl-paste --type image --watch /usr/bin/cliphist store";
+        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -79,7 +79,7 @@
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/bin/playerctld";
+        ExecStart = "${pkgs.playerctl}/bin/playerctld";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -104,7 +104,7 @@
       };
       Service = {
         Type = "forking";
-        ExecStart = "/usr/bin/copyq --start-server";
+        ExecStart = "${pkgs.copyq}/bin/copyq --start-server";
         Restart = "on-failure";
         RestartSec = "2";
       };

@@ -27,6 +27,9 @@
     };
   };
 
+  xdg.configFile."gtk-3.0/settings.ini".force = true;
+  xdg.configFile."gtk-4.0/settings.ini".force = true;
+
   home.activation.installThemeAssets = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     export PATH="${pkgs.gzip}/bin:$PATH"
     mkdir -p "$HOME/.themes" "$HOME/.icons"
