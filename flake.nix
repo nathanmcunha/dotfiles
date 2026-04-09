@@ -78,7 +78,8 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.nathanmcunha = (import ./home.nix) // {
+              users.nathanmcunha = {
+                imports = [ ./home.nix ];
                 home.homeDirectory = nixpkgs.lib.mkDefault "/home/nathanmcunha";
                 home.stateVersion = nixpkgs.lib.mkDefault "25.11";
               };

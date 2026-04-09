@@ -77,6 +77,10 @@
     wpgtk
     pywal
     awww
+    sassc
+    gnome-themes-extra
+    gtk-engine-murrine
+    bibata-cursors
 
     # Desktop apps (from services.nix)
     telegram-desktop
