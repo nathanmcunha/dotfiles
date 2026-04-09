@@ -11,4 +11,11 @@ if [ -z "$WALLPAPER" ] || [ ! -f "$WALLPAPER" ]; then
     exit 1
 fi
 
-matugen image "$WALLPAPER" -m dark --source-color-index 0
+hour=$(date +%H)
+if [ "$hour" -ge 17 ] || [ "$hour" -lt 6 ]; then
+    MODE="dark"
+else
+    MODE="light"
+fi
+
+matugen image "$WALLPAPER" -m "$MODE" --source-color-index 0

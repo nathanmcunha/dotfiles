@@ -42,6 +42,3 @@ input_path = "~/.config/matugen/templates/dunstrc"
 output_path = "~/.config/dunst/dunstrc"
 post_hook = "pkill dunst; dunst &"
 
-[templates.quickshell]
-input_path = "~/.config/matugen/templates/qs-colors.json"
-output_path = "/tmp/qs_colors.json"

@@ -146,10 +146,6 @@
       source = ../files/hypr/scripts/volume_listener.sh;
       executable = true;
     };
-    ".config/hypr/scripts/qs_manager.sh" = {
-      source = ../files/hypr/scripts/qs_manager.sh;
-      executable = true;
-    };
 
     ".config/matugen/config.toml".source = ../files/matugen/config.toml;
     ".config/matugen/templates/hyprland-colors.conf".source =
@@ -160,8 +156,7 @@
       ../files/matugen/templates/waybar-colors.css;
     ".config/matugen/templates/dunstrc".source =
       ../files/matugen/templates/dunstrc;
-    ".config/matugen/templates/qs-colors.json".source =
-      ../files/matugen/templates/qs-colors.json;
+
   };
 
   home.activation.makeMatugenTargetsWritable =
