@@ -26,7 +26,7 @@
 
   # Network
   networking.networkmanager.enable = true;
-
+  networking.hostName = "nathanmcunha-nixos";
   # i18n
   i18n.defaultLocale = "en_US.UTF-8";
 

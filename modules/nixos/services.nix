@@ -32,6 +32,5 @@
     ffmpeg
     imagemagick
     fastfetch
-
   ];
 }

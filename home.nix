@@ -6,6 +6,15 @@
   home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
+  programs.gpg.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    enableZshIntegration = true;
+    pinentry.package = pkgs.pinentry-curses;
+    defaultCacheTtl = 3600;
+    maxCacheTtl = 7200;
+  };
 
   gtk = {
     enable = true;

@@ -29,6 +29,7 @@
 
       # Load secrets if present
       [[ -f ~/.env ]] && source ~/.env
+      export GPG_TTY=$(tty)
 
       # Emacs client helpers
       e()   { emacsclient -c "$@" }
