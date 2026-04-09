@@ -1,0 +1,26 @@
+[global]
+frame_color = "#7c6f64"
+separator_color= frame
+font = "JetBrainsMono Nerd Font Regular 11"
+corner_radius = 10
+offset = 5x5
+origin = top-right
+notification_limit = 8
+gap_size = 7
+frame_width = 2
+width = 300
+height = 100
+follow = keyboard
+
+[urgency_low]
+background = "#282828"
+foreground = "#ebdbb2"
+
+[urgency_normal]
+background = "#282828"
+foreground = "#ebdbb2"
+
+[urgency_critical]
+background = "#282828"
+foreground = "#ebdbb2"
+frame_color = "#fe8019"

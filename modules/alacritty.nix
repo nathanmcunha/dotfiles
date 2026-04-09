@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.alacritty = {
@@ -8,6 +8,10 @@
       general.live_config_reload = true;
 
       env.TERM = "alacritty";
+      terminal.shell = {
+        program = "${pkgs.zsh}/bin/zsh";
+        args = [ "-l" ];
+      };
 
       window = {
         padding = { x = 10; y = 10; };
@@ -23,9 +27,9 @@
 
       font = {
         size = 12.0;
-        normal = { family = "FiraCode Nerd Font"; style = "Regular"; };
-        bold   = { family = "FiraCode Nerd Font"; style = "Bold"; };
-        italic = { family = "FiraCode Nerd Font"; style = "Italic"; };
+        normal = { family = "JetBrainsMono Nerd Font"; style = "Regular"; };
+        bold   = { family = "JetBrainsMono Nerd Font"; style = "Bold"; };
+        italic = { family = "JetBrainsMono Nerd Font"; style = "Italic"; };
       };
 
       colors = {

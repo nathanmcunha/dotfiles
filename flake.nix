@@ -1,5 +1,5 @@
 {
-  description = "Nathan's Home Manager config";
+  description = "Nathan's NixOS + Home Manager config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -23,15 +23,27 @@
       url = "github:NousResearch/hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       home-manager,
       emacs-overlay,
       claude-code,
       hermes-agent,
+      hyprland,
+      nixvim,
       ...
     }:
     let
@@ -50,6 +62,34 @@
         inherit pkgs;
         modules = [ ./home.nix ];
         extraSpecialArgs = { inherit claude-code system hermes-agent; };
+      };
+
+      nixosConfigurations."nathanmcunha-nixos" = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          lib = nixpkgs.lib;
+        };
+        modules = [
+          ./hosts/nathanmcunha-nixos/configuration.nix
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.nathanmcunha = {
+                imports = [ ./home.nix ];
+                home.homeDirectory = nixpkgs.lib.mkDefault "/home/nathanmcunha";
+                home.stateVersion = nixpkgs.lib.mkDefault "25.11";
+              };
+              extraSpecialArgs = {
+                inherit claude-code hermes-agent;
+                inherit system;
+              };
+            };
+          }
+        ];
       };
     };
 }

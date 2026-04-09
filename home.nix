@@ -1,9 +1,44 @@
+{ pkgs, lib, ... }:
+
 {
   home.username = "nathanmcunha";
   home.homeDirectory = "/home/nathanmcunha";
   home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Gruvbox-Dark";
+      package = null;
+    };
+    gtk4.theme = {
+      name = "Gruvbox-Dark";
+      package = null;
+    };
+    iconTheme = {
+      name = "oomox-Gruvbox-Dark";
+      package = null;
+    };
+    cursorTheme = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+    };
+  };
+
+  home.activation.installThemeAssets = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    export PATH="${pkgs.gzip}/bin:$PATH"
+    mkdir -p "$HOME/.themes" "$HOME/.icons"
+
+    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/gtk-theme-gruvbox-dark.tar.gz} -C "$HOME/.themes"
+    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/gtk-theme-gruvbox-light.tar.gz} -C "$HOME/.themes"
+    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/icons-gruvbox-dark.tar.gz} -C "$HOME/.icons"
+    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/icons-gruvbox-light.tar.gz} -C "$HOME/.icons"
+
+    mkdir -p "$HOME/.icons/default"
+    printf '[Icon Theme]\nName=Default\nInherits=Bibata-Modern-Classic\n' > "$HOME/.icons/default/index.theme"
+  '';
 
   imports = [
     ./modules/packages.nix
@@ -14,7 +49,10 @@
     ./modules/emacs.nix
     ./modules/alacritty.nix
     ./modules/hyprland.nix
-    ./modules/quickshell.nix
+    ./modules/waybar.nix
+    ./modules/wofi.nix
+    ./modules/dunst.nix
+    ./modules/wpgtk.nix
     ./modules/podman.nix
     ./modules/claude.nix
     ./modules/external-tools.nix

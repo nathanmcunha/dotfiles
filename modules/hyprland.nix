@@ -1,21 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
-  # All Wayland daemons are managed as systemd user services rather than bare
-  # exec-once binaries. Benefits: automatic restart on failure, proper dependency
-  # ordering, and logs accessible via `journalctl --user -u <service>`.
-  #
-  # None use WantedBy=graphical-session.target because WAYLAND_DISPLAY must be
-  # imported by Hyprland first. They are triggered from hyprland.conf instead.
   systemd.user.services = {
-    # Wallpaper management
-    swww-daemon = {
+    awww-daemon = {
       Unit = {
-        Description = "Simple Wallpaper Daemon (swww)";
+        Description = "Wallpaper Daemon (awww)";
         After = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "/usr/bin/swww-daemon";
+        ExecStart = "${pkgs.awww}/bin/awww-daemon";
         Restart = "on-failure";
         RestartSec = "2";
       };
@@ -32,7 +25,6 @@
       };
     };
 
-    # Hyprland components
     hypridle = {
       Unit = {
         Description = "Hypridle idle daemon";
@@ -57,32 +49,6 @@
       };
     };
 
-    # Quickshell bar and widgets
-    quickshell-main = {
-      Unit = {
-        Description = "Quickshell Main Panel";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "/usr/bin/quickshell -p %h/.config/hypr/scripts/quickshell/Main.qml";
-        Restart = "on-failure";
-        RestartSec = "3";
-      };
-    };
-
-    quickshell-topbar = {
-      Unit = {
-        Description = "Quickshell Top Bar";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "/usr/bin/quickshell -p %h/.config/hypr/scripts/quickshell/TopBar.qml";
-        Restart = "on-failure";
-        RestartSec = "3";
-      };
-    };
-
-    # Clipboard management
     cliphist-text = {
       Unit = {
         Description = "Clipboard history (text)";
@@ -107,7 +73,6 @@
       };
     };
 
-    # Media player
     playerctld = {
       Unit = {
         Description = "Playerctl daemon for media control";
@@ -120,7 +85,6 @@
       };
     };
 
-    # Volume monitoring
     volume-listener = {
       Unit = {
         Description = "Volume change listener for Quickshell";
@@ -133,7 +97,6 @@
       };
     };
 
-    # Clipboard manager
     copyq = {
       Unit = {
         Description = "CopyQ clipboard manager";
@@ -147,7 +110,6 @@
       };
     };
 
-    # Auxiliary app
     elephant = {
       Unit = {
         Description = "Elephant";
@@ -163,13 +125,15 @@
   };
 
   home.file = {
-    # Hypr configs
     ".config/hypr/hyprland.conf".source = ../files/hypr/hyprland.conf;
     ".config/hypr/hypridle.conf".source = ../files/hypr/hypridle.conf;
     ".config/hypr/hyprlock.conf".source = ../files/hypr/hyprlock.conf;
     ".config/hypr/rules.conf".source = ../files/hypr/rules.conf;
+    ".config/hypr/colors.conf" = {
+      source = ../files/hypr/colors.conf;
+      force = true;
+    };
 
-    # Scripts (executable)
     ".config/hypr/scripts/screenshot.sh" = {
       source = ../files/hypr/scripts/screenshot.sh;
       executable = true;
@@ -178,14 +142,37 @@
       source = ../files/hypr/scripts/wallpaper_rotate.sh;
       executable = true;
     };
+    ".config/hypr/scripts/volume_listener.sh" = {
+      source = ../files/hypr/scripts/volume_listener.sh;
+      executable = true;
+    };
 
-    # Walker
-    ".config/walker/config.toml".source = ../files/walker/config.toml;
-
-    # Matugen
     ".config/matugen/config.toml".source = ../files/matugen/config.toml;
     ".config/matugen/templates/hyprland-colors.conf".source =
       ../files/matugen/templates/hyprland-colors.conf;
-    ".config/matugen/templates/wofi-style.css".source = ../files/matugen/templates/wofi-style.css;
+    ".config/matugen/templates/wofi-style.css".source =
+      ../files/matugen/templates/wofi-style.css;
+    ".config/matugen/templates/waybar-colors.css".source =
+      ../files/matugen/templates/waybar-colors.css;
+    ".config/matugen/templates/dunstrc".source =
+      ../files/matugen/templates/dunstrc;
+
   };
+
+  home.activation.makeMatugenTargetsWritable =
+    let
+      colorFiles = [
+        ".config/hypr/colors.conf"
+        ".config/dunst/dunstrc"
+      ];
+      scriptLines = map (
+        f: ''
+          if [ -L "$HOME/${f}" ]; then
+            cp --remove-destination "$(readlink -f "$HOME/${f}")" "$HOME/${f}"
+            chmod u+w "$HOME/${f}"
+          fi
+        ''
+      ) colorFiles;
+    in
+    lib.hm.dag.entryAfter [ "writeBoundary" ] (builtins.concatStringsSep "\n" scriptLines);
 }

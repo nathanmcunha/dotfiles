@@ -1,0 +1,30 @@
+@define-color base   {{colors.surface.default.hex}};
+@define-color mantle {{colors.surface_dim.default.hex}};
+@define-color crust  {{colors.surface_container_lowest.default.hex}};
+
+@define-color text     {{colors.on_surface.default.hex}};
+@define-color subtext0 {{colors.on_surface_variant.default.hex}};
+@define-color subtext1 {{colors.inverse_on_surface.default.hex}};
+
+@define-color surface0 {{colors.surface_container_low.default.hex}};
+@define-color surface1 {{colors.surface_container.default.hex}};
+@define-color surface2 {{colors.surface_container_high.default.hex}};
+
+@define-color overlay0 {{colors.outline_variant.default.hex}};
+@define-color overlay1 {{colors.outline.default.hex}};
+@define-color overlay2 {{colors.on_surface_variant.default.hex}};
+
+@define-color red       {{colors.gruv_red.default.hex}};
+@define-color maroon    {{colors.gruv_dark_red.default.hex}};
+@define-color peach     {{colors.gruv_orange.default.hex}};
+@define-color yellow    {{colors.gruv_yellow.default.hex}};
+@define-color green     {{colors.gruv_green.default.hex}};
+@define-color teal      {{colors.gruv_aqua.default.hex}};
+@define-color sapphire  {{colors.gruv_blue.default.hex}};
+@define-color blue      {{colors.gruv_dark_blue.default.hex}};
+@define-color mauve     {{colors.gruv_purple.default.hex}};
+@define-color pink      {{colors.gruv_dark_purple.default.hex}};
+@define-color lavender  {{colors.tertiary.default.hex}};
+@define-color flamingo  {{colors.primary_container.default.hex}};
+@define-color rosewater {{colors.gruv_fg.default.hex}};
+@define-color sky       {{colors.tertiary_container.default.hex}};
