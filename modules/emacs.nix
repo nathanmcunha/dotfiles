@@ -88,6 +88,9 @@ in
     maven
     nodejs_24
     python312
+    gnumake
+    libtool
+    pkg-config
 
     # Python tools
     basedpyright

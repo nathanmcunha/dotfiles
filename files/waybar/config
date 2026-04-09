@@ -8,7 +8,7 @@
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 36, // Waybar height (to be removed for auto height)
     "spacing": 4, // Gaps between modules (4px)
-    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+    "modules-left": ["hyprland/workspaces", "wlr/taskbar", "hyprland/submap"],
     "modules-center": ["clock#time", "custom/separator", "clock#week", "custom/separator_dot", "clock#month", "custom/separator", "clock#calendar"],
     "modules-right": [ "bluetooth", "network", "group/misc", "custom/logout_menu" ],
 
@@ -35,7 +35,7 @@
         },
         "show-special": true,
         "persistent-workspaces": {
-            "*": 10,  
+            "*": 6,  
         },
     },
 
@@ -43,6 +43,7 @@
         "format": "<span color='#a6da95'>Mode:</span> {}",
         "tooltip": false,
     },
+
 
     "clock#time": {
         "format": "{:%I:%M %p %Ez}",
@@ -258,50 +259,6 @@
  
 },
 
-
-// Bottom Bar Config
-{
-    // Main Config
-    "name": "bottom_bar",
-    "layer": "top", // Waybar at top layer
-    "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 36, // Waybar height (to be removed for auto height)
-    "spacing": 4, // Gaps between modules (4px)
-    "modules-left": ["user"],
-    "modules-center": ["hyprland/window"],
-    "modules-right": ["keyboard-state", "hyprland/language"],
-
-    // Modules Config
-    "hyprland/window": {
-        "format": "👼 {title} 😈",
-        "max-length": 50,
-    },
-
-    "hyprland/language": {
-        "format-en": "🇺🇸 ENG (US)",
-        "format-uk": "🇺🇦 UKR",
-        "format-ru": "🇷🇺 RUS",
-        "keyboard-name": "at-translated-set-2-keyboard",
-        "on-click": "hyprctl switchxkblayout at-translated-set-2-keyboard next",
-    },
-
-    "keyboard-state": {
-        "capslock": true,
-        // "numlock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "󰌾",
-            "unlocked": "󰍀"
-        }
-    },
-
-    "user": {
-        "format": " <span color='#8bd5ca'>{user}</span> (up <span color='#f5bde6'>{work_d} d</span> <span color='#8aadf4'>{work_H} h</span> <span color='#eed49f'>{work_M} min</span> <span color='#a6da95'>↑</span>)",
-        "icon": true,
-    },
-},
-
-
 // Left Bar Config
 {
     // Main Config
@@ -309,10 +266,9 @@
     "layer": "top", // Waybar at top layer
     "position": "left", // Waybar position (top|bottom|left|right)
     "spacing": 4, // Gaps between modules (4px)
-    "width": 75,
+    "width": 25,
     "margin-top": 10,
     "margin-bottom": 10,
-    "modules-left": ["wlr/taskbar"],
     "modules-center": ["cpu", "memory", "disk", "temperature", "backlight", "pulseaudio", "systemd-failed-units"],
     "modules-right": ["tray"],
 

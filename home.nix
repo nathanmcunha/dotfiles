@@ -17,6 +17,7 @@
     ./modules/waybar.nix
     ./modules/wofi.nix
     ./modules/dunst.nix
+    ./modules/wpgtk.nix
     ./modules/podman.nix
     ./modules/claude.nix
     ./modules/external-tools.nix

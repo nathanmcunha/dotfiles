@@ -57,7 +57,7 @@
     opencode
     elephant
 
-    # Wayland apps (replacing Quickshell)
+    # Wayland apps
     waybar
     wofi
     dunst
@@ -71,6 +71,12 @@
     pulsemixer
     pavucontrol
     networkmanagerapplet
+
+    # Theming
+    matugen
+    wpgtk
+    pywal
+    awww
 
     # Desktop apps (from services.nix)
     telegram-desktop

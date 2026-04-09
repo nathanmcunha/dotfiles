@@ -1,19 +1,47 @@
 [config]
 reload_apps = true
-mode = "light"
-prefer = "saturation"
-# --- WOFI ---
-[templates.wofi]
-input_path = "~/.config/matugen/templates/wofi-style.css"
-output_path = "~/.config/wofi/style.css"
+mode = "dark"
+prefer = "closest-to-fallback"
+fallback_color = "#fe8019"
+contrast = 1.0
+caching = true
 
-# --- HYPRLAND (Recarrega as bordas automaticamente) ---
+[config.wallpaper]
+set = true
+command = "awww img --transition-type grow --transition-duration 2 --transition-fps 60 {{ image }}"
+
+[config.custom_colors]
+gruv_red = "#fb4934"
+gruv_dark_red = "#cc241d"
+gruv_orange = "#fe8019"
+gruv_yellow = "#fabd2f"
+gruv_green = "#b8bb26"
+gruv_aqua = "#8ec07c"
+gruv_blue = "#83a598"
+gruv_dark_blue = "#458588"
+gruv_purple = "#d3869b"
+gruv_dark_purple = "#b16286"
+gruv_fg = "#ebdbb2"
+
 [templates.hyprland]
 input_path = "~/.config/matugen/templates/hyprland-colors.conf"
 output_path = "~/.config/hypr/colors.conf"
 post_hook = "hyprctl reload"
 
-# --- QUICKSHELL (Dynamic colors for the bar and popups) ---
+[templates.wofi]
+input_path = "~/.config/matugen/templates/wofi-style.css"
+output_path = "~/.config/wofi/style.css"
+
+[templates.waybar]
+input_path = "~/.config/matugen/templates/waybar-colors.css"
+output_path = "~/.config/waybar/colors.css"
+post_hook = "pkill waybar; waybar &"
+
+[templates.dunst]
+input_path = "~/.config/matugen/templates/dunstrc"
+output_path = "~/.config/dunst/dunstrc"
+post_hook = "pkill dunst; dunst &"
+
 [templates.quickshell]
 input_path = "~/.config/matugen/templates/qs-colors.json"
 output_path = "/tmp/qs_colors.json"

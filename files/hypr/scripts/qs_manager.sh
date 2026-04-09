@@ -6,7 +6,7 @@
 QS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BT_PID_FILE="$HOME/.cache/bt_scan_pid"
 BT_SCAN_LOG="$HOME/.cache/bt_scan.log"
-SRC_DIR="$HOME/Pictures/Wallpapers"
+SRC_DIR="$HOME/Pictures/Wallpapers/gruvbox/wallpapers"
 THUMB_DIR="$HOME/.cache/wallpaper_picker/thumbs"
 
 IPC_FILE="/tmp/qs_widget_state"
@@ -90,8 +90,8 @@ handle_wallpaper_prep() {
         CURRENT_SRC=$(basename "$CURRENT_SRC")
     fi
 
-    if [ -z "$CURRENT_SRC" ] && command -v swww >/dev/null; then
-        CURRENT_SRC=$(swww query 2>/dev/null | grep -o "$SRC_DIR/[^ ]*" | head -n1)
+    if [ -z "$CURRENT_SRC" ] && command -v awww >/dev/null; then
+        CURRENT_SRC=$(awww query 2>/dev/null | grep -o "$SRC_DIR/[^ ]*" | head -n1)
         CURRENT_SRC=$(basename "$CURRENT_SRC")
     fi
 
