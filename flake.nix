@@ -78,10 +78,9 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+	      backupFileExtension = "bak";
               users.nathanmcunha = {
                 imports = [ ./home.nix ];
-                home.homeDirectory = nixpkgs.lib.mkDefault "/home/nathanmcunha";
-                home.stateVersion = nixpkgs.lib.mkDefault "25.11";
               };
               extraSpecialArgs = {
                 inherit claude-code hermes-agent;

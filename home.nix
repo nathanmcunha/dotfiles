@@ -13,7 +13,7 @@
     enableZshIntegration = true;
     pinentry.package = pkgs.pinentry-curses;
     defaultCacheTtl = 3600;
-    maxCacheTtl = 7200;
+    maxCacheTtl = 28800;
   };
 
   gtk = {

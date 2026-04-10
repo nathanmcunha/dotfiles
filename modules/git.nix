@@ -1,41 +1,51 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.git = {
     enable = true;
+
+    signing = {
+      key = "0CE73DB8ABBBE291EB8E61C363A9F4947CB3C462";
+      signByDefault = true;
+    };
 
     settings = {
       user = {
         name = "Nathan Cunha";
         email = "nathanmartins@outlook.com";
       };
-
-      core.autocrlf = "input";
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
-      diff.algorithm = "histogram";
-      merge.conflictstyle = "zdiff3";
-      rerere.enabled = true;
+      core.editor = "nvim";
+      credential.helper = "cache --timeout=3600";
+      alias = {
+        st = "status";
+        co = "checkout";
+        lg = "log --oneline --graph --decorate";
+      };
     };
+  };
 
-    ignores = [
-      # Secrets
-      ".env"
-      ".env.*"
-      "*.key"
-      "*.peh"
-      # OS
-      ".DS_Store"
-      "Thumbs.db"
-      "*~"
-      # Editor
-      "*.swp"
-      "*.swo"
-      "#*#"
-      ".dir-locals.el"
-      # Compiled
-      "*.elc"
-    ];
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+      };
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519";
+      };
+    };
+  };
+
+  services.ssh-agent.enable = true;
+
+  programs.gh = {
+    enable = true;
+    settings.git_protocol = "ssh";
   };
 }
