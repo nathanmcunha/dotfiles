@@ -10,7 +10,7 @@
     };
 
     emacs-config = {
-      url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=main";
+      url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=feat/nix-dual-mode";
       flake = false;
     };
 
@@ -85,6 +85,8 @@
         };
         modules = [
           ./hosts/nathanmcunha-nixos/configuration.nix
+
+          { nixpkgs.overlays = [ emacs-overlay.overlays.default ]; }
 
           home-manager.nixosModules.home-manager
           {

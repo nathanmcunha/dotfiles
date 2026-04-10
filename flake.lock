@@ -54,6 +54,23 @@
         "type": "github"
       }
     },
+    "emacs-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775850752,
+        "narHash": "sha256-7hOj0yaBqj5CF7jASZwBR7R1hARIskyosAzNtcRo9GY=",
+        "ref": "feat/nix-dual-mode",
+        "rev": "e570f8867dc5e57df7eba16f7df76a6212cc3cf9",
+        "revCount": 60,
+        "type": "git",
+        "url": "https://github.com/nathanmcunha/emacs-config.git"
+      },
+      "original": {
+        "ref": "feat/nix-dual-mode",
+        "type": "git",
+        "url": "https://github.com/nathanmcunha/emacs-config.git"
+      }
+    },
     "emacs-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -706,6 +723,7 @@
     "root": {
       "inputs": {
         "claude-code": "claude-code",
+        "emacs-config": "emacs-config",
         "emacs-overlay": "emacs-overlay",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",

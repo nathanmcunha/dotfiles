@@ -8,7 +8,7 @@
 let
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = emacs-config + "/config.org";
-    defaultInitFile = emacs-config + "/init.el";
+    defaultInitFile = false;
     package = pkgs.emacs-unstable-pgtk.override {
       withTreeSitter = true;
       withSQLite3 = true;
