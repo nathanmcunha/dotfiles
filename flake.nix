@@ -4,13 +4,18 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
+    emacs-config = {
+      url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=feat/nix-dual-mode";
+      flake = false;
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -40,6 +45,7 @@
       nixpkgs,
       home-manager,
       emacs-overlay,
+      emacs-config,
       claude-code,
       hermes-agent,
       hyprland,
@@ -61,7 +67,14 @@
       homeConfigurations."nathanmcunha" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
-        extraSpecialArgs = { inherit claude-code system hermes-agent; };
+        extraSpecialArgs = {
+          inherit
+            claude-code
+            system
+            hermes-agent
+            emacs-config
+            ;
+        };
       };
 
       nixosConfigurations."nathanmcunha-nixos" = nixpkgs.lib.nixosSystem {
@@ -73,17 +86,19 @@
         modules = [
           ./hosts/nathanmcunha-nixos/configuration.nix
 
+          { nixpkgs.overlays = [ emacs-overlay.overlays.default ]; }
+
           home-manager.nixosModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-	      backupFileExtension = "bak";
+              backupFileExtension = "bak";
               users.nathanmcunha = {
                 imports = [ ./home.nix ];
               };
               extraSpecialArgs = {
-                inherit claude-code hermes-agent;
+                inherit claude-code hermes-agent emacs-config;
                 inherit system;
               };
             };
