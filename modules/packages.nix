@@ -8,19 +8,22 @@
 {
   home.packages = with pkgs; [
     # CLI essentials
+    fzf
     fd
     bat
     ripgrep
+    btop
     curl
     wget
     unzip
     tree
     eza
+    zsh-fzf-tab
+    zoxide
     gh
     gemini-cli
     jq
     pass
-    zoxide
 
     # Dev tools
     neovim
@@ -37,6 +40,7 @@
     python312
     rustup
     direnv
+
     # Nix tools
     nixfmt
     nix-tree
@@ -60,9 +64,15 @@
     # Java, AI & desktop tools
     google-java-format
     opencode
+    elephant
 
-    # Wayland apps & Desktop integration
+    # Wayland apps
+    waybar
+    wofi
+    dunst
+    wlogout
     playerctl
+    hyprsunset
     swappy
     libnotify
     pamixer
@@ -72,7 +82,12 @@
     networkmanagerapplet
 
     # Theming
+    matugen
+    wpgtk
+    pywal
+    awww
     sassc
+    gnome-themes-extra
     gtk-engine-murrine
     bibata-cursors
 
@@ -82,9 +97,12 @@
     bitwarden-desktop
     bitwarden-cli
     protonup-ng
+    vscode
     audacity
+    gnome-tweaks
     appimage-run
-    xclip # Keep for XWayland compatibility if needed
+    imagemagick
+    xclip
 
     # File manager
     nautilus
