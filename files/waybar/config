@@ -8,14 +8,23 @@
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 36, // Waybar height (to be removed for auto height)
     "spacing": 4, // Gaps between modules (4px)
-    "modules-left": ["hyprland/workspaces", "wlr/taskbar", "hyprland/submap"],
+    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
     "modules-center": ["clock#time", "custom/separator", "clock#week", "custom/separator_dot", "clock#month", "custom/separator", "clock#calendar"],
     "modules-right": [ "bluetooth", "network", "group/misc", "custom/logout_menu" ],
 
     // Modules Config
     "hyprland/workspaces": {
-        "on-click": "activate",  
-        "format": "{icon}",
+        "on-click": "activate",
+        "format": "{icon} {windows}",
+        "format-window-separator": " ",
+        "workspace-taskbar": {
+            "enable": true,
+            "update-active-window": true,
+            "format": "{icon}",
+            "icon-size": 14,
+            "icon-theme": "Papirus",
+            "on-click-window": "hyprctl dispatch focuswindow address:{address}",
+        },
         "format-icons": {
             "1": "󰲠",
             "2": "󰲢",

@@ -92,6 +92,11 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  #Hardware & Devices(Udev)
+  services.udev.packages = with pkgs; [
+    vial
+  ];
+
   # OpenGL
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages = with pkgs; [

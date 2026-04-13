@@ -8,22 +8,20 @@
 {
   home.packages = with pkgs; [
     # CLI essentials
-    fzf
     fd
     bat
     ripgrep
-    btop
     curl
     wget
     unzip
     tree
     eza
-    zsh-fzf-tab
-    zoxide
     gh
     gemini-cli
     jq
     pass
+    zoxide
+
     # Dev tools
     neovim
     gcc
@@ -31,7 +29,14 @@
     mise
     pinentry-tty
     gnupg
-
+    go
+    gradle
+    temurin-bin-21
+    maven
+    nodejs_24
+    python312
+    rustup
+    direnv
     # Nix tools
     nixfmt
     nix-tree
@@ -45,7 +50,7 @@
     kubectx
     kind
 
-    #Claude Code
+    # Claude Code
     claude-code.packages.${system}.default
 
     # Kilocode CLI
@@ -55,15 +60,9 @@
     # Java, AI & desktop tools
     google-java-format
     opencode
-    elephant
 
-    # Wayland apps
-    waybar
-    wofi
-    dunst
-    wlogout
+    # Wayland apps & Desktop integration
     playerctl
-    hyprsunset
     swappy
     libnotify
     pamixer
@@ -73,29 +72,24 @@
     networkmanagerapplet
 
     # Theming
-    matugen
-    wpgtk
-    pywal
-    awww
     sassc
-    gnome-themes-extra
     gtk-engine-murrine
     bibata-cursors
 
-    # Desktop apps (from services.nix)
+    # Desktop apps
     telegram-desktop
     libreoffice
     bitwarden-desktop
     bitwarden-cli
     protonup-ng
-    vscode
     audacity
-    gnome-tweaks
     appimage-run
-    imagemagick
-    xclip
+    xclip # Keep for XWayland compatibility if needed
 
     # File manager
     nautilus
+
+    vial
+    ytmdesktop
   ];
 }
