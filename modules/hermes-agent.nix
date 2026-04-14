@@ -57,6 +57,7 @@ in
 
   # User profile
   home.file.".hermes/USER.md" = {
+    force = true;
     text = ''
       # User Profile
 
@@ -79,6 +80,7 @@ in
 
   # Personality instructions
   home.file.".hermes/SOUL.md" = {
+    force = true;
     text = ''
       # Hermes Agent Personality
 
@@ -108,6 +110,7 @@ in
 
   # Shell wrapper to load keys from pass at runtime (for systemd service)
   home.file.".hermes/hermes-env.sh" = {
+    force = true;
     executable = true;
     text = ''
       #!/bin/sh

@@ -1,11 +1,12 @@
 {
   lib,
   pkgs,
-  emacs-config,
+  inputs,
   ...
 }:
 
 let
+  emacs-config = inputs.emacs-config;
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = emacs-config + "/config.org";
     defaultInitFile = false;
@@ -18,7 +19,7 @@ let
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
       epkgs.diminish # implicit dep via :diminish keyword
-      epkgs.jinx     # :tangle no block, parser can't see it
+      epkgs.jinx # :tangle no block, parser can't see it
     ];
   };
 in

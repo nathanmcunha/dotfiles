@@ -8,7 +8,7 @@
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 36, // Waybar height (to be removed for auto height)
     "spacing": 4, // Gaps between modules (4px)
-    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+    "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock#time", "custom/separator", "clock#week", "custom/separator_dot", "clock#month", "custom/separator", "clock#calendar"],
     "modules-right": [ "bluetooth", "network", "group/misc", "custom/logout_menu" ],
 
@@ -44,15 +44,9 @@
         },
         "show-special": true,
         "persistent-workspaces": {
-            "*": 6,  
+            "*": 5,  
         },
     },
-
-    "hyprland/submap": {
-        "format": "Mode: {}",
-        "tooltip": false,
-    },
-
 
     "clock#time": {
         "format": "{:%I:%M %p %Ez}",

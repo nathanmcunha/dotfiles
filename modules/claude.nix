@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
@@ -12,7 +13,6 @@ let
   # true = use environment variables for API configuration
   # false = use normal Claude config (you'll need to set env vars separately)
   useEnvVars = false;
-
   # Base configuration (shared between both modes)
   baseConfig = {
     statusLine = {
@@ -51,7 +51,6 @@ let
   envConfig = {
     env = {
       ANTHROPIC_BASE_URL = "https://api.minimax.io/anthropic";
-      ANTHROPIC_AUTH_TOKEN = "$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)";
       API_TIMEOUT_MS = "3000000";
       CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = 1;
       ANTHROPIC_MODEL = "MiniMax-M2.7";
@@ -81,9 +80,17 @@ let
   finalConfig = baseConfig // (if useEnvVars then envConfig else normalConfig);
 in
 {
+  home.packages = [
+    pkgs.claude-code-router
+    pkgs.claude-code
+  ];
   home.file.".claude/statusline-command.sh" = {
     source = ../files/claude/statusline-command.sh;
     executable = true;
+  };
+
+  home.sessionVariables = {
+    MINIMAX_API_KEY = "$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)";
   };
 
   programs.zsh.initContent = lib.mkMerge [
@@ -91,6 +98,9 @@ in
     ''
       export GNUPGHOME="$HOME/.gnupg"
     ''
+    (lib.optionalString useEnvVars ''
+      export ANTHROPIC_AUTH_TOKEN=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
+    '')
     # Export MINIMAX_API_KEY so CCR can interpolate it from config.json.
     # Do NOT set ANTHROPIC_AUTH_TOKEN / ANTHROPIC_BASE_URL here — those
     # would override native Anthropic auth (OAuth / API key).
@@ -106,9 +116,7 @@ in
 
     # Write settings.json as a mutable file so Claude can save state (e.g. model selection)
     $DRY_RUN_CMD rm -f "$HOME/.claude/settings.json"
-    $DRY_RUN_CMD cp --no-preserve=mode ${
-      pkgs.writeText "claude-settings.json" (builtins.toJSON finalConfig)
-    } "$HOME/.claude/settings.json"
+    $DRY_RUN_CMD cp --no-preserve=mode ${pkgs.writeText "claude-settings.json" (builtins.toJSON finalConfig)} "$HOME/.claude/settings.json"
 
     # Write RTK hook as a mutable file so it can be updated/touched by the system if needed
     $DRY_RUN_CMD rm -f "$HOME/.claude/hooks/rtk-rewrite.sh"

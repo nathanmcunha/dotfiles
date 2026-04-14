@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   inputs,
   ...
@@ -79,9 +78,6 @@
 
     # Documents
     zathura
-
-    # Gaming
-    lutris
 
     # System tools
     blueman
