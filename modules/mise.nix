@@ -5,7 +5,7 @@
     enable = true;
     enableZshIntegration = true;
 
-    settings = {
+    globalConfig.settings = {
       # Use precompiled binaries instead of compiling from source
       all_compile = false;
 

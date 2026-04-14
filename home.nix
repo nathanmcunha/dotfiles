@@ -68,7 +68,6 @@
     ./modules/podman.nix
     ./modules/claude.nix
     ./modules/external-tools.nix
-    ./modules/hermes-agent.nix
     ./modules/btop.nix
     ./modules/aliases.nix
     ./modules/mise.nix

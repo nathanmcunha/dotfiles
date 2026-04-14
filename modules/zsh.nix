@@ -16,20 +16,17 @@
     autocd = true;
     syntaxHighlighting.enable = true;
     autosuggestion.enable = true;
+    plugins = [
+      {
+        name = "fzf-tab";
+        src = pkgs.zsh-fzf-tab;
+        file = "share/fzf-tab/fzf-tab.plugin.zsh";
+      }
+    ];
 
     initContent = ''
-      # --- PATH ---
-      path=(
-        "$HOME/.local/bin"
-        "$HOME/.config/emacs/bin"
-        "$HOME/.config/cargo/bin"
-        $path
-        "$HOME/.lmstudio/bin"
-      )
-
       # Load secrets if present
       [[ -f ~/.env ]] && source ~/.env
-      export GPG_TTY=$(tty)
 
       # Emacs client helpers
       e()   { emacsclient -c "$@" }
@@ -46,29 +43,12 @@
       # Colorize the default completion menu
       zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
 
-      # --- TOOLS ---
-
-      # Zoxide (smart cd replacement)
-      eval "$(zoxide init zsh)"
-
-      # Runtime managers
-      command -v mise &>/dev/null && eval "$(mise activate zsh)"
-      command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
-
       # FZF-Tab: replace default TAB completion with fzf
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
       # Preview directory contents when completing cd/z
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
       zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
-
-      # --- OPENING THINGS ---
-      # Suffix aliases: Open files by typing their name directly
-      alias -s {pdf,PDF}='xdg-open'
-      alias -s {png,jpg,jpeg,gif,svg,PNG,JPG,JPEG,GIF,SVG}='xdg-open'
-      alias -s {mp4,mkv,mov,avi,webm,MP4,MKV,MOV,AVI,WEBM}='xdg-open'
-      alias -s {mp3,flac,wav,ogg,MP3,FLAC,WAV,OGG}='xdg-open'
-      alias -s {html,htm,HTML,HTM}='xdg-open'
 
       # Smart open function: Handles files, URLs, and Web Searches
       open() {
@@ -103,5 +83,17 @@
     ];
     changeDirWidgetCommand = "fd --type d --hidden --exclude .git";
     changeDirWidgetOptions = [ "--preview 'ls --color=always -l {} | head -200'" ];
+  };
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  home.sessionVariables = {
+    GPG_TTY = "$(tty)";
   };
 }

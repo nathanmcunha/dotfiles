@@ -1,7 +1,5 @@
 {
   pkgs,
-  claude-code,
-  system,
   ...
 }:
 
@@ -29,7 +27,6 @@
     neovim
     gcc
     cmake
-    mise
     pinentry-tty
     gnupg
     go
@@ -39,7 +36,6 @@
     nodejs_24
     python312
     rustup
-    direnv
 
     # Nix tools
     nixfmt
@@ -54,17 +50,11 @@
     kubectx
     kind
 
-    # Claude Code
-    claude-code.packages.${system}.default
-
-    # Kilocode CLI
+    # AI CLIs
     kilocode-cli
     github-copilot-cli
-
-    # Java, AI & desktop tools
     google-java-format
     opencode
-    elephant
 
     # Wayland apps
     waybar
@@ -87,19 +77,16 @@
     pywal
     awww
     sassc
-    gnome-themes-extra
     gtk-engine-murrine
     bibata-cursors
 
     # Desktop apps
-    telegram-desktop
     libreoffice
     bitwarden-desktop
     bitwarden-cli
     protonup-ng
     vscode
     audacity
-    gnome-tweaks
     appimage-run
     imagemagick
     xclip

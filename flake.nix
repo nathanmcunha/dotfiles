@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,11 +17,6 @@
     emacs-config = {
       url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=feat/nix-dual-mode";
       flake = false;
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     claude-code = {
@@ -38,6 +38,11 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -50,6 +55,7 @@
       hermes-agent,
       hyprland,
       nixvim,
+      zen-browser,
       ...
     }:
     let
@@ -69,10 +75,8 @@
         modules = [ ./home.nix ];
         extraSpecialArgs = {
           inherit
-            claude-code
-            system
-            hermes-agent
-            emacs-config
+            inputs
+	    system
             ;
         };
       };
@@ -85,24 +89,7 @@
         };
         modules = [
           ./hosts/nathanmcunha-nixos/configuration.nix
-
           { nixpkgs.overlays = [ emacs-overlay.overlays.default ]; }
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "bak";
-              users.nathanmcunha = {
-                imports = [ ./home.nix ];
-              };
-              extraSpecialArgs = {
-                inherit claude-code hermes-agent emacs-config;
-                inherit system;
-              };
-            };
-          }
         ];
       };
     };
