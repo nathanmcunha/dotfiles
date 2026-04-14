@@ -71,5 +71,6 @@
     ./modules/btop.nix
     ./modules/aliases.nix
     ./modules/mise.nix
+    ./modules/hermes-agent.nix
   ];
 }

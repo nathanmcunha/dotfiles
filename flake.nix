@@ -19,11 +19,6 @@
       flake = false;
     };
 
-    claude-code = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hermes-agent = {
       url = "github:NousResearch/hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,10 +34,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -50,12 +41,8 @@
       nixpkgs,
       home-manager,
       emacs-overlay,
-      emacs-config,
-      claude-code,
       hermes-agent,
       hyprland,
-      nixvim,
-      zen-browser,
       ...
     }:
     let
@@ -74,9 +61,11 @@
         inherit pkgs;
         modules = [ ./home.nix ];
         extraSpecialArgs = {
+
           inherit
             inputs
-	    system
+            system
+            hermes-agent
             ;
         };
       };

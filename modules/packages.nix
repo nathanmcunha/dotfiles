@@ -2,7 +2,6 @@
   pkgs,
   ...
 }:
-
 {
   home.packages = with pkgs; [
     # CLI essentials
@@ -96,5 +95,6 @@
 
     vial
     ytmdesktop
+
   ];
 }
