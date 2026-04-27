@@ -50,6 +50,7 @@ switch_gtk_theme() {
     mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0 ~/.icons/default
 
     for gtk_dir in gtk-3.0 gtk-4.0; do
+        rm -f "$HOME/.config/$gtk_dir/settings.ini"
         cat > "$HOME/.config/$gtk_dir/settings.ini" <<EOF
 [Settings]
 gtk-theme-name=$GTK_THEME
@@ -70,6 +71,7 @@ EOF
 switch_alacritty_theme() {
     local mode="$1"
     mkdir -p ~/.config/alacritty
+    rm -f "$HOME/.config/alacritty/theme-colors.toml"
 
     if [ "$mode" = "dark" ]; then
         cat > "$HOME/.config/alacritty/theme-colors.toml" <<'EOF'
