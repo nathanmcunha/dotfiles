@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 BASE_DIR="/home/nathanmcunha/Pictures/Wallpapers/gruvbox/wallpapers"
-INTERVALO=6000
+CHECK_INTERVAL=60          # Check theme every 60 seconds
+WALLPAPER_INTERVAL=30      # Change wallpaper every 30 checks (~30 min)
 
-for i in {1..10}; do
-    awww query &>/dev/null && break
+# Wait for awww to be ready
+for i in {1..20}; do
+    if awww query &>/dev/null; then
+        break
+    fi
     sleep 0.5
 done
 
 first_run=true
+wallpaper_counter=0
+current_mode=""
 
 get_mode() {
     local hour
@@ -26,6 +33,8 @@ get_dir() {
 
 switch_gtk_theme() {
     local mode="$1"
+    local GTK_THEME ICON_THEME CURSOR_THEME PREFER_DARK
+
     if [ "$mode" = "dark" ]; then
         GTK_THEME="Gruvbox-Dark"
         ICON_THEME="oomox-Gruvbox-Dark"
@@ -41,46 +50,46 @@ switch_gtk_theme() {
     mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0 ~/.icons/default
 
     for gtk_dir in gtk-3.0 gtk-4.0; do
-        ini="$HOME/.config/$gtk_dir/settings.ini"
-        if [ -f "$ini" ]; then
-            sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$GTK_THEME/" "$ini"
-            sed -i "s/^gtk-icon-theme-name=.*/gtk-icon-theme-name=$ICON_THEME/" "$ini"
-            sed -i "s/^gtk-cursor-theme-name=.*/gtk-cursor-theme-name=$CURSOR_THEME/" "$ini"
-            sed -i "s/^gtk-application-prefer-dark-theme=.*/gtk-application-prefer-dark-theme=$PREFER_DARK/" "$ini"
-        else
-            printf '[Settings]\ngtk-theme-name=%s\ngtk-icon-theme-name=%s\ngtk-cursor-theme-name=%s\ngtk-application-prefer-dark-theme=%s\n' \
-                "$GTK_THEME" "$ICON_THEME" "$CURSOR_THEME" "$PREFER_DARK" > "$ini"
-        fi
+        cat > "$HOME/.config/$gtk_dir/settings.ini" <<EOF
+[Settings]
+gtk-theme-name=$GTK_THEME
+gtk-icon-theme-name=$ICON_THEME
+gtk-cursor-theme-name=$CURSOR_THEME
+gtk-application-prefer-dark-theme=$PREFER_DARK
+gtk-font-name=JetBrainsMono Nerd Font Regular 11
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintslight
+gtk-xft-rgba=rgb
+EOF
     done
 
     printf '[Icon Theme]\nName=Default\nInherits=%s\n' "$CURSOR_THEME" > ~/.icons/default/index.theme
 }
 
-current_mode=$(get_mode)
-switch_gtk_theme "$current_mode"
-
 while true; do
     new_mode=$(get_mode)
 
+    # Switch GTK theme immediately when the hour changes
     if [ "$new_mode" != "$current_mode" ]; then
         current_mode="$new_mode"
         switch_gtk_theme "$current_mode"
     fi
 
-    DIR=$(get_dir)
-    WALLPAPER=$(find "$DIR" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) | shuf -n 1)
+    wallpaper_counter=$((wallpaper_counter + 1))
 
-    if [ -z "$WALLPAPER" ]; then
-        sleep 30
-        continue
-    fi
-
-    matugen image "$WALLPAPER" -m "$current_mode" --source-color-index 0
-
-    if $first_run; then
+    # Change wallpaper on first run or every N iterations
+    if $first_run || [ "$wallpaper_counter" -ge "$WALLPAPER_INTERVAL" ]; then
         first_run=false
-        sleep 1
+        wallpaper_counter=0
+
+        DIR=$(get_dir)
+        WALLPAPER=$(find "$DIR" -maxdepth 1 -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) | shuf -n 1)
+
+        if [ -n "$WALLPAPER" ]; then
+            matugen image "$WALLPAPER" -m "$current_mode" --source-color-index 0 || true
+        fi
     fi
 
-    sleep $INTERVALO
+    sleep "$CHECK_INTERVAL"
 done

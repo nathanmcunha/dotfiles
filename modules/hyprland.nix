@@ -50,27 +50,21 @@
       };
     };
 
-    cliphist-text = {
+    cliphist = {
       Unit = {
-        Description = "Clipboard history (text)";
+        Description = "Clipboard history (cliphist)";
         After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store";
+        Type = "simple";
+        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store";
         Restart = "on-failure";
         RestartSec = "2";
+        PassEnvironment = "WAYLAND_DISPLAY";
       };
-    };
-
-    cliphist-image = {
-      Unit = {
-        Description = "Clipboard history (images)";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
-        Restart = "on-failure";
-        RestartSec = "2";
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
       };
     };
 

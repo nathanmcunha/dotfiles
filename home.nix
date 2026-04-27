@@ -1,9 +1,14 @@
-{ pkgs, lib, inputs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 {
   home.username = "nathanmcunha";
   home.homeDirectory = "/home/nathanmcunha";
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
   programs.gpg.enable = true;
@@ -16,29 +21,7 @@
     maxCacheTtl = 28800;
   };
 
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Gruvbox-Dark";
-      package = null;
-    };
-    gtk4.theme = {
-      name = "Gruvbox-Dark";
-      package = null;
-    };
-    iconTheme = {
-      name = "oomox-Gruvbox-Dark";
-      package = null;
-    };
-    cursorTheme = {
-      name = "Bibata-Modern-Classic";
-      package = pkgs.bibata-cursors;
-    };
-  };
-
-  xdg.configFile."gtk-3.0/settings.ini".force = true;
-  xdg.configFile."gtk-4.0/settings.ini".force = true;
-
+  # GTK theme is managed at runtime by wallpaper_rotate.sh (dark 17:00-05:59, light 06:00-16:59)
   home.activation.installThemeAssets = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     export PATH="${pkgs.gzip}/bin:$PATH"
     mkdir -p "$HOME/.themes" "$HOME/.icons"

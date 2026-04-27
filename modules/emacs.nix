@@ -30,13 +30,7 @@ in
     package = myEmacs;
   };
 
-  services.emacs = {
-    enable = true;
-    # Do NOT use startWithUserSession here; we define the full service below
-    # to avoid attribute merging ambiguities.
-    startWithUserSession = false;
-  };
-
+  # Custom systemd service — NOT using HM's services.emacs to avoid ExecStart conflicts
   systemd.user.services.emacs = {
     Unit = {
       Description = "Emacs: the extensible, self-documenting text editor";
