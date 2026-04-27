@@ -67,13 +67,73 @@ EOF
     printf '[Icon Theme]\nName=Default\nInherits=%s\n' "$CURSOR_THEME" > ~/.icons/default/index.theme
 }
 
+switch_alacritty_theme() {
+    local mode="$1"
+    mkdir -p ~/.config/alacritty
+
+    if [ "$mode" = "dark" ]; then
+        cat > "$HOME/.config/alacritty/theme-colors.toml" <<'EOF'
+[colors.primary]
+background = "#282828"
+foreground = "#ebdbb2"
+
+[colors.normal]
+black   = "#282828"
+red     = "#cc241d"
+green   = "#98971a"
+yellow  = "#d79921"
+blue    = "#458588"
+magenta = "#b16286"
+cyan    = "#689d6a"
+white   = "#a89984"
+
+[colors.bright]
+black   = "#928374"
+red     = "#fb4934"
+green   = "#b8bb26"
+yellow  = "#fabd2f"
+blue    = "#83a598"
+magenta = "#d3869b"
+cyan    = "#8ec07c"
+white   = "#ebdbb2"
+EOF
+    else
+        cat > "$HOME/.config/alacritty/theme-colors.toml" <<'EOF'
+[colors.primary]
+background = "#fbf1c7"
+foreground = "#3c3836"
+
+[colors.normal]
+black   = "#fbf1c7"
+red     = "#cc241d"
+green   = "#98971a"
+yellow  = "#d79921"
+blue    = "#458588"
+magenta = "#b16286"
+cyan    = "#689d6a"
+white   = "#7c6f64"
+
+[colors.bright]
+black   = "#928374"
+red     = "#9d0006"
+green   = "#79740e"
+yellow  = "#b57614"
+blue    = "#076678"
+magenta = "#8f3f71"
+cyan    = "#427b58"
+white   = "#3c3836"
+EOF
+    fi
+}
+
 while true; do
     new_mode=$(get_mode)
 
-    # Switch GTK theme immediately when the hour changes
+    # Switch themes immediately when the hour changes
     if [ "$new_mode" != "$current_mode" ]; then
         current_mode="$new_mode"
         switch_gtk_theme "$current_mode"
+        switch_alacritty_theme "$current_mode"
     fi
 
     wallpaper_counter=$((wallpaper_counter + 1))
