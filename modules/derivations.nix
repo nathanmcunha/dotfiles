@@ -36,9 +36,15 @@ let
     '';
   };
 
+  kimi-cli = pkgs.writeShellScriptBin "kimi" ''
+    exec ${pkgs.uv}/bin/uvx --python 3.13 kimi-cli "$@"
+  '';
+
 in
 {
   home.packages = [
+    pkgs.uv
     rtk
+    kimi-cli
   ];
 }

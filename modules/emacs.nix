@@ -50,13 +50,7 @@ in
   };
 
   home.packages = with pkgs; [
-    # Runtimes
-    go
-    gradle
-    temurin-bin-21
-    maven
-    nodejs_24
-    python312
+    # Runtimes (go, gradle, temurin-bin-21, maven, nodejs_24, python312 already in packages.nix)
     gnumake
 
     # Python tools
@@ -66,9 +60,6 @@ in
     # Node tools
     prettier
     typescript-language-server
-
-    # Rust
-    rustup
 
     # LSP servers
     sqls

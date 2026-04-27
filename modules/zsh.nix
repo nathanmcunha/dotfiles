@@ -43,9 +43,6 @@
       # Colorize the default completion menu
       zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
 
-      # FZF-Tab: replace default TAB completion with fzf
-      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-
       # Preview directory contents when completing cd/z
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
       zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'

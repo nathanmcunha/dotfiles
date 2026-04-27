@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  # Intel GPU
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -11,14 +10,4 @@
       libvdpau-va-gl
     ];
   };
-
-  # Intel WiFi
-#  hardware.enableRedistributableFirmware = true;
-#  networking.wireless.enable = false;  # Use NetworkManager
-
-  # Intel Audio
-#  sound.enable = true;
-
-  # Bluetooth
-#  hardware.bluetooth.enable = true;
 }

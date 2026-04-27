@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -15,12 +16,12 @@
     unzip
     tree
     eza
-    zsh-fzf-tab
     zoxide
     gh
     gemini-cli
     jq
     pass
+    inputs.impala.packages.${pkgs.system}.default
 
     # Dev tools
     neovim
@@ -55,14 +56,23 @@
     google-java-format
     opencode
 
-    # Wayland apps
+    # Wayland / Hyprland apps
     waybar
     wofi
     dunst
     wlogout
     playerctl
     hyprsunset
+    hypridle
+    hyprlock
+    hyprpaper
+    cliphist
+    wl-clipboard
+    wl-clip-persist
+    grim
+    slurp
     swappy
+    wf-recorder
     libnotify
     pamixer
     brightnessctl
@@ -88,13 +98,33 @@
     audacity
     appimage-run
     imagemagick
+    ffmpeg
     xclip
 
     # File manager
     nautilus
 
+    # Terminal
+    alacritty
+
+    # Browser
+    brave
+
+    # Media
+    mpv
+    vlc
+    freetube
+
+    # Image / Documents
+    imv
+    zathura
+
+    # System info
+    blueman
+    cpu-x
+    fastfetch
+
     vial
     ytmdesktop
-
   ];
 }

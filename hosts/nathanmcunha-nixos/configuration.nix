@@ -26,6 +26,9 @@
 
   # Network
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
+  networking.wireless.iwd.enable = true;
+  networking.wireless.enable = pkgs.lib.mkForce false;
   networking.hostName = "nathanmcunha-nixos";
   # i18n
   i18n.defaultLocale = "en_US.UTF-8";
@@ -54,14 +57,14 @@
     nerd-fonts.symbols-only
   ];
 
-  # System packages
+  # System packages (keep only rescue/TTY essentials)
   environment.systemPackages = with pkgs; [
     vim
     git
     wget
     curl
     stow
-    gh
+    impala
   ];
 
   # Users
@@ -76,6 +79,7 @@
       "audio"
       "video"
       "bluetooth"
+      "docker"
     ];
   };
 
@@ -95,12 +99,6 @@
   #Hardware & Devices(Udev)
   services.udev.packages = with pkgs; [
     vial
-  ];
-
-  # OpenGL
-  hardware.graphics.enable = true;
-  hardware.graphics.extraPackages = with pkgs; [
-    intel-media-driver
   ];
 
   hardware.enableRedistributableFirmware = true;

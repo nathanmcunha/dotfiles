@@ -34,6 +34,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impala = {
+      url = "github:pythops/impala";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =

@@ -28,9 +28,12 @@
   services.flatpak.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # CLI tools (system-wide)
-    ffmpeg
-    imagemagick
-    fastfetch
+    docker
+    docker-compose
   ];
+
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker;
+  };
 }
