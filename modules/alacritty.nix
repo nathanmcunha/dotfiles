@@ -5,10 +5,8 @@
     enable = true;
 
     settings = {
-      general = {
-        live_config_reload = true;
-        import = [ "~/.config/alacritty/theme-colors.toml" ];
-      };
+      general.live_config_reload = true;
+      "import" = [ "~/.config/alacritty/theme-colors.toml" ];
 
       env.TERM = "alacritty";
       terminal.shell = {
