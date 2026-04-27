@@ -28,6 +28,9 @@
       # Load secrets if present
       [[ -f ~/.env ]] && source ~/.env
 
+      # GPG_TTY must be set at runtime, not build time
+      export GPG_TTY=$(tty)
+
       # Emacs client helpers
       e()   { emacsclient -c "$@" }
       ec()  { emacsclient -cn "$@" }
@@ -91,6 +94,6 @@
   };
 
   home.sessionVariables = {
-    GPG_TTY = "$(tty)";
+    # GPG_TTY is set in initContent below so it evaluates at shell runtime
   };
 }

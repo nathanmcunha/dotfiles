@@ -15,7 +15,15 @@
 
   home.file.".config/containers/policy.json".text = ''
     {
-      "default": [{"type": "insecureAcceptAnything"}]
+      "default": [{"type": "reject"}],
+      "transports": {
+        "docker": {
+          "": [{"type": "insecureAcceptAnything"}]
+        },
+        "docker-daemon": {
+          "": [{"type": "insecureAcceptAnything"}]
+        }
+      }
     }
   '';
 }

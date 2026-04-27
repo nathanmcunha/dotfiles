@@ -32,15 +32,28 @@ in
 
   services.emacs = {
     enable = true;
-    startWithUserSession = true;
+    # Do NOT use startWithUserSession here; we define the full service below
+    # to avoid attribute merging ambiguities.
+    startWithUserSession = false;
   };
 
   systemd.user.services.emacs = {
+    Unit = {
+      Description = "Emacs: the extensible, self-documenting text editor";
+      After = [ "graphical-session.target" ];
+    };
     Service = {
+      Type = "forking";
+      ExecStart = "${myEmacs}/bin/emacs --daemon";
+      ExecStop = "${myEmacs}/bin/emacsclient --eval '(kill-emacs)'";
+      Restart = "on-failure";
       Environment = [
         "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
       ];
       PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
     };
   };
 

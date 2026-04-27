@@ -144,7 +144,11 @@ in
       NoNewPrivileges = true;
       ProtectSystem = "strict";
       ProtectHome = "read-only";
-      ReadWritePaths = [ "%h/.hermes" ];
+      ReadWritePaths = [
+        "%h/.hermes"
+        "%h/.password-store"
+        "%h/.gnupg"
+      ];
     };
 
     Install = {

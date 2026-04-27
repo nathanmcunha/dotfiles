@@ -29,7 +29,7 @@
 
   programs.ssh = {
     enable = true;
-    enableDefaultConfig = false;
+    enableDefaultConfig = true;
     matchBlocks = {
       "*" = {
         addKeysToAgent = "yes";

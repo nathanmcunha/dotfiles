@@ -19,7 +19,19 @@
     "flakes"
   ];
   nixpkgs.config.allowUnfree = true;
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      fuse3
+      icu
+      nss
+      openssl
+      curl
+      expat
+    ];
+  };
 
   # Time zone
   time.timeZone = "America/Sao_Paulo";

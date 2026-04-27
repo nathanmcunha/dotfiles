@@ -17,6 +17,7 @@
     wallpaper-rotate = {
       Unit = {
         Description = "Rotate wallpaper and regenerate matugen colors";
+        After = [ "graphical-session.target" ];
       };
       Service = {
         ExecStart = "%h/.config/hypr/scripts/wallpaper_rotate.sh";
@@ -92,19 +93,6 @@
       };
       Service = {
         ExecStart = "%h/.config/hypr/scripts/volume_listener.sh";
-        Restart = "on-failure";
-        RestartSec = "2";
-      };
-    };
-
-    copyq = {
-      Unit = {
-        Description = "CopyQ clipboard manager";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        Type = "forking";
-        ExecStart = "${pkgs.copyq}/bin/copyq --start-server";
         Restart = "on-failure";
         RestartSec = "2";
       };
