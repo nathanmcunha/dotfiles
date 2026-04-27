@@ -61,6 +61,25 @@
           xdg-open "https://www.google.com/search?q=$*"
         fi
       }
+
+      # Suffix aliases: open files by extension
+      alias -s pdf='xdg-open'
+      alias -s png='xdg-open'
+      alias -s jpg='xdg-open'
+      alias -s jpeg='xdg-open'
+      alias -s gif='xdg-open'
+      alias -s svg='xdg-open'
+      alias -s mp4='xdg-open'
+      alias -s mkv='xdg-open'
+      alias -s mov='xdg-open'
+      alias -s avi='xdg-open'
+      alias -s webm='xdg-open'
+      alias -s mp3='xdg-open'
+      alias -s flac='xdg-open'
+      alias -s wav='xdg-open'
+      alias -s ogg='xdg-open'
+      alias -s html='xdg-open'
+      alias -s htm='xdg-open'
     '';
   };
 

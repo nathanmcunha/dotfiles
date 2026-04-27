@@ -14,10 +14,18 @@
     ../../modules/nixos/services.nix
   ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
+    trusted-users = [ "root" "nathanmcunha" ];
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld = {
     enable = true;
