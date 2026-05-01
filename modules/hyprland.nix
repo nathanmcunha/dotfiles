@@ -2,30 +2,6 @@
 
 {
   systemd.user.services = {
-    awww-daemon = {
-      Unit = {
-        Description = "Wallpaper Daemon (awww)";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.awww}/bin/awww-daemon";
-        Restart = "on-failure";
-        RestartSec = "2";
-      };
-    };
-
-    wallpaper-rotate = {
-      Unit = {
-        Description = "Rotate wallpaper and regenerate matugen colors";
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "%h/.config/hypr/scripts/wallpaper_rotate.sh";
-        Restart = "on-failure";
-        RestartSec = "3";
-      };
-    };
-
     hypridle = {
       Unit = {
         Description = "Hypridle idle daemon";
@@ -47,24 +23,6 @@
         ExecStart = "${pkgs.hyprpolkitagent}/bin/hyprpolkitagent";
         Restart = "on-failure";
         RestartSec = "2";
-      };
-    };
-
-    cliphist = {
-      Unit = {
-        Description = "Clipboard history (cliphist)";
-        After = [ "graphical-session.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store";
-        Restart = "on-failure";
-        RestartSec = "2";
-        PassEnvironment = "WAYLAND_DISPLAY";
-      };
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
       };
     };
 
@@ -111,11 +69,6 @@
     ".config/hypr/hypridle.conf".source = ../files/hypr/hypridle.conf;
     ".config/hypr/hyprlock.conf".source = ../files/hypr/hyprlock.conf;
     ".config/hypr/rules.conf".source = ../files/hypr/rules.conf;
-    ".config/hypr/colors.conf" = {
-      source = ../files/hypr/colors.conf;
-      force = true;
-    };
-
     ".config/hypr/scripts/screenshot.sh" = {
       source = ../files/hypr/scripts/screenshot.sh;
       executable = true;
@@ -134,8 +87,6 @@
       ../files/matugen/templates/hyprland-colors.conf;
     ".config/matugen/templates/wofi-style.css".source =
       ../files/matugen/templates/wofi-style.css;
-    ".config/matugen/templates/waybar-colors.css".source =
-      ../files/matugen/templates/waybar-colors.css;
     ".config/matugen/templates/dunstrc".source =
       ../files/matugen/templates/dunstrc;
 

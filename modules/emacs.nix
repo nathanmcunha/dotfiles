@@ -43,6 +43,7 @@ in
       Restart = "on-failure";
       Environment = [
         "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
+        "PATH=/run/current-system/sw/bin:${pkgs.coreutils}/bin:${pkgs.gnugrep}/bin:${pkgs.gnused}/bin:${pkgs.findutils}/bin:${pkgs.gawk}/bin"
       ];
       PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
     };

@@ -7,7 +7,7 @@ contrast = 1.0
 caching = true
 
 [config.wallpaper]
-set = true
+set = false
 command = "awww img --transition-type grow --transition-duration 2 --transition-fps 60 {{ image }}"
 
 [config.custom_colors]
@@ -31,11 +31,6 @@ post_hook = "hyprctl reload"
 [templates.wofi]
 input_path = "~/.config/matugen/templates/wofi-style.css"
 output_path = "~/.config/wofi/style.css"
-
-[templates.waybar]
-input_path = "~/.config/matugen/templates/waybar-colors.css"
-output_path = "~/.config/waybar/colors.css"
-post_hook = "pkill waybar; waybar &"
 
 [templates.dunst]
 input_path = "~/.config/matugen/templates/dunstrc"

@@ -91,7 +91,7 @@ window.bottom_bar .modules-right {
 }
 
 #workspaces button.empty {
-  color: @overlay0;
+  color: @overlay1;
 }
 
 #workspaces button.active {
@@ -409,7 +409,7 @@ window.left_bar .modules-center {
 }
 
 #backlight {
-  color: @overlay0;
+  color: @overlay1;
 }
 
 #backlight.low {
@@ -437,7 +437,7 @@ window.left_bar .modules-center {
 }
 
 #pulseaudio.muted {
-  color: @surface2;
+  color: @subtext0;
 }
 
 #pulseaudio {
@@ -445,7 +445,7 @@ window.left_bar .modules-center {
 }
 
 #pulseaudio.low {
-  color: @overlay0;
+  color: @overlay1;
 }
 
 #pulseaudio.lower-medium {

@@ -57,16 +57,10 @@
     opencode
 
     # Wayland / Hyprland apps
-    waybar
-    wofi
-    dunst
-    wlogout
     playerctl
     hyprsunset
     hypridle
-    hyprlock
     hyprpaper
-    cliphist
     wl-clipboard
     wl-clip-persist
     grim
@@ -84,7 +78,6 @@
     matugen
     wpgtk
     pywal
-    awww
     sassc
     gtk-engine-murrine
     bibata-cursors

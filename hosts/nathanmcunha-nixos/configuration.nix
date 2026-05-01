@@ -15,9 +15,15 @@
   ];
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
-    trusted-users = [ "root" "nathanmcunha" ];
+    trusted-users = [
+      "root"
+      "nathanmcunha"
+    ];
   };
 
   nix.gc = {
@@ -63,7 +69,15 @@
   services.greetd.settings.default_session.user = "greeter";
   services.greetd.useTextGreeter = true;
 
+  services.printing.enable = true;
+  services.printing.drivers = with pkgs; [ hplip ];
   programs.zsh.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   # Fstrim
   services.fstrim.enable = true;
@@ -100,6 +114,7 @@
       "video"
       "bluetooth"
       "docker"
+      "lpadmin"
     ];
   };
 

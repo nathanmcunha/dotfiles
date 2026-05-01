@@ -44,9 +44,7 @@
     ./modules/emacs.nix
     ./modules/alacritty.nix
     ./modules/hyprland.nix
-    ./modules/waybar.nix
-    ./modules/wofi.nix
-    ./modules/dunst.nix
+    ./modules/noctalia.nix
     ./modules/wpgtk.nix
     ./modules/podman.nix
     ./modules/claude.nix
