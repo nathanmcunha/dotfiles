@@ -24,6 +24,7 @@ let
     patch
     tree-sitter
     ispell
+    qt6.qtbase
   ];
 
   # Tools you also want available in your terminal
@@ -31,6 +32,20 @@ let
     ripgrep
     fd
     git
+  ];
+
+  # LSP servers — only in emacs daemon PATH, not your shell
+  emacs-lsp-servers = with pkgs; [
+    basedpyright
+    ruff
+    prettier
+    typescript-language-server
+    sqls
+    yaml-language-server
+    vscode-langservers-extracted
+    dockerfile-language-server
+    nixd
+    clang-tools
   ];
 
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
@@ -69,7 +84,7 @@ in
       Restart = "on-failure";
       Environment = [
         "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
-        "PATH=/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-shared-tools)}"
+        "PATH=/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-shared-tools ++ emacs-lsp-servers)}"
       ];
       PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
     };
@@ -89,21 +104,8 @@ in
     # Runtimes (go, gradle, temurin-bin-21, maven, nodejs_24, python312 already in packages.nix)
     gnumake
 
-    # Python tools
-    basedpyright
-    ruff
-
-    # Node tools
-    prettier
-    typescript-language-server
-
-    # LSP servers
-    sqls
-    yaml-language-server
-    vscode-langservers-extracted
-    dockerfile-language-server
-    nixd
-    qt6.qtbase
+    # Qt runtime (qmlls for QML LSP)
+    # qt6.qtbase moved to emacs-only-tools
 
     # Required by jinx (runtime library)
     enchant_2

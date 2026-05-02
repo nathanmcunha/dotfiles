@@ -15,7 +15,7 @@
     };
 
     emacs-config = {
-      url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=feat/nix-dual-mode";
+      url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=main";
       flake = false;
     };
 
