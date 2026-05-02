@@ -17,7 +17,7 @@
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
-      core.editor = "nvim";
+      core.editor = "emacsclient -c";
       credential.helper = "cache --timeout=3600";
       alias = {
         st = "status";
@@ -29,7 +29,7 @@
 
   programs.ssh = {
     enable = true;
-    enableDefaultConfig = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       "*" = {
         addKeysToAgent = "yes";

@@ -7,13 +7,8 @@
   home.packages = with pkgs; [
     # CLI essentials
     fzf
-    fd
     bat
-    ripgrep
     btop
-    curl
-    wget
-    unzip
     tree
     eza
     zoxide
@@ -75,11 +70,9 @@
     networkmanagerapplet
 
     # Theming
-    matugen
-    wpgtk
-    pywal
-    sassc
-    gtk-engine-murrine
+    adw-gtk3
+    qt6Packages.qt6ct
+    nwg-look
     bibata-cursors
 
     # Desktop apps

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-if pgrep hyprsunset >/dev/null; then
-  printf '%s\n' '{ "text":"󱩌", "tooltip": "night-mode <span color='\''#a6da95'\''>on</span>", "class": "on" }'
-else
-  printf '%s\n' '{ "text":"󱩍", "tooltip": "night-mode <span color='\''#ee99a0'\''>off</span>", "class": "off" }'
-fi

@@ -45,6 +45,7 @@ in
   home.packages = [
     pkgs.uv
     rtk
+    qwen-code
     kimi-cli
   ];
 }

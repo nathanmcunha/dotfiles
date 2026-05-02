@@ -303,7 +303,7 @@
     "settingsPanelSideBarCardStyle": false
   },
   "location": {
-    "name": "Jatani",
+    "name": "",
     "weatherEnabled": true,
     "weatherShowEffects": true,
     "weatherTaliaMascotAlways": false,
@@ -316,7 +316,7 @@
     "firstDayOfWeek": -1,
     "hideWeatherTimezone": false,
     "hideWeatherCityName": false,
-    "autoLocate": false
+    "autoLocate": true
   },
   "calendar": {
     "cards": [
@@ -668,7 +668,7 @@
     "useWallpaperColors": true,
     "predefinedScheme": "Catppuccin",
     "darkMode": false,
-    "schedulingMode": "manual",
+    "schedulingMode": "auto",
     "manualSunrise": "06:00",
     "manualSunset": "17:00",
     "generationMethod": "faithful",
@@ -708,9 +708,13 @@
       {
         "enabled": true,
         "id": "kcolorscheme"
+      },
+      {
+        "enabled": true,
+        "id": "starship"
       }
     ],
-    "enableUserTheming": false
+    "enableUserTheming": true
   },
   "nightLight": {
     "enabled": false,
@@ -722,16 +726,16 @@
     "manualSunset": "17:00"
   },
   "hooks": {
-    "enabled": true,
-    "wallpaperChange": "/home/nathanmcunha/.config/noctalia/hooks/theme-sync.sh",
-    "darkModeChange": "/home/nathanmcunha/.config/noctalia/hooks/theme-sync.sh",
+    "enabled": false,
+    "wallpaperChange": "",
+    "darkModeChange": "",
     "screenLock": "",
     "screenUnlock": "",
     "performanceModeEnabled": "",
     "performanceModeDisabled": "",
     "startup": "",
     "session": "",
-    "colorGeneration": "/home/nathanmcunha/.config/noctalia/hooks/theme-sync.sh"
+    "colorGeneration": ""
   },
   "plugins": {
     "autoUpdate": false,

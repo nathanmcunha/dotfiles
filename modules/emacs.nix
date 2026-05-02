@@ -7,6 +7,32 @@
 
 let
   emacs-config = inputs.emacs-config;
+
+  # Tools Emacs shells out to — only in daemon PATH, not your shell
+  emacs-only-tools = with pkgs; [
+    coreutils
+    gnugrep
+    gnused
+    findutils
+    gawk
+    file
+    unzip
+    zip
+    gnutar
+    gzip
+    diffutils
+    patch
+    tree-sitter
+    ispell
+  ];
+
+  # Tools you also want available in your terminal
+  emacs-shared-tools = with pkgs; [
+    ripgrep
+    fd
+    git
+  ];
+
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = emacs-config + "/config.org";
     defaultInitFile = false;
@@ -43,7 +69,7 @@ in
       Restart = "on-failure";
       Environment = [
         "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
-        "PATH=/run/current-system/sw/bin:${pkgs.coreutils}/bin:${pkgs.gnugrep}/bin:${pkgs.gnused}/bin:${pkgs.findutils}/bin:${pkgs.gawk}/bin"
+        "PATH=/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-shared-tools)}"
       ];
       PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
     };
@@ -58,6 +84,8 @@ in
   };
 
   home.packages = with pkgs; [
+    # CLI tools Emacs needs (also available in your shell)
+  ] ++ emacs-shared-tools ++ [
     # Runtimes (go, gradle, temurin-bin-21, maven, nodejs_24, python312 already in packages.nix)
     gnumake
 
@@ -75,7 +103,7 @@ in
     vscode-langservers-extracted
     dockerfile-language-server
     nixd
-    qt6.qtbase.dev
+    qt6.qtbase
 
     # Required by jinx (runtime library)
     enchant_2

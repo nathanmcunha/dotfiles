@@ -1,8 +1,7 @@
 /* Reset Global */
 * {
-    /* Sua fonte do sistema */
     font-family: "JetBrainsMono Nerd Font", monospace;
-    font-weight: 500; /* 500 = Medium (Essencial para Light Mode) */
+    font-weight: 500;
     font-size: 14px;
 }
 
@@ -39,7 +38,6 @@
     border: none;
 }
 
-/* --- LISTA DE APPS --- */
 #entry {
     margin: 2px 0px;
     padding: 8px 10px;
@@ -47,28 +45,22 @@
     border: none;
 }
 
-/* Item Selecionado */
 #entry:selected {
     background-color: {{colors.primary.default.hex}};
     color: {{colors.on_primary.default.hex}};
 }
 
-/* --- ÍCONE E TEXTO --- */
-
-/* Espaço entre o ícone e o texto */
 #img {
     margin-right: 12px;
     background-color: transparent;
 }
 
-/* O texto do app */
 #text {
     margin: 0px;
     border: none;
     color: {{colors.on_surface.default.hex}};
 }
 
-/* Texto quando selecionado (precisa forçar a cor de contraste) */
 #entry:selected #text {
     color: {{colors.on_primary.default.hex}};
 }

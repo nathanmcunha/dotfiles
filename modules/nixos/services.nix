@@ -27,13 +27,5 @@
   # Flatpak
   services.flatpak.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    docker
-    docker-compose
-  ];
-
-  virtualisation.docker = {
-    enable = true;
-    package = pkgs.docker;
-  };
+  environment.systemPackages = with pkgs; [ ];
 }

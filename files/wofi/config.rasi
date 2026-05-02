@@ -13,4 +13,4 @@ configuration{
     border-radius: 10;
 }
 
-@theme "themes/catppuccin-macchiato.rasi"
+

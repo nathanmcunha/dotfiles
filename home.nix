@@ -21,16 +21,7 @@
     maxCacheTtl = 28800;
   };
 
-  # GTK theme is managed at runtime by wallpaper_rotate.sh (dark 17:00-05:59, light 06:00-16:59)
-  home.activation.installThemeAssets = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    export PATH="${pkgs.gzip}/bin:$PATH"
-    mkdir -p "$HOME/.themes" "$HOME/.icons"
-
-    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/gtk-theme-gruvbox-dark.tar.gz} -C "$HOME/.themes"
-    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/gtk-theme-gruvbox-light.tar.gz} -C "$HOME/.themes"
-    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/icons-gruvbox-dark.tar.gz} -C "$HOME/.icons"
-    ${pkgs.gnutar}/bin/tar xzf ${./files/assets/icons-gruvbox-light.tar.gz} -C "$HOME/.icons"
-
+  home.activation.installIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$HOME/.icons/default"
     printf '[Icon Theme]\nName=Default\nInherits=Bibata-Modern-Classic\n' > "$HOME/.icons/default/index.theme"
   '';
@@ -45,7 +36,6 @@
     ./modules/alacritty.nix
     ./modules/hyprland.nix
     ./modules/noctalia.nix
-    ./modules/wpgtk.nix
     ./modules/podman.nix
     ./modules/claude.nix
     ./modules/external-tools.nix

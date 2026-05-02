@@ -82,30 +82,11 @@
       executable = true;
     };
 
-    ".config/matugen/config.toml".source = ../files/matugen/config.toml;
-    ".config/matugen/templates/hyprland-colors.conf".source =
-      ../files/matugen/templates/hyprland-colors.conf;
-    ".config/matugen/templates/wofi-style.css".source =
-      ../files/matugen/templates/wofi-style.css;
-    ".config/matugen/templates/dunstrc".source =
-      ../files/matugen/templates/dunstrc;
-
   };
 
-  home.activation.makeMatugenTargetsWritable =
-    let
-      colorFiles = [
-        ".config/hypr/colors.conf"
-        ".config/dunst/dunstrc"
-      ];
-      scriptLines = map (
-        f: ''
-          if [ -L "$HOME/${f}" ]; then
-            cp --remove-destination "$(readlink -f "$HOME/${f}")" "$HOME/${f}"
-            chmod u+w "$HOME/${f}"
-          fi
-        ''
-      ) colorFiles;
-    in
-    lib.hm.dag.entryAfter [ "writeBoundary" ] (builtins.concatStringsSep "\n" scriptLines);
+  home.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = "qt6ct";
+  };
+
+
 }
