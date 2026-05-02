@@ -5,6 +5,12 @@
   ...
 }:
 
+let
+  gtkTheme = {
+    name = "adw-gtk3";
+    package = pkgs.adw-gtk3;
+  };
+in
 {
   home.username = "nathanmcunha";
   home.homeDirectory = "/home/nathanmcunha";
@@ -21,10 +27,31 @@
     maxCacheTtl = 28800;
   };
 
+  gtk = {
+    enable = true;
+    theme = gtkTheme;
+    gtk4.theme = gtkTheme;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    cursorTheme = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+      size = 24;
+    };
+  };
+
   home.activation.installIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$HOME/.icons/default"
     printf '[Icon Theme]\nName=Default\nInherits=Bibata-Modern-Classic\n' > "$HOME/.icons/default/index.theme"
   '';
+
+  xdg.configFile = {
+    "gtk-3.0/settings.ini".force = true;
+    "gtk-4.0/settings.ini".force = true;
+    "gtk-4.0/gtk.css".force = true;
+  };
 
   imports = [
     ./modules/packages.nix
