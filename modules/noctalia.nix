@@ -53,6 +53,8 @@
   home.activation.setAdwGtk3Theme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if command -v gsettings >/dev/null 2>&1; then
       gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3' 2>/dev/null || true
+      gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark' 2>/dev/null || true
+      gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic' 2>/dev/null || true
     fi
   '';
 

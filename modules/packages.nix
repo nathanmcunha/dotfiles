@@ -73,7 +73,7 @@
     adw-gtk3
     qt6Packages.qt6ct
     nwg-look
-    bibata-cursors
+    papirus-icon-theme
 
     # Desktop apps
     libreoffice
