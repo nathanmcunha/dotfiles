@@ -36,16 +36,16 @@
     "emacs-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1775854090,
-        "narHash": "sha256-kZQJOrMlTwiGB1Oi9V6miVWKFbaekrZeFsH7wEU83wg=",
-        "ref": "feat/nix-dual-mode",
-        "rev": "b72961fa6e19d4a1f3eb45a6d544c3a246f00e5f",
-        "revCount": 61,
+        "lastModified": 1777725929,
+        "narHash": "sha256-jwM40Pkm4dYqiRRkYdBX3TEWoLPFatIr/Vi3AbimUyM=",
+        "ref": "main",
+        "rev": "8f1cc72c13e018cdbb84deb1dc196e3aa0400772",
+        "revCount": 64,
         "type": "git",
         "url": "https://github.com/nathanmcunha/emacs-config.git"
       },
       "original": {
-        "ref": "feat/nix-dual-mode",
+        "ref": "main",
         "type": "git",
         "url": "https://github.com/nathanmcunha/emacs-config.git"
       }

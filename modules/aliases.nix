@@ -8,8 +8,9 @@
     cat = "bat --style=plain --paging=never";
 
     # Nix/Home Manager
-    update-externals = "bash ~/dotfiles/files/scripts/update-externals.sh";
-    nix-update = "nix flake update ~/dotfiles && update-externals check && sudo nixos-rebuild switch --flake ~/dotfiles#nathanmcunha-nixos";
+    hm = "home-manager switch --flake ~/dotfiles#nathanmcunha";
+    nixos = "sudo nixos-rebuild switch --flake ~/dotfiles#nathanmcunha-nixos";
+    nxfull = "nix flake update ~/dotfiles && sudo nixos-rebuild switch --flake ~/dotfiles#nathanmcunha-nixos && home-manager switch --flake ~/dotfiles#nathanmcunha";
 
     # Containers (Podman as Docker drop-in)
     docker = "podman";
