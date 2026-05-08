@@ -1,9 +1,11 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 {
+
   home.packages = with pkgs; [
     # CLI essentials
     fzf
@@ -96,6 +98,8 @@
 
     # Browser
     brave
+    google-chrome
+
 
     # Media
     mpv
@@ -113,5 +117,8 @@
 
     vial
     ytmdesktop
+    easyeffects
+
+    bun
   ];
 }

@@ -8,6 +8,42 @@
 let
   emacs-config = inputs.emacs-config;
 
+  # Tree-sitter grammars from Nix (avoids manual compilation at runtime)
+  grammarNames = [
+    "bash"
+    "c"
+    "cpp"
+    "css"
+    "dockerfile"
+    "html"
+    "go"
+    "java"
+    "javascript"
+    "json"
+    "json5"
+    "lua"
+    "make"
+    "markdown"
+    "nix"
+    "org"
+    "php"
+    "python"
+    "ruby"
+    "rust"
+    "sql"
+    "sshclientconfig"
+    "textproto"
+    "toml"
+    "tsx"
+    "typescript"
+    "yaml"
+  ];
+  treesit-grammars = pkgs.linkFarm "emacs-treesit-grammars"
+    (map (name: {
+      name = "libtree-sitter-${name}.so";
+      path = "${pkgs.tree-sitter.builtGrammars."tree-sitter-${name}"}/parser";
+    }) grammarNames);
+
   # Tools Emacs shells out to — only in daemon PATH, not your shell
   emacs-only-tools = with pkgs; [
     coreutils
@@ -32,6 +68,9 @@ let
     ripgrep
     fd
     git
+    zsh
+    alacritty
+    opencode
   ];
 
   # LSP servers — only in emacs daemon PATH, not your shell
@@ -63,6 +102,42 @@ let
       epkgs.jinx # :tangle no block, parser can't see it
     ];
   };
+
+  emacsInit = pkgs.writeText "emacs-init.el" ''
+    (require 'cl-lib)
+
+    ;; Load the imported init file, but suppress package-manager installs so
+    ;; Nix-provided packages never trigger Elpaca/package-vc prompts.
+    (cl-letf (((symbol-function 'package-install)
+               (lambda (&rest _args) nil))
+              ((symbol-function 'package-vc-install)
+               (lambda (&rest _args) nil))
+              ((symbol-function 'package-vc-install-from-checkout)
+               (lambda (&rest _args) nil))
+              ((symbol-function 'package-vc-install-selected-packages)
+               (lambda (&rest _args) nil)))
+      (load-file "${emacs-config}/init.el"))
+  '';
+
+  emacsEarlyInit = pkgs.writeText "emacs-early-init.el" ''
+    (load-file "${emacs-config}/early-init.el")
+
+    ;; Keep startup-sensitive caches in XDG cache instead of the config tree.
+    (let ((eln-cache (expand-file-name "emacs/eln-cache/"
+                                       (or (getenv "XDG_CACHE_HOME")
+                                           (expand-file-name "~/.cache")))))
+      (setq native-comp-eln-load-path
+            (cons eln-cache
+                  (if (boundp 'native-comp-eln-load-path)
+                      native-comp-eln-load-path
+                    nil))))
+
+    ;; Common startup tuning used by the community for large Emacs configs.
+    (setq gc-cons-threshold (* 128 1024 1024))
+    (setq gc-cons-percentage 0.6)
+    (setq read-process-output-max (* 4 1024 1024))
+    (setq process-adaptive-read-buffering nil)
+  '';
 in
 
 {
@@ -94,9 +169,40 @@ in
   };
 
   xdg.configFile = {
-    "emacs/init.el".source = emacs-config + "/init.el";
-    "emacs/early-init.el".source = emacs-config + "/early-init.el";
+    "emacs/init.el".source = emacsInit;
+    "emacs/early-init.el".source = emacsEarlyInit;
   };
+
+  # Create a writable custom.el so Emacs can persist safe-local-eval forms
+  # and load Nix-managed tree-sitter grammars.  We use activation instead of
+  # xdg.configFile so the file stays mutable (Emacs replaces symlinks on save,
+  # but write-region on a store symlink fails, so we start with a real file).
+  home.activation.createEmacsCustom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    customFile="$HOME/.config/emacs/custom.el"
+    if [ ! -f "$customFile" ]; then
+      cat > "$customFile" <<'EOF'
+;;; custom.el --- Local customizations -*- lexical-binding: t -*-
+;; This file is writable — Emacs saves safe-local-variable values here.
+
+;; Nix-managed tree-sitter grammars (C/C++ and others missing from manual install)
+(setq treesit-extra-load-path
+      (append (list "${treesit-grammars}")
+              (when (boundp 'treesit-extra-load-path)
+                treesit-extra-load-path)))
+
+;; Mark C++ compile-command eval in .dir-locals.el as safe
+(add-to-list 'safe-local-eval-forms
+             '(setq-local compile-command
+                (concat "g++ -std=c++23 -Wall -Wextra -O2 -o "
+                 (file-name-sans-extension (file-name-nondirectory buffer-file-name))
+                 " "
+                 (shell-quote-argument buffer-file-name))))
+
+(provide 'custom)
+;;; custom.el ends here
+EOF
+    fi
+  '';
 
   home.packages = with pkgs; [
     # CLI tools Emacs needs (also available in your shell)

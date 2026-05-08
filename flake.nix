@@ -44,6 +44,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    oh-my-openagent = {
+      url = "github:code-yeongyu/oh-my-openagent";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -52,7 +57,7 @@
       home-manager,
       emacs-overlay,
       hermes-agent,
-      hyprland,
+      oh-my-openagent,
       ...
     }:
     let
@@ -65,22 +70,19 @@
           allowUnsupportedSystem = false;
         };
       };
-    in
-    {
-      homeConfigurations."nathanmcunha" = home-manager.lib.homeManagerConfiguration {
+      homeConfig = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
         extraSpecialArgs = {
-
           inherit
             inputs
             system
             hermes-agent
+            oh-my-openagent
             ;
         };
       };
-
-      nixosConfigurations."nathanmcunha-nixos" = nixpkgs.lib.nixosSystem {
+      nixosConfig = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit inputs;
@@ -91,5 +93,14 @@
           { nixpkgs.overlays = [ emacs-overlay.overlays.default ]; }
         ];
       };
+    in
+    {
+      homeConfigurations."nathanmcunha" = homeConfig;
+      checks.${system} = {
+        home-configuration = homeConfig.activationPackage;
+        nixos-configuration = nixosConfig.config.system.build.toplevel;
+      };
+
+      nixosConfigurations."nathanmcunha-nixos" = nixosConfig;
     };
 }

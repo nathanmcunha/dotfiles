@@ -70,5 +70,6 @@ in
     ./modules/aliases.nix
     ./modules/mise.nix
     ./modules/hermes-agent.nix
+    ./modules/nh.nix
   ];
 }

@@ -40,6 +40,14 @@ let
     exec ${pkgs.uv}/bin/uvx --python 3.13 kimi-cli "$@"
   '';
 
+  oh-my-openagent = pkgs.writeShellScriptBin "oh-my-openagent" ''
+    exec ${pkgs.bun}/bin/bunx oh-my-opencode@4.0.0 "$@"
+  '';
+
+  oh-my-opencode = pkgs.writeShellScriptBin "oh-my-opencode" ''
+    exec ${pkgs.bun}/bin/bunx oh-my-opencode@4.0.0 "$@"
+  '';
+
 in
 {
   home.packages = [
@@ -47,5 +55,7 @@ in
     rtk
     qwen-code
     kimi-cli
+    oh-my-openagent
+    oh-my-opencode
   ];
 }

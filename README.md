@@ -47,6 +47,17 @@ The alias is defined in `modules/aliases.nix` and runs:
 - `update-externals check`
 - `sudo nixos-rebuild switch --flake ~/dotfiles#nathanmcunha-nixos`
 
+## Emacs
+
+Emacs is managed through Home Manager + `emacs-overlay` and runs as a daemon under a custom user service.
+
+- Config source: external `emacs-config` repo pinned in `flake.lock`
+- Runtime support: Nix-managed Tree-sitter grammars and LSP servers
+- Local state: writable `~/.config/emacs/custom.el`
+- Startup tuning: early-init wrapper keeps ELN cache and GC settings optimized for large configs
+
+To update Emacs-related inputs, run the normal flake update flow and rebuild.
+
 ## External tool manager
 
 `files/scripts/update-externals.sh` manages versions from `files/external/versions.json`.
@@ -68,6 +79,8 @@ sudo nix-collect-garbage -d
 nix-store --gc
 nix-store --optimize
 ```
+
+CI runs `nix flake check` on GitHub Actions for push and pull request events.
 
 ## Notes
 
