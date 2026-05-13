@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "theme": {
+    "background": "{{colors.surface.default.hex}}",
+    "foreground": "{{colors.on_surface.default.hex}}",
+    "primary": "{{colors.primary.default.hex}}",
+    "secondary": "{{colors.secondary.default.hex}}",
+    "accent": "{{colors.tertiary.default.hex}}",
+    "error": "{{colors.error.default.hex}}",
+    "warning": "{{colors.secondary_container.default.hex}}",
+    "success": "{{colors.tertiary.default.hex}}",
+    "info": "{{colors.primary_fixed.default.hex}}",
+    "text": "{{colors.on_surface.default.hex}}",
+    "textMuted": "{{colors.on_surface_variant.default.hex}}",
+    "backgroundPanel": "{{colors.surface_container.default.hex}}",
+    "backgroundElement": "{{colors.surface_container_high.default.hex}}",
+    "border": "{{colors.outline.default.hex}}",
+    "selectionBg": "{{colors.primary_container.default.hex}}",
+    "selectionFg": "{{colors.on_primary_container.default.hex}}",
+    "muted": "{{colors.outline_variant.default.hex}}"
+  }
+}

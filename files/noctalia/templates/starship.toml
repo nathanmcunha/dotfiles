@@ -1,0 +1,66 @@
+[palettes.noctalia]
+base03 = "{{colors.surface.default.hex}}"
+base02 = "{{colors.surface_container_lowest.default.hex}}"
+base01 = "{{colors.on_surface_variant.default.hex}}"
+base00 = "{{colors.outline.default.hex}}"
+base0 = "{{colors.on_surface.default.hex}}"
+base1 = "{{colors.on_surface.default.hex}}"
+base2 = "{{colors.surface_container_high.default.hex}}"
+base3 = "{{colors.surface_bright.default.hex}}"
+yellow = "{{colors.secondary.default.hex}}"
+orange = "{{colors.tertiary.default.hex}}"
+red = "{{colors.error.default.hex}}"
+magenta = "{{colors.tertiary_container.default.hex}}"
+violet = "{{colors.primary_container.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.primary_fixed.default.hex}}"
+green = "{{colors.tertiary.default.hex}}"
+grey_bg = "{{colors.surface_container.default.hex}}"
+
+format = "[]($style)$os$username[](bg:$yellow fg:$base03)$directory[](fg:$yellow bg:$base2)$git_branch$git_status[](fg:$base2 bg:$grey_bg)$nodejs$rust$golang$php[](fg:$grey_bg)\n$character"
+palette = "noctalia"
+
+[username]
+show_always = true
+style_user = "bg:$base2 fg:$base01"
+style_root = "bg:$base2 fg:$red"
+format = "[$user ]($style)"
+
+[directory]
+style = "bg:$yellow fg:$base3"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:$base2"
+format = "[[ $symbol $branch ](fg:$cyan bg:$base2)]($style)"
+
+[git_status]
+style = "bg:$base2"
+format = "[[($all_status$ahead_behind )](fg:$red bg:$base2)]($style)"
+
+[nodejs]
+symbol = ""
+style = "bg:$grey_bg"
+format = "[[ $symbol ($version) ](fg:$green bg:$grey_bg)]($style)"
+
+[rust]
+symbol = ""
+style = "bg:$grey_bg"
+format = "[[ $symbol ($version) ](fg:$red bg:$grey_bg)]($style)"
+
+[golang]
+symbol = ""
+style = "bg:$grey_bg"
+format = "[[ $symbol ($version) ](fg:$blue bg:$grey_bg)]($style)"
+
+[php]
+symbol = ""
+style = "bg:$grey_bg"
+format = "[[ $symbol ($version) ](fg:$violet bg:$grey_bg)]($style)"
+
+[character]
+success_symbol = "[➜](bold $green)"
+error_symbol = "[➜](bold $red)"

@@ -10,10 +10,6 @@
     implementation = "broker";
   };
 
-  # Printing
-  services.printing.enable = true;
-  services.printing.drivers = [ pkgs.gutenprint ];
-
   # File indexing
   services.locate.enable = true;
 
@@ -27,5 +23,4 @@
   # Flatpak
   services.flatpak.enable = true;
 
-  environment.systemPackages = with pkgs; [ ];
 }

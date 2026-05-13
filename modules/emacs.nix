@@ -100,6 +100,10 @@ let
     extraEmacsPackages = epkgs: [
       epkgs.diminish # implicit dep via :diminish keyword
       epkgs.jinx # :tangle no block, parser can't see it
+      epkgs.gcmh
+      epkgs.org-appear
+      epkgs.valign
+      epkgs.popper
     ];
   };
 
@@ -168,10 +172,10 @@ in
     };
   };
 
-  xdg.configFile = {
-    "emacs/init.el".source = emacsInit;
-    "emacs/early-init.el".source = emacsEarlyInit;
-  };
+  # xdg.configFile = {
+  #   "emacs/init.el".source = emacsInit;
+  #   "emacs/early-init.el".source = emacsEarlyInit;
+  # };
 
   # Create a writable custom.el so Emacs can persist safe-local-eval forms
   # and load Nix-managed tree-sitter grammars.  We use activation instead of
@@ -197,6 +201,9 @@ in
                  (file-name-sans-extension (file-name-nondirectory buffer-file-name))
                  " "
                  (shell-quote-argument buffer-file-name))))
+
+;; Match the Noctalia-generated terminal palette.
+(load-theme 'modus-operandi t)
 
 (provide 'custom)
 ;;; custom.el ends here

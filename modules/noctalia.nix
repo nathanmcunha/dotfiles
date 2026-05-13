@@ -34,6 +34,14 @@
           input_path = "~/.config/noctalia/templates/alacritty-colors.toml";
           output_path = "~/.config/alacritty/theme-colors.toml";
         };
+        starship = {
+          input_path = "~/.config/noctalia/templates/starship.toml";
+          output_path = "~/.config/starship/noctalia.toml";
+        };
+        opencode = {
+          input_path = "~/.config/noctalia/templates/opencode-theme.json";
+          output_path = "~/.config/opencode/themes/noctalia.json";
+        };
       };
     };
   };
@@ -67,5 +75,9 @@
       ../files/noctalia/templates/dunstrc;
     ".config/noctalia/templates/alacritty-colors.toml".source =
       ../files/noctalia/templates/alacritty-colors.toml;
+    ".config/noctalia/templates/starship.toml".source =
+      ../files/noctalia/templates/starship.toml;
+    ".config/noctalia/templates/opencode-theme.json".source =
+      ../files/noctalia/templates/opencode-theme.json;
   };
 }
