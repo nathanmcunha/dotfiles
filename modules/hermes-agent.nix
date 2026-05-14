@@ -12,11 +12,11 @@ in
 {
   home.packages = [ hermesPkg ];
 
-  programs.zsh.initContent = ''
-    export ANTHROPIC_API_KEY=$(${pkgs.pass}/bin/pass show anthropic/api-key 2>/dev/null | head -1)
-    export MINIMAX_API_KEY=$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)
-    export OPENCODE_GO_API_KEY=$(${pkgs.pass}/bin/pass show opencode/api-key 2>/dev/null | head -1)
-  '';
+  home.sessionVariables = {
+    ANTHROPIC_API_KEY = "$(${pkgs.pass}/bin/pass show anthropic/api-key 2>/dev/null | head -1)";
+    MINIMAX_API_KEY = "$(${pkgs.pass}/bin/pass show minimax/api-key 2>/dev/null | head -1)";
+    OPENCODE_GO_API_KEY = "$(${pkgs.pass}/bin/pass show opencode/api-key 2>/dev/null | head -1)";
+  };
 
   # Main Hermes configuration
   xdg.configFile."hermes/config.yaml" = {

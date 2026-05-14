@@ -14,9 +14,5 @@
       not_found_auto_install = false;
     };
 
-    # No global tools — project-level only
-    # globalConfig = {
-    #   tools = { };
-    # };
   };
 }

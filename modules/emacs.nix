@@ -39,10 +39,14 @@ let
     "yaml"
   ];
   treesit-grammars = pkgs.linkFarm "emacs-treesit-grammars"
-    (map (name: {
-      name = "libtree-sitter-${name}.so";
-      path = "${pkgs.tree-sitter.builtGrammars."tree-sitter-${name}"}/parser";
-    }) grammarNames);
+    (lib.filter (g: g != null)
+      (map (name:
+        let grammar = pkgs.tree-sitter.builtGrammars."tree-sitter-${name}" or null;
+        in if grammar != null then {
+          name = "libtree-sitter-${name}.so";
+          path = "${grammar}/parser";
+        } else null
+      ) grammarNames));
 
   # Tools Emacs shells out to — only in daemon PATH, not your shell
   emacs-only-tools = with pkgs; [

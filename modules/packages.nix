@@ -10,7 +10,6 @@
     # CLI essentials
     fzf
     bat
-    btop
     tree
     eza
     zoxide
@@ -94,8 +93,6 @@
     nautilus
 
     # Terminal
-    alacritty
-
     # Browser
     brave
     google-chrome
