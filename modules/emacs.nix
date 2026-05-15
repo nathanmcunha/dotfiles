@@ -130,6 +130,12 @@ let
   emacsEarlyInit = pkgs.writeText "emacs-early-init.el" ''
     (load-file "${emacs-config}/early-init.el")
 
+    ;; Make Nix-provided tree-sitter grammars available at startup so Emacs
+    ;; doesn't try to compile/install them at runtime.
+    (setq treesit-extra-load-path
+          (append (list "${treesit-grammars}")
+                  (when (boundp 'treesit-extra-load-path) treesit-extra-load-path)))
+
     ;; Keep startup-sensitive caches in XDG cache instead of the config tree.
     (let ((eln-cache (expand-file-name "emacs/eln-cache/"
                                        (or (getenv "XDG_CACHE_HOME")
@@ -181,8 +187,8 @@ in
   #   "emacs/early-init.el".source = emacsEarlyInit;
   # };
 
-  # Create a writable custom.el so Emacs can persist safe-local-eval forms
-  # and load Nix-managed tree-sitter grammars.  We use activation instead of
+  # Create a writable custom.el so Emacs can persist safe-local-eval forms.
+  # We use activation instead of
   # xdg.configFile so the file stays mutable (Emacs replaces symlinks on save,
   # but write-region on a store symlink fails, so we start with a real file).
   home.activation.createEmacsCustom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -191,12 +197,6 @@ in
       cat > "$customFile" <<'EOF'
 ;;; custom.el --- Local customizations -*- lexical-binding: t -*-
 ;; This file is writable — Emacs saves safe-local-variable values here.
-
-;; Nix-managed tree-sitter grammars (C/C++ and others missing from manual install)
-(setq treesit-extra-load-path
-      (append (list "${treesit-grammars}")
-              (when (boundp 'treesit-extra-load-path)
-                treesit-extra-load-path)))
 
 ;; Mark C++ compile-command eval in .dir-locals.el as safe
 (add-to-list 'safe-local-eval-forms
