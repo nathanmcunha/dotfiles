@@ -67,17 +67,7 @@ let
     qt6.qtbase
   ];
 
-  # Tools you also want available in your terminal
-  emacs-shared-tools = with pkgs; [
-    ripgrep
-    fd
-    git
-    zsh
-    alacritty
-    opencode
-  ];
-
-  # LSP servers — only in emacs daemon PATH, not your shell
+  # LSP servers available to Emacs runtime only (not exposed in shell PATH)
   emacs-lsp-servers = with pkgs; [
     basedpyright
     ruff
@@ -95,6 +85,7 @@ let
     config = emacs-config + "/config.org";
     defaultInitFile = false;
     package = pkgs.emacs-unstable-pgtk.override {
+      withNativeCompilation = true;
       withTreeSitter = true;
       withSQLite3 = true;
       withWebP = true;
@@ -111,47 +102,15 @@ let
     ];
   };
 
-  emacsInit = pkgs.writeText "emacs-init.el" ''
-    (require 'cl-lib)
+  emacsInit = pkgs.replaceVars ../files/emacs/emacs-init.el {
+    emacsRuntimePath = lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers);
+    emacsConfigPath = emacs-config;
+  };
 
-    ;; Load the imported init file, but suppress package-manager installs so
-    ;; Nix-provided packages never trigger Elpaca/package-vc prompts.
-    (cl-letf (((symbol-function 'package-install)
-               (lambda (&rest _args) nil))
-              ((symbol-function 'package-vc-install)
-               (lambda (&rest _args) nil))
-              ((symbol-function 'package-vc-install-from-checkout)
-               (lambda (&rest _args) nil))
-              ((symbol-function 'package-vc-install-selected-packages)
-               (lambda (&rest _args) nil)))
-      (load-file "${emacs-config}/init.el"))
-  '';
-
-  emacsEarlyInit = pkgs.writeText "emacs-early-init.el" ''
-    (load-file "${emacs-config}/early-init.el")
-
-    ;; Make Nix-provided tree-sitter grammars available at startup so Emacs
-    ;; doesn't try to compile/install them at runtime.
-    (setq treesit-extra-load-path
-          (append (list "${treesit-grammars}")
-                  (when (boundp 'treesit-extra-load-path) treesit-extra-load-path)))
-
-    ;; Keep startup-sensitive caches in XDG cache instead of the config tree.
-    (let ((eln-cache (expand-file-name "emacs/eln-cache/"
-                                       (or (getenv "XDG_CACHE_HOME")
-                                           (expand-file-name "~/.cache")))))
-      (setq native-comp-eln-load-path
-            (cons eln-cache
-                  (if (boundp 'native-comp-eln-load-path)
-                      native-comp-eln-load-path
-                    nil))))
-
-    ;; Common startup tuning used by the community for large Emacs configs.
-    (setq gc-cons-threshold (* 128 1024 1024))
-    (setq gc-cons-percentage 0.6)
-    (setq read-process-output-max (* 4 1024 1024))
-    (setq process-adaptive-read-buffering nil)
-  '';
+  emacsEarlyInit = pkgs.replaceVars ../files/emacs/emacs-early-init.el {
+    emacsConfigPath = emacs-config;
+    treesitGrammarsPath = treesit-grammars;
+  };
 in
 
 {
@@ -160,32 +119,27 @@ in
     package = myEmacs;
   };
 
-  # Custom systemd service — NOT using HM's services.emacs to avoid ExecStart conflicts
-  systemd.user.services.emacs = {
-    Unit = {
-      Description = "Emacs: the extensible, self-documenting text editor";
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "forking";
-      ExecStart = "${myEmacs}/bin/emacs --daemon";
-      ExecStop = "${myEmacs}/bin/emacsclient --eval '(kill-emacs)'";
-      Restart = "on-failure";
-      Environment = [
-        "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
-        "PATH=/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-shared-tools ++ emacs-lsp-servers)}"
-      ];
-      PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
+  services.emacs = {
+    enable = true;
+    package = myEmacs;
+    startWithUserSession = "graphical";
   };
 
-  # xdg.configFile = {
-  #   "emacs/init.el".source = emacsInit;
-  #   "emacs/early-init.el".source = emacsEarlyInit;
-  # };
+  # Keep daemon runtime dependencies explicit and isolated from shell config.
+  systemd.user.services.emacs.Service = {
+    Environment = [
+      "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
+      "PATH=%h/.nix-profile/bin:/etc/profiles/per-user/%u/bin:/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-lsp-servers)}"
+    ];
+    PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
+  };
+
+  xdg.configFile = {
+    "emacs/init.el".source = emacsInit;
+    "emacs/init.el".force = true;
+    "emacs/early-init.el".source = emacsEarlyInit;
+    "emacs/early-init.el".force = true;
+  };
 
   # Create a writable custom.el so Emacs can persist safe-local-eval forms.
   # We use activation instead of
@@ -217,7 +171,7 @@ EOF
 
   home.packages = with pkgs; [
     # CLI tools Emacs needs (also available in your shell)
-  ] ++ emacs-shared-tools ++ [
+  ] ++ [
     # Runtimes (go, gradle, temurin-bin-21, maven, nodejs_24, python312 already in packages.nix)
     gnumake
 

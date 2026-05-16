@@ -8,22 +8,20 @@
 
   home.packages = with pkgs; [
     # CLI essentials
-    fzf
     bat
     tree
     eza
-    zoxide
-    gh
+    ripgrep
+    fd
     gemini-cli
     jq
     pass
-    inputs.impala.packages.${pkgs.system}.default
+    inputs.impala.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Dev tools
     neovim
     gcc
     cmake
-    pinentry-tty
     gnupg
     go
     gradle

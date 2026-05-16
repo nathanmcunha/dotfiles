@@ -8,7 +8,7 @@ Personal Nix Flake for a full **NixOS + Home Manager** setup focused on a Hyprla
 - Home Manager user: `nathanmcunha`
 - Window manager: Hyprland (Wayland)
 - Desktop stack: Waybar, Wofi, Dunst, wlogout
-- Theming: Gruvbox GTK/icons + Bibata cursor, Matugen/WPGTK integration
+- Theming: adw-gtk3 + Papirus-Dark icons + Bibata cursor, Noctalia integration
 - Tooling: GitHub CLI, Copilot CLI, Claude Code, container/K8s tools, editors, scripts
 
 ## Repository layout (important)
@@ -49,7 +49,7 @@ The alias is defined in `modules/aliases.nix` and runs:
 
 ## Emacs
 
-Emacs is managed through Home Manager + `emacs-overlay` and runs as a daemon under a custom user service.
+Emacs is managed through Home Manager + `emacs-overlay` and runs as a daemon via `services.emacs`.
 
 - Config source: external `emacs-config` repo pinned in `flake.lock`
 - Runtime support: Nix-managed Tree-sitter grammars and LSP servers
