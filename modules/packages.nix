@@ -1,7 +1,6 @@
 {
   pkgs,
   inputs,
-  lib,
   ...
 }:
 {
@@ -90,11 +89,9 @@
     # File manager
     nautilus
 
-    # Terminal
     # Browser
     brave
     google-chrome
-
 
     # Media
     mpv

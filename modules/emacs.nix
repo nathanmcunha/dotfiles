@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   inputs,
@@ -77,6 +78,7 @@ let
     yaml-language-server
     vscode-langservers-extracted
     dockerfile-language-server
+    qt6.qtdeclarative
     nixd
     clang-tools
   ];
@@ -102,15 +104,12 @@ let
     ];
   };
 
-  emacsInit = pkgs.replaceVars ../files/emacs/emacs-init.el {
-    emacsRuntimePath = lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers);
-    emacsConfigPath = emacs-config;
-  };
+  # Runtime PATH injected into Emacs (contains nixd and other LSP servers)
+  emacsRuntimePath = lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers);
 
-  emacsEarlyInit = pkgs.replaceVars ../files/emacs/emacs-early-init.el {
-    emacsConfigPath = emacs-config;
-    treesitGrammarsPath = treesit-grammars;
-  };
+  # Local bootstrap files (copied from external config to avoid broken wrappers)
+  localBootstrapInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-init.el";
+  localBootstrapEarlyInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-early-init.el";
 in
 
 {
@@ -135,9 +134,61 @@ in
   };
 
   xdg.configFile = {
-    "emacs/init.el".source = emacsInit;
+    "emacs/init.el".text = ''
+      (require 'cl-lib)
+
+      ;; Make Nix-managed tools (including LSP servers) available inside Emacs
+      ;; regardless of daemon/non-daemon startup, without exposing them globally.
+      (defun nm/apply-emacs-runtime-path ()
+        (let ((emacs-runtime-path "${emacsRuntimePath}"))
+          (setenv "PATH" (concat emacs-runtime-path path-separator (or (getenv "PATH") "")))
+          (dolist (p (reverse (split-string emacs-runtime-path path-separator t)))
+            (add-to-list 'exec-path p))))
+
+      (nm/apply-emacs-runtime-path)
+
+      ;; Load the local bootstrap directly (bypasses broken external wrappers).
+      (cl-letf (((symbol-function 'package-install)
+                 (lambda (&rest _args) nil))
+                ((symbol-function 'package-vc-install)
+                 (lambda (&rest _args) nil))
+                ((symbol-function 'package-vc-install-from-checkout)
+                 (lambda (&rest _args) nil))
+                ((symbol-function 'package-vc-install-selected-packages)
+                 (lambda (&rest _args) nil)))
+        (load-file "${localBootstrapInit}"))
+
+      ;; Ensure runtime PATH stays available even if imported config changes PATH.
+      (add-hook 'after-init-hook #'nm/apply-emacs-runtime-path)
+    '';
     "emacs/init.el".force = true;
-    "emacs/early-init.el".source = emacsEarlyInit;
+
+    "emacs/early-init.el".text = ''
+      ;; Load the local bootstrap early-init directly.
+      (load-file "${localBootstrapEarlyInit}")
+
+      ;; Make Nix-provided tree-sitter grammars available at startup so Emacs
+      ;; doesn't try to compile/install them at runtime.
+      (setq treesit-extra-load-path
+            (append (list "${treesit-grammars}")
+                    (when (boundp 'treesit-extra-load-path) treesit-extra-load-path)))
+
+      ;; Keep startup-sensitive caches in XDG cache instead of the config tree.
+      (let ((eln-cache (expand-file-name "emacs/eln-cache/"
+                                         (or (getenv "XDG_CACHE_HOME")
+                                             (expand-file-name "~/.cache")))))
+        (setq native-comp-eln-load-path
+              (cons eln-cache
+                    (if (boundp 'native-comp-eln-load-path)
+                        native-comp-eln-load-path
+                      nil))))
+
+      ;; Common startup tuning used by the community for large Emacs configs.
+      (setq gc-cons-threshold (* 128 1024 1024))
+      (setq gc-cons-percentage 0.6)
+      (setq read-process-output-max (* 4 1024 1024))
+      (setq process-adaptive-read-buffering nil)
+    '';
     "emacs/early-init.el".force = true;
   };
 

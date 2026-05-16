@@ -5,9 +5,8 @@
     enable = true;
     enableZshIntegration = true;
     configPath = "${config.xdg.configHome}/starship/noctalia.toml";
-
     settings = {
-      add_newline = false;
+      add_newline = true;
     };
   };
 }
