@@ -25,6 +25,9 @@
     ];
 
     initContent = ''
+      # Run fastfetch on shell startup
+      fastfetch
+
       # Load secrets if present
       [[ -f ~/.env ]] && source ~/.env
 

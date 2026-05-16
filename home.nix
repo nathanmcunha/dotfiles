@@ -70,5 +70,6 @@ in
     ./modules/mise.nix
     ./modules/hermes-agent.nix
     ./modules/nh.nix
+    ./modules/easyeffects.nix
   ];
 }
