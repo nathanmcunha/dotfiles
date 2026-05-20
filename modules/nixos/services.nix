@@ -23,4 +23,10 @@
   # Flatpak
   services.flatpak.enable = true;
 
+  # Printing (CUPS) + HP drivers
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.hplip ];
+  };
+
 }

@@ -110,6 +110,24 @@ let
   # Local bootstrap files (copied from external config to avoid broken wrappers)
   localBootstrapInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-init.el";
   localBootstrapEarlyInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-early-init.el";
+
+  # Helper to read file and substitute variables
+  substituteFile = file: replacements:
+    builtins.replaceStrings
+      (lib.mapAttrsToList (k: _: "@${k}@") replacements)
+      (lib.mapAttrsToList (_: v: v) replacements)
+      (builtins.readFile file);
+
+  nix-init-content = substituteFile ../files/emacs/nix-init.el {
+    inherit emacsRuntimePath localBootstrapInit;
+  };
+
+  nix-early-init-content = substituteFile ../files/emacs/nix-early-init.el {
+    localBootstrapEarlyInit = localBootstrapEarlyInit;
+    treesitGrammars = "${treesit-grammars}";
+  };
+
+  custom-el-content = substituteFile ../files/emacs/custom.el {};
 in
 
 {
@@ -134,89 +152,22 @@ in
   };
 
   xdg.configFile = {
-    "emacs/init.el".text = ''
-      (require 'cl-lib)
-
-      ;; Make Nix-managed tools (including LSP servers) available inside Emacs
-      ;; regardless of daemon/non-daemon startup, without exposing them globally.
-      (defun nm/apply-emacs-runtime-path ()
-        (let ((emacs-runtime-path "${emacsRuntimePath}"))
-          (setenv "PATH" (concat emacs-runtime-path path-separator (or (getenv "PATH") "")))
-          (dolist (p (reverse (split-string emacs-runtime-path path-separator t)))
-            (add-to-list 'exec-path p))))
-
-      (nm/apply-emacs-runtime-path)
-
-      ;; Load the local bootstrap directly (bypasses broken external wrappers).
-      (cl-letf (((symbol-function 'package-install)
-                 (lambda (&rest _args) nil))
-                ((symbol-function 'package-vc-install)
-                 (lambda (&rest _args) nil))
-                ((symbol-function 'package-vc-install-from-checkout)
-                 (lambda (&rest _args) nil))
-                ((symbol-function 'package-vc-install-selected-packages)
-                 (lambda (&rest _args) nil)))
-        (load-file "${localBootstrapInit}"))
-
-      ;; Ensure runtime PATH stays available even if imported config changes PATH.
-      (add-hook 'after-init-hook #'nm/apply-emacs-runtime-path)
-    '';
+    "emacs/init.el".text = nix-init-content;
     "emacs/init.el".force = true;
 
-    "emacs/early-init.el".text = ''
-      ;; Load the local bootstrap early-init directly.
-      (load-file "${localBootstrapEarlyInit}")
-
-      ;; Make Nix-provided tree-sitter grammars available at startup so Emacs
-      ;; doesn't try to compile/install them at runtime.
-      (setq treesit-extra-load-path
-            (append (list "${treesit-grammars}")
-                    (when (boundp 'treesit-extra-load-path) treesit-extra-load-path)))
-
-      ;; Keep startup-sensitive caches in XDG cache instead of the config tree.
-      (let ((eln-cache (expand-file-name "emacs/eln-cache/"
-                                         (or (getenv "XDG_CACHE_HOME")
-                                             (expand-file-name "~/.cache")))))
-        (setq native-comp-eln-load-path
-              (cons eln-cache
-                    (if (boundp 'native-comp-eln-load-path)
-                        native-comp-eln-load-path
-                      nil))))
-
-      ;; Common startup tuning used by the community for large Emacs configs.
-      (setq gc-cons-threshold (* 128 1024 1024))
-      (setq gc-cons-percentage 0.6)
-      (setq read-process-output-max (* 4 1024 1024))
-      (setq process-adaptive-read-buffering nil)
-    '';
+    "emacs/early-init.el".text = nix-early-init-content;
     "emacs/early-init.el".force = true;
   };
 
   # Create a writable custom.el so Emacs can persist safe-local-eval forms.
-  # We use activation instead of
-  # xdg.configFile so the file stays mutable (Emacs replaces symlinks on save,
-  # but write-region on a store symlink fails, so we start with a real file).
+  # We use activation instead of xdg.configFile so the file stays mutable
+  # (Emacs replaces symlinks on save, but write-region on a store symlink fails).
   home.activation.createEmacsCustom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     customFile="$HOME/.config/emacs/custom.el"
     if [ ! -f "$customFile" ]; then
-      cat > "$customFile" <<'EOF'
-;;; custom.el --- Local customizations -*- lexical-binding: t -*-
-;; This file is writable — Emacs saves safe-local-variable values here.
-
-;; Mark C++ compile-command eval in .dir-locals.el as safe
-(add-to-list 'safe-local-eval-forms
-             '(setq-local compile-command
-                (concat "g++ -std=c++23 -Wall -Wextra -O2 -o "
-                 (file-name-sans-extension (file-name-nondirectory buffer-file-name))
-                 " "
-                 (shell-quote-argument buffer-file-name))))
-
-;; Match the Noctalia-generated terminal palette.
-(load-theme 'modus-operandi t)
-
-(provide 'custom)
-;;; custom.el ends here
-EOF
+      cat > "$customFile" <<'CUSTOM_EOF'
+${custom-el-content}
+CUSTOM_EOF
     fi
   '';
 

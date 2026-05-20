@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 let
+  pi-coding-agent = pkgs.writeShellScriptBin "pi" ''
+    exec ${pkgs.nodejs_24}/bin/npx --yes --package @earendil-works/pi-coding-agent@0.74.0 pi "$@"
+  '';
+
   rtk = pkgs.stdenv.mkDerivation {
     pname = "rtk";
     version = "0.34.3";
@@ -57,5 +61,6 @@ in
     kimi-cli
     oh-my-openagent
     oh-my-opencode
+    pi-coding-agent
   ];
 }

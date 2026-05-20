@@ -26,6 +26,7 @@
     gradle
     temurin-bin-21
     maven
+    jetbrains.idea
     nodejs_24
     python312
     rustup
@@ -44,7 +45,6 @@
     kind
 
     # AI CLIs
-    kilocode-cli
     github-copilot-cli
     google-java-format
     opencode

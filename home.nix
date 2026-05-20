@@ -64,11 +64,9 @@ in
     ./modules/noctalia.nix
     ./modules/podman.nix
     ./modules/claude.nix
-    ./modules/external-tools.nix
     ./modules/btop.nix
     ./modules/aliases.nix
     ./modules/mise.nix
-    ./modules/hermes-agent.nix
     ./modules/nh.nix
     ./modules/easyeffects.nix
   ];

@@ -19,11 +19,6 @@
       flake = false;
     };
 
-    hermes-agent = {
-      url = "github:NousResearch/hermes-agent";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +46,6 @@
       nixpkgs,
       home-manager,
       emacs-overlay,
-      hermes-agent,
       oh-my-openagent,
       ...
     }:
@@ -72,7 +66,6 @@
           inherit
             inputs
             system
-            hermes-agent
             oh-my-openagent
             ;
         };
