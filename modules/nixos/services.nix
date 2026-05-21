@@ -29,4 +29,6 @@
     drivers = [ pkgs.hplip ];
   };
 
+  programs.kdeconnect.enable = true;
+
 }

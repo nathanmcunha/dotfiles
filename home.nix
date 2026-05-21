@@ -52,6 +52,8 @@ in
     "gtk-4.0/gtk.css".force = true;
   };
 
+  services.kdeconnect.enable = true;
+
   imports = [
     ./modules/packages.nix
     ./modules/derivations.nix
