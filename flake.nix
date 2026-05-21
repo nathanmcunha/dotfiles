@@ -15,7 +15,8 @@
     };
 
     emacs-config = {
-      url = "git+https://github.com/nathanmcunha/emacs-config.git?ref=main";
+      # Local dev mode: iterate on ~/.config/emacs without pushing upstream.
+      url = "path:/home/nathanmcunha/.config/emacs";
       flake = false;
     };
 

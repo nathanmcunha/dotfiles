@@ -9,6 +9,23 @@
 let
   emacs-config = inputs.emacs-config;
 
+  # Build a single org file for Nix use-package parsing so declarations in
+  # modular org files are always visible to emacsWithPackagesFromUsePackage.
+  nixParsedConfig = pkgs.writeText "emacs-nix-config.org" ''
+    #+TITLE: Emacs config for Nix package extraction
+    #+PROPERTY: header-args:emacs-lisp :results silent
+
+    ${builtins.readFile (emacs-config + "/core.org")}
+
+    ${builtins.readFile (emacs-config + "/ui.org")}
+
+    ${builtins.readFile (emacs-config + "/completion.org")}
+
+    ${builtins.readFile (emacs-config + "/tools.org")}
+
+    ${builtins.readFile (emacs-config + "/bindings.org")}
+  '';
+
   # Tree-sitter grammars from Nix (avoids manual compilation at runtime)
   grammarNames = [
     "bash"
@@ -84,7 +101,7 @@ let
   ];
 
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
-    config = emacs-config + "/config.org";
+    config = nixParsedConfig;
     defaultInitFile = false;
     package = pkgs.emacs-unstable-pgtk.override {
       withNativeCompilation = true;
@@ -149,6 +166,7 @@ in
       "PATH=%h/.nix-profile/bin:/etc/profiles/per-user/%u/bin:/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-lsp-servers)}"
     ];
     PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
+    RestartSec = 5;  # Wait 5s before restarting to let display settle
   };
 
   xdg.configFile = {
