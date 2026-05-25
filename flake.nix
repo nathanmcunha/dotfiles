@@ -40,6 +40,11 @@
       flake = false;
     };
 
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -52,9 +57,12 @@
     }:
     let
       system = "x86_64-linux";
+      overlays = [
+        emacs-overlay.overlays.default
+        (import ./overlays/rtk.nix)
+      ];
       pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ emacs-overlay.overlays.default ];
+        inherit system overlays;
         config = {
           allowUnfree = true;
           allowUnsupportedSystem = false;
@@ -79,7 +87,7 @@
         };
         modules = [
           ./hosts/nathanmcunha-nixos/configuration.nix
-          { nixpkgs.overlays = [ emacs-overlay.overlays.default ]; }
+          { nixpkgs.overlays = overlays; }
         ];
       };
     in
