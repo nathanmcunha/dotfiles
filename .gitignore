@@ -4,3 +4,11 @@ result
 /.agent-shell/
 /.sisyphus/
 .aider*
+
+# Pi coding agent runtime data
+.pi/
+.rtk/
+
+# Local docs/notes
+CLAUDE.md
+docs/
