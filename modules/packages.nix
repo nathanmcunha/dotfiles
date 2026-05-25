@@ -15,6 +15,7 @@
     gemini-cli
     jq
     pass
+    rtk
     inputs.impala.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Dev tools
@@ -48,6 +49,7 @@
     github-copilot-cli
     google-java-format
     opencode
+    pi-coding-agent
 
     # Wayland / Hyprland apps
     playerctl
