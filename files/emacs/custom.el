@@ -9,8 +9,7 @@
                  " "
                  (shell-quote-argument buffer-file-name))))
 
-;; Match the terminal palette theme.
-(load-theme 'modus-operandi t)
+
 
 (provide 'custom)
 ;;; custom.el ends here
