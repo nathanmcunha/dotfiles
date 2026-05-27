@@ -35,14 +35,32 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    oh-my-openagent = {
-      url = "github:code-yeongyu/oh-my-openagent";
-      flake = false;
-    };
-
     superpowers = {
       url = "github:obra/superpowers";
       flake = false;
+    };
+    oh-my-pi = {
+      url = "github:can1357/oh-my-pi";
+    };
+
+    nixpkgs-wayland = {
+      url = "github:nix-community/nixpkgs-wayland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
@@ -52,7 +70,10 @@
       nixpkgs,
       home-manager,
       emacs-overlay,
-      oh-my-openagent,
+      oh-my-pi,
+      nixpkgs-wayland,
+      nix-gaming,
+      nur,
       ...
     }:
     let
@@ -60,6 +81,9 @@
       overlays = [
         emacs-overlay.overlays.default
         (import ./overlays/rtk.nix)
+        nixpkgs-wayland.overlays.default
+        nix-gaming.overlays.default
+        nur.overlays.default
       ];
       pkgs = import nixpkgs {
         inherit system overlays;
@@ -75,7 +99,7 @@
           inherit
             inputs
             system
-            oh-my-openagent
+            oh-my-pi
             ;
         };
       };
