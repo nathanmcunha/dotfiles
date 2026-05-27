@@ -274,8 +274,8 @@
         "smoothScrollEnabled": true
     },
     "ui": {
-        "fontDefault": "Noto Sans",
-        "fontFixed": "JetBrainsMono Nerd Font",
+        "fontDefault": "Lexend",
+        "fontFixed": "Atkinson Hyperlegible Mono",
         "fontDefaultScale": 1,
         "fontFixedScale": 1,
         "tooltipsEnabled": true,
@@ -693,6 +693,18 @@
             {
                 "enabled": true,
                 "id": "starship"
+            },
+            {
+                "enabled": true,
+                "id": "btop"
+            },
+            {
+                "enabled": true,
+                "id": "zathura"
+            },
+            {
+                "enabled": true,
+                "id": "zen-browser"
             }
         ],
         "enableUserTheming": true
@@ -707,9 +719,9 @@
         "manualSunset": "17:00"
     },
     "hooks": {
-        "enabled": false,
+        "enabled": true,
         "wallpaperChange": "",
-        "darkModeChange": "",
+        "darkModeChange": "echo ${1:-0} > ~/.config/noctalia/.darkmode && emacsclient -e '(nm/apply-noctalia-theme)' 2>/dev/null || true",
         "screenLock": "",
         "screenUnlock": "",
         "performanceModeEnabled": "",
