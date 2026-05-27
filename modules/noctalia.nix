@@ -34,9 +34,14 @@
           input_path = "~/.config/noctalia/templates/alacritty-colors.toml";
           output_path = "~/.config/alacritty/theme-colors.toml";
         };
-        starship = {
-          input_path = "~/.config/noctalia/templates/starship.toml";
-          output_path = "~/.config/starship/noctalia.toml";
+        hyprlock = {
+          input_path = "~/.config/noctalia/templates/hyprlock.conf";
+          output_path = "~/.config/hypr/hyprlock.conf";
+        };
+        emacs-colors = {
+          input_path = "~/.config/noctalia/templates/emacs-colors.el";
+          output_path = "~/.config/emacs/noctalia-colors.el";
+          post_hook = "emacsclient -e '(nm/apply-noctalia-theme)' 2>/dev/null || true";
         };
         opencode = {
           input_path = "~/.config/noctalia/templates/opencode-theme.json";
@@ -67,8 +72,10 @@
       ../files/noctalia/templates/dunstrc;
     ".config/noctalia/templates/alacritty-colors.toml".source =
       ../files/noctalia/templates/alacritty-colors.toml;
-    ".config/noctalia/templates/starship.toml".source =
-      ../files/noctalia/templates/starship.toml;
+    ".config/noctalia/templates/hyprlock.conf".source =
+      ../files/noctalia/templates/hyprlock.conf;
+    ".config/noctalia/templates/emacs-colors.el".source =
+      ../files/noctalia/templates/emacs-colors.el;
     ".config/noctalia/templates/opencode-theme.json".source =
       ../files/noctalia/templates/opencode-theme.json;
   };

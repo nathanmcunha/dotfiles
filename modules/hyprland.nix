@@ -67,14 +67,9 @@
   home.file = {
     ".config/hypr/hyprland.conf".source = ../files/hypr/hyprland.conf;
     ".config/hypr/hypridle.conf".source = ../files/hypr/hypridle.conf;
-    ".config/hypr/hyprlock.conf".source = ../files/hypr/hyprlock.conf;
     ".config/hypr/rules.conf".source = ../files/hypr/rules.conf;
     ".config/hypr/scripts/screenshot.sh" = {
       source = ../files/hypr/scripts/screenshot.sh;
-      executable = true;
-    };
-    ".config/hypr/scripts/wallpaper_rotate.sh" = {
-      source = ../files/hypr/scripts/wallpaper_rotate.sh;
       executable = true;
     };
     ".config/hypr/scripts/volume_listener.sh" = {

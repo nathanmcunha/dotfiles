@@ -17,7 +17,10 @@
       };
 
       window = {
-        padding = { x = 10; y = 10; };
+        padding = {
+          x = 6;
+          y = 6;
+        };
         opacity = 0.99;
         title = "Alacritty";
         decorations = "Full";
@@ -30,10 +33,25 @@
 
       font = {
         size = 12.0;
-        normal = { family = "JetBrainsMono Nerd Font"; style = "Regular"; };
-        bold   = { family = "JetBrainsMono Nerd Font"; style = "Bold"; };
-        italic = { family = "JetBrainsMono Nerd Font"; style = "Italic"; };
+        normal = {
+          family = "Atkinson Hyperlegible Mono";
+          style = "Regular";
+        };
+        bold = {
+          family = "Atkinson Hyperlegible Mono";
+          style = "Bold";
+        };
+        italic = {
+          family = "Atkinson Hyperlegible Mono";
+          style = "Italic";
+        };
+        offset = {
+          x = 0;
+          y = 2;
+        };
       };
     };
   };
+
+  xdg.configFile."alacritty/alacritty.toml".force = true;
 }

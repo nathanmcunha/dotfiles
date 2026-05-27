@@ -118,6 +118,7 @@ let
       epkgs.org-appear
       epkgs.valign
       epkgs.popper
+      epkgs.solaire-mode
     ];
   };
 
