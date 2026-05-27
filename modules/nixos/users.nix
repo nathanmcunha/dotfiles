@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs.zsh.enable = true;
 
   users.users.nathanmcunha = {
@@ -14,6 +15,7 @@
       "bluetooth"
       "docker"
       "lpadmin"
+      "wireshark"
     ];
   };
 

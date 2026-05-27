@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  inputs,
   ...
 }:
 
@@ -20,6 +19,7 @@ in
   programs.gpg.enable = true;
   services.gpg-agent = {
     enable = true;
+    enableSshSupport = true;
     enableZshIntegration = true;
     pinentry.package = pkgs.pinentry-curses;
     defaultCacheTtl = 3600;
@@ -51,8 +51,6 @@ in
     "gtk-4.0/settings.ini".force = true;
     "gtk-4.0/gtk.css".force = true;
   };
-
-  services.kdeconnect.enable = true;
 
   # Pi coding agent configuration
   # Multiple providers can be configured. Set API keys via:
@@ -86,7 +84,7 @@ in
     packages = [
       "https://github.com/mksglu/context-mode"
       "https://github.com/nicobailon/pi-subagents"
-      "npm:@ollama/pi-web-search"
+      "https://github.com/nicobailon/pi-web-access"
       "npm:@samfp/pi-memory"
     ];
 
@@ -118,5 +116,6 @@ in
     ./modules/nh.nix
     ./modules/easyeffects.nix
     ./modules/pi.nix
+    ./modules/zen-browser.nix
   ];
 }

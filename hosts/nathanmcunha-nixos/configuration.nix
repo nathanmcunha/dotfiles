@@ -22,8 +22,14 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console.font = "ter-v16n";
 
-  environment.systemPackages = with pkgs; [ vim wget curl stow ];
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    curl
+    stow
+  ];
 
   hardware.enableRedistributableFirmware = true;
   system.stateVersion = "25.05";
+
 }

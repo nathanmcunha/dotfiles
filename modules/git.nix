@@ -30,19 +30,17 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
+        AddKeysToAgent = "yes";
       };
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed25519";
       };
     };
   };
-
-  services.ssh-agent.enable = true;
 
   programs.gh = {
     enable = true;

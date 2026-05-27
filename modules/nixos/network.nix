@@ -21,4 +21,5 @@
     ];
   };
 
+  programs.wireshark.enable = true;
 }
