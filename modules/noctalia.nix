@@ -38,11 +38,6 @@
           input_path = "~/.config/noctalia/templates/hyprlock.conf";
           output_path = "~/.config/hypr/hyprlock.conf";
         };
-        emacs-colors = {
-          input_path = "~/.config/noctalia/templates/emacs-colors.el";
-          output_path = "~/.config/emacs/noctalia-colors.el";
-          post_hook = "emacsclient -e '(nm/apply-noctalia-theme)' 2>/dev/null || true";
-        };
         opencode = {
           input_path = "~/.config/noctalia/templates/opencode-theme.json";
           output_path = "~/.config/opencode/themes/noctalia.json";
@@ -74,8 +69,6 @@
       ../files/noctalia/templates/alacritty-colors.toml;
     ".config/noctalia/templates/hyprlock.conf".source =
       ../files/noctalia/templates/hyprlock.conf;
-    ".config/noctalia/templates/emacs-colors.el".source =
-      ../files/noctalia/templates/emacs-colors.el;
     ".config/noctalia/templates/opencode-theme.json".source =
       ../files/noctalia/templates/opencode-theme.json;
   };
