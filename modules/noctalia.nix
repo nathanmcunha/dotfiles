@@ -1,7 +1,6 @@
 {
   pkgs,
   inputs,
-  lib,
   ...
 }:
 
@@ -61,14 +60,11 @@
   home.file = {
     ".config/noctalia/templates/hyprland-colors.conf".source =
       ../files/noctalia/templates/hyprland-colors.conf;
-    ".config/noctalia/templates/wofi-style.css".source =
-      ../files/noctalia/templates/wofi-style.css;
-    ".config/noctalia/templates/dunstrc".source =
-      ../files/noctalia/templates/dunstrc;
+    ".config/noctalia/templates/wofi-style.css".source = ../files/noctalia/templates/wofi-style.css;
+    ".config/noctalia/templates/dunstrc".source = ../files/noctalia/templates/dunstrc;
     ".config/noctalia/templates/alacritty-colors.toml".source =
       ../files/noctalia/templates/alacritty-colors.toml;
-    ".config/noctalia/templates/hyprlock.conf".source =
-      ../files/noctalia/templates/hyprlock.conf;
+    ".config/noctalia/templates/hyprlock.conf".source = ../files/noctalia/templates/hyprlock.conf;
     ".config/noctalia/templates/opencode-theme.json".source =
       ../files/noctalia/templates/opencode-theme.json;
   };

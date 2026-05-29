@@ -34,6 +34,9 @@
       # GPG_TTY must be set at runtime, not build time
       export GPG_TTY=$(tty)
 
+      # Prime GPG agent cache so it prompts for password on first terminal open
+      echo "test" | gpg --clearsign >/dev/null 2>&1
+
       # Emacs client helpers
       e()   { emacsclient -c "$@" }
       ec()  { emacsclient -cn "$@" }

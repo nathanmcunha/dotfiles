@@ -50,7 +50,7 @@ overlays/
 files/
   hypr/                     Hyprland configs and scripts
   noctalia/                 Noctalia settings, plugins, and templates
-  scripts/                  Helper scripts (update-externals, etc.)
+  scripts/                  Helper scripts
   assets/                   Theme/icon tarballs extracted at activation
 .github/workflows/ci.yml    CI — nix flake check on push/PR
 ```
@@ -134,16 +134,6 @@ Switch providers interactively with `/model` or via `--provider`/`--model` CLI f
 | `rtk`            | `overlays/rtk.nix`          | Rust Token Killer — token-optimized CLI proxy      |
 | `antigravity-cli`| `derivations/antigravity-cli.nix` | Gemini's agentic coding tool (binary + bun) |
 | `bun`            | `overlays/bun.nix`          | Bun runtime override (pinned version)              |
-
-## External tool manager
-
-`files/scripts/update-externals.sh` manages versions from `files/external/versions.json`.
-
-```bash
-update-externals check              # Check all tools for updates
-update-externals list               # List managed tools
-update-externals nix-update <name>  # Update version + hash in derivations
-```
 
 ## Maintenance
 
