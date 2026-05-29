@@ -41,6 +41,7 @@
     };
     oh-my-pi = {
       url = "github:can1357/oh-my-pi";
+      flake = false;
     };
 
     nixpkgs-wayland = {
