@@ -115,14 +115,40 @@
           { nixpkgs.overlays = overlays; }
         ];
       };
+      cloudHomeConfig = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [ ./home-cloud.nix ];
+        extraSpecialArgs = {
+          inherit
+            inputs
+            system
+            oh-my-pi
+            ;
+        };
+      };
+      cloudVmConfig = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          lib = nixpkgs.lib;
+        };
+        modules = [
+          ./hosts/cloud-vm/configuration.nix
+          { nixpkgs.overlays = overlays; }
+        ];
+      };
     in
     {
       homeConfigurations."nathanmcunha" = homeConfig;
+      homeConfigurations."cloud-vm" = cloudHomeConfig;
       checks.${system} = {
         home-configuration = homeConfig.activationPackage;
         nixos-configuration = nixosConfig.config.system.build.toplevel;
+        cloud-vm-home = cloudHomeConfig.activationPackage;
+        cloud-vm-system = cloudVmConfig.config.system.build.toplevel;
       };
 
       nixosConfigurations."nathanmcunha-nixos" = nixosConfig;
+      nixosConfigurations."cloud-vm" = cloudVmConfig;
     };
 }
