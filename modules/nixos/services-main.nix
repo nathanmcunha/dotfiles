@@ -6,7 +6,15 @@
   services.greetd.settings.default_session.user = "greeter";
   services.greetd.useTextGreeter = true;
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+      AllowUsers = [ "nathanmcunha" ];
+    };
+  };
 
   services.avahi = {
     enable = true;

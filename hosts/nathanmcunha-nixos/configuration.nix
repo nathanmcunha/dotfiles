@@ -17,7 +17,6 @@
     ../../modules/nixos/graphics.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
   time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "en_US.UTF-8";
   console.font = "ter-v16n";

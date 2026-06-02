@@ -13,7 +13,6 @@
       "audio"
       "video"
       "bluetooth"
-      "docker"
       "lpadmin"
       "wireshark"
     ];
