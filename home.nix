@@ -13,7 +13,8 @@ in
 {
   home.username = "nathanmcunha";
   home.homeDirectory = "/home/nathanmcunha";
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
+  home.enableNixpkgsReleaseCheck = false;
 
   programs.home-manager.enable = true;
   programs.gpg.enable = true;

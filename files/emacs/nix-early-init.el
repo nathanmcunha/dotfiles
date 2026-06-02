@@ -24,6 +24,10 @@
 (setq treesit-extra-load-path
       (append (list "@treesitGrammars@")
               (when (boundp 'treesit-extra-load-path) treesit-extra-load-path)))
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "emacs/themes/"
+                               (or (getenv "XDG_CONFIG_HOME")
+                                   (expand-file-name "~/.config"))))
 
 ;; Keep startup-sensitive caches in XDG cache instead of the config tree.
 (let ((eln-cache (expand-file-name "emacs/eln-cache/"

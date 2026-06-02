@@ -78,7 +78,6 @@
 
     # Desktop apps
     libreoffice
-    bitwarden-desktop
     bitwarden-cli
     protonup-ng
     vscode
@@ -99,7 +98,6 @@
     # Media
     mpv
     vlc
-    freetube
 
     # Image / Documents
     imv
@@ -110,9 +108,10 @@
     cpu-x
     fastfetch
 
+    oci-cli
     vial
-    ytmdesktop
     easyeffects
+    android-tools
 
     (bun.overrideAttrs (old: {
       version = "1.3.14";

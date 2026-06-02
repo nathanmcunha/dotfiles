@@ -41,6 +41,10 @@
           input_path = "~/.config/noctalia/templates/opencode-theme.json";
           output_path = "~/.config/opencode/themes/noctalia.json";
         };
+        omp = {
+          input_path = "~/.config/noctalia/templates/omp-theme.json";
+          output_path = "~/.omp/agent/themes/noctalia.json";
+        };
       };
     };
   };
@@ -67,5 +71,7 @@
     ".config/noctalia/templates/hyprlock.conf".source = ../files/noctalia/templates/hyprlock.conf;
     ".config/noctalia/templates/opencode-theme.json".source =
       ../files/noctalia/templates/opencode-theme.json;
+    ".config/noctalia/templates/omp-theme.json".source =
+      ../files/noctalia/templates/omp-theme.json;
   };
 }

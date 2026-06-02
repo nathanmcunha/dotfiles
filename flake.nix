@@ -21,7 +21,7 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "github:hyprwm/Hyprland/v0.54.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -41,6 +41,7 @@
     };
     oh-my-pi = {
       url = "github:can1357/oh-my-pi";
+      flake = false;
     };
 
     nixpkgs-wayland = {
