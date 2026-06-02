@@ -117,8 +117,4 @@
     enable = true;
     enableZshIntegration = true;
   };
-
-  home.sessionVariables = {
-    # GPG_TTY is set in initContent below so it evaluates at shell runtime
-  };
 }

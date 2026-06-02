@@ -105,7 +105,7 @@ Targets:
 | Emacs      | `emacs-theme.el`           | `~/.config/emacs/noctalia-theme.el`   |
 | OpenCode   | `opencode-theme.json`      | `~/.config/opencode/themes/noctalia.json` |
 
-Settings and plugin config are in `files/noctalia/settings.json` and `files/noctalia/plugins.json`.
+Settings and plugin config are declared inline in `modules/noctalia.nix`. Old JSON files in `files/noctalia/` are no longer used.
 
 ## Emacs
 

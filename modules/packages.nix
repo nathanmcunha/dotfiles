@@ -8,7 +8,6 @@
   home.packages = with pkgs; [
     # CLI essentials
     bat
-    tree
     eza
     ripgrep
     fd
@@ -46,24 +45,20 @@
 
     # AI CLIs
     github-copilot-cli
-    google-java-format
-    opencode
     pi-coding-agent
     (pkgs.callPackage ../derivations/antigravity-cli.nix { })
+    google-cloud-sdk
 
     # Wayland / Hyprland apps
     playerctl
     hyprsunset
-    hypridle
     hyprpaper
     wl-clipboard
     wl-clip-persist
     grim
     slurp
     swappy
-    wf-recorder
     libnotify
-    pamixer
     brightnessctl
     pulsemixer
     pavucontrol
@@ -85,7 +80,6 @@
     appimage-run
     imagemagick
     ffmpeg
-    xclip
     xournalpp
 
     # File manager
@@ -104,7 +98,6 @@
     zathura
 
     # System info
-    blueman
     cpu-x
     fastfetch
 
@@ -120,7 +113,6 @@
         hash = "sha256-lR7iruhV8IWVruxiJSJqKY0/6oOj3NZGXAnLzN9+hI8=";
       };
     }))
-    wireshark
     (writeShellScriptBin "omp" ''
       exec ${bun}/bin/bunx @oh-my-pi/pi-coding-agent "$@"
     '')

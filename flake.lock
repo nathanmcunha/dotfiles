@@ -36,8 +36,8 @@
     "emacs-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1780422410,
-        "narHash": "sha256-7cZeWbEi2eVxahFjP8ExfComkXOzyLXT0RplM9F1KgQ=",
+        "lastModified": 1780424867,
+        "narHash": "sha256-S8nEPkpvBar3ngzc58FWvbXWfJjIcTRHYM1Ur0tFw8Y=",
         "path": "/home/nathanmcunha/.config/emacs",
         "type": "path"
       },
@@ -777,11 +777,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780421924,
-        "narHash": "sha256-KJC6MMo0Ye54GLm6wamnhtATtsqbPFn8O/t7v9xoB04=",
+        "lastModified": 1780424615,
+        "narHash": "sha256-L9CvKkPPY4SwbfdRCWHkYSQIgQ+mVyBpb9oUoCHBb5w=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "889081e3093a00bc3557aa942c722aefd877538f",
+        "rev": "2b8f0a0fe37e4652d1ae53e39441d44fd115d879",
         "type": "github"
       },
       "original": {
