@@ -936,8 +936,8 @@
     };
   };
   home.activation.restartNoctalia = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if pgrep -x noctalia-shell > /dev/null 2>&1; then
-      pkill -x noctalia-shell
+    if pgrep -x quickshell > /dev/null 2>&1; then
+      pkill -x quickshell
       hyprctl dispatch exec noctalia-shell
     fi
   '';

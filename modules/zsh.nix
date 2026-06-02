@@ -31,11 +31,8 @@
       # Load secrets if present
       [[ -f ~/.env ]] && source ~/.env
 
-      # GPG_TTY must be set at runtime, not build time
-      export GPG_TTY=$(tty)
-
-      # Prime GPG agent (unlocks SSH auth via the [A] subkey)
-      echo "test" | gpg --clearsign >/dev/null 2>&1
+      # SSH_AUTH_SOCK: HM's gpg-agent integration does not set this for zsh
+      export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
       # Emacs client helpers
       e()   { emacsclient -c "$@" }

@@ -37,6 +37,7 @@
       "github.com" = {
         HostName = "github.com";
         User = "git";
+        IdentitiesOnly = "yes";
       };
     };
   };
