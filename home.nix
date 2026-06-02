@@ -25,6 +25,9 @@ in
     pinentry.package = pkgs.pinentry-curses;
     defaultCacheTtl = 28800;
     maxCacheTtl = 28800;
+    extraConfig = ''
+      allow-loopback-pinentry
+    '';
   };
 
   gtk = {

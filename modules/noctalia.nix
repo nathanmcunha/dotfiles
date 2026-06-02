@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   inputs,
   ...
 }:
@@ -18,7 +19,7 @@
         position = "top";
         monitors = [
           "HDMI-A-4"
-          "DP-03"
+          "DP-3"
         ];
         density = "normal";
         showOutline = false;
@@ -127,13 +128,13 @@
               usePadding = false;
             }
             {
-              blacklist = [];
+              blacklist = [ ];
               chevronColor = "none";
               colorizeIcons = false;
               drawerEnabled = false;
               hidePassive = false;
               id = "Tray";
-              pinned = [];
+              pinned = [ ];
             }
             {
               hideWhenZero = false;
@@ -299,7 +300,7 @@
         clockStyle = "custom";
         clockFormat = "hh\\nmm";
         passwordChars = true;
-        lockScreenMonitors = [];
+        lockScreenMonitors = [ ];
         lockScreenBlur = 0.5;
         lockScreenTint = 0;
         keybinds = {
@@ -367,7 +368,7 @@
         enabled = true;
         overviewEnabled = false;
         directory = "/home/nathanmcunha/Pictures/Wallpapers/gruvbox/wallpapers";
-        monitorDirectories = [];
+        monitorDirectories = [ ];
         enableMultiMonitorDirectories = false;
         showHiddenFiles = false;
         viewMode = "recursive";
@@ -408,7 +409,7 @@
         wallhavenResolutionWidth = "";
         wallhavenResolutionHeight = "";
         sortOrder = "name";
-        favorites = [];
+        favorites = [ ];
       };
       appLauncher = {
         enableClipboardHistory = true;
@@ -420,7 +421,7 @@
         clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store";
         clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store";
         position = "center";
-        pinnedApps = [];
+        pinnedApps = [ ];
         sortByMostUsed = true;
         terminalCommand = "alacritty -e";
         customLaunchPrefixEnabled = false;
@@ -517,8 +518,8 @@
         floatingRatio = 1;
         size = 1;
         onlySameOutput = true;
-        monitors = [];
-        pinnedApps = [];
+        monitors = [ ];
+        pinnedApps = [ ];
         colorizeIcons = false;
         showLauncherIcon = false;
         launcherPosition = "end";
@@ -620,7 +621,7 @@
         enabled = true;
         enableMarkdown = false;
         density = "default";
-        monitors = [];
+        monitors = [ ];
         location = "top_right";
         overlayLayer = true;
         backgroundOpacity = 0.9;
@@ -658,7 +659,7 @@
           1
           2
         ];
-        monitors = [];
+        monitors = [ ];
       };
       audio = {
         volumeStep = 1;
@@ -666,7 +667,7 @@
         spectrumFrameRate = 30;
         visualizerType = "linear";
         spectrumMirrored = true;
-        mprisBlacklist = [];
+        mprisBlacklist = [ ];
         preferredPlayer = "";
         volumeFeedback = true;
         volumeFeedbackSoundFile = "";
@@ -675,7 +676,7 @@
         brightnessStep = 1;
         enforceMinimum = true;
         enableDdcSupport = false;
-        backlightDeviceMappings = [];
+        backlightDeviceMappings = [ ];
       };
       colorSchemes = {
         useWallpaperColors = true;
@@ -909,29 +910,35 @@
     };
   };
 
-  home.packages = with pkgs; [
-    # dependencies required by noctalia plugins and features
-    gpu-screen-recorder
-    (tesseract.override {
-      enableLanguages = [ "eng" ];
-    })
-    zbar
-    translate-shell
-    gifski
-    wl-mirror
-  ];
-
-  home.file = {
-    ".config/noctalia/templates/hyprland-colors.conf".source =
-      ../files/noctalia/templates/hyprland-colors.conf;
-    ".config/noctalia/templates/wofi-style.css".source = ../files/noctalia/templates/wofi-style.css;
-    ".config/noctalia/templates/dunstrc".source = ../files/noctalia/templates/dunstrc;
-    ".config/noctalia/templates/alacritty-colors.toml".source =
-      ../files/noctalia/templates/alacritty-colors.toml;
-    ".config/noctalia/templates/hyprlock.conf".source = ../files/noctalia/templates/hyprlock.conf;
-    ".config/noctalia/templates/opencode-theme.json".source =
-      ../files/noctalia/templates/opencode-theme.json;
-    ".config/noctalia/templates/omp-theme.json".source =
-      ../files/noctalia/templates/omp-theme.json;
+  home = {
+    packages = with pkgs; [
+      # dependencies required by noctalia plugins and features
+      gpu-screen-recorder
+      (tesseract.override {
+        enableLanguages = [ "eng" ];
+      })
+      zbar
+      translate-shell
+      gifski
+      wl-mirror
+    ];
+    file = {
+      ".config/noctalia/templates/hyprland-colors.conf".source =
+        ../files/noctalia/templates/hyprland-colors.conf;
+      ".config/noctalia/templates/wofi-style.css".source = ../files/noctalia/templates/wofi-style.css;
+      ".config/noctalia/templates/dunstrc".source = ../files/noctalia/templates/dunstrc;
+      ".config/noctalia/templates/alacritty-colors.toml".source =
+        ../files/noctalia/templates/alacritty-colors.toml;
+      ".config/noctalia/templates/hyprlock.conf".source = ../files/noctalia/templates/hyprlock.conf;
+      ".config/noctalia/templates/opencode-theme.json".source =
+        ../files/noctalia/templates/opencode-theme.json;
+      ".config/noctalia/templates/omp-theme.json".source = ../files/noctalia/templates/omp-theme.json;
+    };
   };
+  home.activation.restartNoctalia = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if pgrep -x noctalia-shell > /dev/null 2>&1; then
+      pkill -x noctalia-shell
+      hyprctl dispatch exec noctalia-shell
+    fi
+  '';
 }

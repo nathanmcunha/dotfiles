@@ -34,7 +34,7 @@
       # GPG_TTY must be set at runtime, not build time
       export GPG_TTY=$(tty)
 
-      # Prime GPG agent cache so it prompts for password on first terminal open
+      # Prime GPG agent (unlocks SSH auth via the [A] subkey)
       echo "test" | gpg --clearsign >/dev/null 2>&1
 
       # Emacs client helpers
