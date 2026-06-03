@@ -12,6 +12,7 @@
     ripgrep
     fd
     jq
+    monique
     pass
     rtk
     inputs.impala.packages.${pkgs.stdenv.hostPlatform.system}.default

@@ -72,7 +72,10 @@
         middleClickAction = "none";
         middleClickCommand = "";
         middleClickFollowMouse = false;
-        monitors = [ "HDMI-A-4" "DP-3" ];
+        monitors = [
+          "HDMI-A-4"
+          "DP-3"
+        ];
         mouseWheelAction = "none";
         mouseWheelWrap = true;
         outerCorners = false;
@@ -105,7 +108,7 @@
                   emptyColor = "secondary";
                   enableScrollWheel = true;
                   focusedColor = "primary";
-                  followFocusedScreen = true;
+                  followFocusedScreen = false;
                   fontWeight = "bold";
                   groupedBorderOpacity = 1;
                   hideUnoccupied = true;
@@ -121,40 +124,7 @@
                   unfocusedIconsOpacity = 1;
                 }
               ];
-              right = [
-                {
-                  compactMode = false;
-                  diskPath = "/";
-                  iconColor = "none";
-                  id = "SystemMonitor";
-                  showCpuCores = false;
-                  showCpuFreq = false;
-                  showCpuTemp = true;
-                  showCpuUsage = true;
-                  showDiskAvailable = false;
-                  showDiskUsage = false;
-                  showDiskUsageAsPercent = false;
-                  showGpuTemp = false;
-                  showLoadAverage = false;
-                  showMemoryAsPercent = true;
-                  showMemoryUsage = false;
-                  showNetworkStats = false;
-                  showSwapUsage = false;
-                  textColor = "none";
-                  useMonospaceFont = true;
-                  usePadding = false;
-                }
-                {
-                  colorizeDistroLogo = false;
-                  colorizeSystemIcon = "none";
-                  colorizeSystemText = "none";
-                  customIconPath = "";
-                  enableColorization = true;
-                  icon = "noctalia";
-                  id = "ControlCenter";
-                  useDistroLogo = true;
-                }
-              ];
+              right = [ ];
             };
           }
         ];
@@ -177,12 +147,16 @@
           ];
           left = [
             {
+              defaultSettings = { };
+              id = "plugin:workspace-overview";
+            }
+            {
               characterCount = 2;
               colorizeIcons = false;
               emptyColor = "secondary";
               enableScrollWheel = true;
               focusedColor = "primary";
-              followFocusedScreen = true;
+              followFocusedScreen = false;
               fontWeight = "bold";
               groupedBorderOpacity = 1;
               hideUnoccupied = true;
@@ -198,25 +172,14 @@
               unfocusedIconsOpacity = 1;
             }
             {
-              colorizeIcons = false;
-              hideMode = "hidden";
-              id = "ActiveWindow";
-              maxWidth = 145;
-              scrollingMode = "hover";
-              showIcon = true;
-              showText = true;
-              textColor = "none";
-              useFixedWidth = false;
-            }
-            {
-              compactMode = false;
+              compactMode = true;
               hideMode = "hidden";
               hideWhenIdle = false;
               id = "MediaMini";
               maxWidth = 145;
               panelShowAlbumArt = true;
               scrollingMode = "hover";
-              showAlbumArt = true;
+              showAlbumArt = false;
               showArtistFirst = false;
               showProgressRing = true;
               showVisualizer = true;
@@ -249,23 +212,6 @@
               usePadding = false;
             }
             {
-              hideWhenZero = false;
-              hideWhenZeroUnread = false;
-              iconColor = "none";
-              id = "NotificationHistory";
-              showUnreadBadge = true;
-              unreadBadgeColor = "primary";
-            }
-            {
-              deviceNativePath = "__default__";
-              displayMode = "graphic-clean";
-              hideIfIdle = false;
-              hideIfNotDetected = true;
-              id = "Battery";
-              showNoctaliaPerformance = false;
-              showPowerProfiles = false;
-            }
-            {
               displayMode = "onhover";
               iconColor = "none";
               id = "Volume";
@@ -273,11 +219,24 @@
               textColor = "none";
             }
             {
-              applyToAllMonitors = false;
-              displayMode = "onhover";
-              iconColor = "none";
-              id = "Brightness";
-              textColor = "none";
+              id = "plugin:display-settings";
+            }
+            {
+              defaultSettings = {
+                colorHistory = [ ];
+                detectedRecorder = "";
+                filenameFormat = "";
+                gifMaxSeconds = 30;
+                installedLangs = [ "eng" ];
+                paletteColors = [ ];
+                recordCopyToClipboard = false;
+                recordSkipConfirmation = false;
+                screenshotPath = "";
+                selectedOcrLang = "eng";
+                transAvailable = false;
+                videoPath = "";
+              };
+              id = "plugin:screen-toolkit";
             }
             {
               colorizeDistroLogo = false;
@@ -386,8 +345,8 @@
                 showButtons = true;
                 showVisualizer = true;
                 visualizerType = "linear";
-                x = 386;
-                y = 20;
+                x = 422;
+                y = 57;
               }
               {
                 clockColor = "none";
@@ -399,20 +358,8 @@
                 scale = 2.151037257250227;
                 showBackground = true;
                 useCustomFont = false;
-                x = 420;
-                y = 212;
-              }
-              {
-                colorName = "primary";
-                height = 72;
-                hideWhenIdle = false;
-                id = "AudioVisualizer";
-                roundedCorners = true;
-                showBackground = true;
-                visualizerType = "linear";
-                width = 320;
-                x = 932;
-                y = 604;
+                x = 452;
+                y = 221;
               }
             ];
           }
@@ -470,7 +417,10 @@
         iRadiusRatio = 1;
         keybinds = {
           keyDown = [ "Down" ];
-          keyEnter = [ "Return" "Enter" ];
+          keyEnter = [
+            "Return"
+            "Enter"
+          ];
           keyEscape = [ "Esc" ];
           keyLeft = [ "Left" ];
           keyRemove = [ "Del" ];
@@ -599,7 +549,11 @@
         autoHideMs = 2000;
         backgroundOpacity = 0.9;
         enabled = true;
-        enabledTypes = [ 0 1 2 ];
+        enabledTypes = [
+          0
+          1
+          2
+        ];
         location = "top_right";
         monitors = [ ];
         overlayLayer = true;
@@ -626,43 +580,43 @@
             action = "suspend";
             command = "";
             countdownEnabled = true;
-            enabled = true;
-            keybind = "2";
+            enabled = false;
+            keybind = "";
           }
           {
             action = "hibernate";
             command = "";
             countdownEnabled = true;
-            enabled = true;
-            keybind = "3";
+            enabled = false;
+            keybind = "";
           }
           {
             action = "reboot";
             command = "";
             countdownEnabled = true;
             enabled = true;
-            keybind = "4";
+            keybind = "2";
           }
           {
             action = "logout";
             command = "";
             countdownEnabled = true;
             enabled = true;
-            keybind = "5";
+            keybind = "3";
           }
           {
             action = "shutdown";
             command = "";
             countdownEnabled = true;
             enabled = true;
-            keybind = "6";
+            keybind = "4";
           }
           {
             action = "rebootToUefi";
             command = "";
             countdownEnabled = true;
             enabled = true;
-            keybind = "7";
+            keybind = "5";
           }
           {
             action = "userspaceReboot";
@@ -700,18 +654,54 @@
       };
       templates = {
         activeTemplates = [
-          { enabled = true; id = "discord"; }
-          { enabled = true; id = "gtk"; }
-          { enabled = false; id = "niri"; }
-          { enabled = true; id = "qt"; }
-          { enabled = true; id = "kitty"; }
-          { enabled = true; id = "helix"; }
-          { enabled = true; id = "pywalfox"; }
-          { enabled = true; id = "kcolorscheme"; }
-          { enabled = true; id = "starship"; }
-          { enabled = true; id = "btop"; }
-          { enabled = true; id = "zathura"; }
-          { enabled = true; id = "zen-browser"; }
+          {
+            enabled = true;
+            id = "discord";
+          }
+          {
+            enabled = true;
+            id = "gtk";
+          }
+          {
+            enabled = false;
+            id = "niri";
+          }
+          {
+            enabled = true;
+            id = "qt";
+          }
+          {
+            enabled = true;
+            id = "kitty";
+          }
+          {
+            enabled = true;
+            id = "helix";
+          }
+          {
+            enabled = true;
+            id = "pywalfox";
+          }
+          {
+            enabled = true;
+            id = "kcolorscheme";
+          }
+          {
+            enabled = true;
+            id = "starship";
+          }
+          {
+            enabled = true;
+            id = "btop";
+          }
+          {
+            enabled = true;
+            id = "zathura";
+          }
+          {
+            enabled = true;
+            id = "zen-browser";
+          }
         ];
         enableUserTheming = true;
       };
@@ -752,7 +742,14 @@
         sortOrder = "name";
         transitionDuration = 1500;
         transitionEdgeSmoothness = 0.05;
-        transitionType = [ "fade" "disc" "stripes" "wipe" "pixelate" "honeycomb" ];
+        transitionType = [
+          "fade"
+          "disc"
+          "stripes"
+          "wipe"
+          "pixelate"
+          "honeycomb"
+        ];
         useOriginalImages = false;
         useSolidColor = false;
         useWallhaven = false;
@@ -920,7 +917,16 @@
       ".config/noctalia/templates/omp-theme.json".source = ../files/noctalia/templates/omp-theme.json;
     };
   };
-  home.activation.restartNoctalia = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.noctaliaColorsWritable = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    colorsFile="$HOME/.config/noctalia/colors.json"
+    if [ -L "$colorsFile" ]; then
+      target="$(readlink -f "$colorsFile")"
+      rm "$colorsFile"
+      cp "$target" "$colorsFile"
+      chmod u+w "$colorsFile"
+    fi
+  '';
+  home.activation.restartNoctalia = lib.hm.dag.entryAfter [ "noctaliaColorsWritable" ] ''
     if pgrep -x quickshell > /dev/null 2>&1; then
       pkill -x quickshell
       hyprctl dispatch exec noctalia-shell

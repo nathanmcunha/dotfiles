@@ -31,9 +31,11 @@
       # Load secrets if present
       [[ -f ~/.env ]] && source ~/.env
 
+      # Tell gpg-agent the current TTY so pinentry-curses can prompt
+      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+
       # SSH_AUTH_SOCK: HM's gpg-agent integration does not set this for zsh
       export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-
       # Emacs client helpers
       e()   { emacsclient -c "$@" }
       ec()  { emacsclient -cn "$@" }

@@ -64,6 +64,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    monique = {
+      url = "github:ToRvaLDz/monique";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -75,6 +80,7 @@
       nixpkgs-wayland,
       nix-gaming,
       nur,
+      monique,
       ...
     }:
     let
@@ -85,6 +91,7 @@
         nixpkgs-wayland.overlays.default
         nix-gaming.overlays.default
         nur.overlays.default
+        monique.overlays.default
       ];
       pkgs = import nixpkgs {
         inherit system overlays;

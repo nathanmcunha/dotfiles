@@ -13,6 +13,17 @@
         RestartSec = "2";
       };
     };
+    moniqued = {
+      Unit = {
+        Description = "Monique monitor hotplug daemon";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.monique}/bin/moniqued";
+        Restart = "on-failure";
+        RestartSec = "2";
+      };
+    };
   };
 
   home.file = {
