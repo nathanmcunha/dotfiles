@@ -19,14 +19,23 @@ let
 
     ${builtins.readFile (emacs-config + "/ui.org")}
 
+    ${builtins.readFile (emacs-config + "/theme.org")}
+
     ${builtins.readFile (emacs-config + "/completion.org")}
 
     ${builtins.readFile (emacs-config + "/tools.org")}
 
     ${builtins.readFile (emacs-config + "/bindings.org")}
+
+    ${builtins.readFile (emacs-config + "/notes.org")}
+
+    ${builtins.readFile (emacs-config + "/ai.org")}
+
+    ${builtins.readFile (emacs-config + "/containers.org")}
   '';
 
   # Tree-sitter grammars from Nix (avoids manual compilation at runtime)
+  # Grammars matching treesit-language-source-alist in tools.org + org-mode + markdown + sql
   grammarNames = [
     "bash"
     "c"
@@ -34,23 +43,14 @@ let
     "css"
     "dockerfile"
     "html"
-    "go"
     "java"
     "javascript"
     "json"
-    "json5"
-    "lua"
-    "make"
     "markdown"
     "nix"
     "org"
-    "php"
     "python"
-    "ruby"
-    "rust"
     "sql"
-    "sshclientconfig"
-    "textproto"
     "toml"
     "tsx"
     "typescript"
@@ -83,6 +83,7 @@ let
     tree-sitter
     ispell
     qt6.qtbase
+    gnumake  # magit calls make for some operations
   ];
 
   # LSP servers available to Emacs runtime only (not exposed in shell PATH)
@@ -112,13 +113,14 @@ let
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
-      epkgs.diminish # implicit dep via :diminish keyword
-      epkgs.jinx # :tangle no block, parser can't see it
-      epkgs.gcmh
-      epkgs.org-appear
-      epkgs.valign
-      epkgs.popper
-      epkgs.solaire-mode
+      # Packages the use-package parser cannot discover:
+      epkgs.diminish      # used via :diminish keyword only
+      epkgs.jinx          # :tangle no block — disabled but kept for re-enable path
+      epkgs.gcmh          # bare use-package with :ensure nil, parser may miss
+      epkgs.org-appear    # loaded via org-modern hook, no standalone use-package
+      epkgs.valign        # no explicit use-package, loaded conditionally
+      epkgs.popper        # no use-package at all — loaded implicitly
+      epkgs.solaire-mode  # in theme.org now, parser should see it; kept for safety
     ];
   };
 
@@ -164,10 +166,18 @@ in
   systemd.user.services.emacs.Service = {
     Environment = [
       "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
-      "PATH=%h/.nix-profile/bin:/etc/profiles/per-user/%u/bin:/run/current-system/sw/bin:${lib.concatMapStringsSep ":" (p: "${p}/bin") (emacs-only-tools ++ emacs-lsp-servers)}"
+      "PATH=${lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers)}"
     ];
     PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
     RestartSec = 5;  # Wait 5s before restarting to let display settle
+  };
+
+  # Socket activation — start Emacs daemon on first emacsclient connection
+  systemd.user.sockets.emacs = {
+    Unit.Description = "Emacs server socket";
+    Socket.ListenStream = "%t/emacs/server";
+    Socket.SocketMode = "0600";
+    Install.WantedBy = [ "sockets.target" ];
   };
 
   xdg.configFile = {
@@ -189,17 +199,9 @@ ${custom-el-content}
 CUSTOM_EOF
     fi
   '';
-
+  # Runtime libraries needed by Emacs packages (not in shell PATH, only in daemon env)
+  # enchant_2: jinx spell-check (in LD_LIBRARY_PATH above)
   home.packages = with pkgs; [
-    # CLI tools Emacs needs (also available in your shell)
-  ] ++ [
-    # Runtimes (go, gradle, temurin-bin-21, maven, nodejs_24, python312 already in packages.nix)
-    gnumake
-
-    # Qt runtime (qmlls for QML LSP)
-    # qt6.qtbase moved to emacs-only-tools
-
-    # Required by jinx (runtime library)
     enchant_2
   ];
 }

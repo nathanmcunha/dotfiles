@@ -16,6 +16,7 @@
 
     emacs-config = {
       # Local dev mode: iterate on ~/.config/emacs without pushing upstream.
+      # Absolute path (Nix flakes restrict path: to self/subdirs; parent paths not allowed)
       url = "path:/home/nathanmcunha/.config/emacs";
       flake = false;
     };

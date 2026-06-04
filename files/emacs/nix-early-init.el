@@ -58,3 +58,11 @@
                             (buffer-string)))))
       'dark
     'light))
+
+;; Safe local variable values — avoid repeated prompts in project repos
+(add-to-list 'safe-local-eval-forms
+             '(setq-local compile-command
+                (concat "g++ -std=c++23 -Wall -Wextra -O2 -o "
+                 (file-name-sans-extension (file-name-nondirectory buffer-file-name))
+                 " "
+                 (shell-quote-argument buffer-file-name))))
