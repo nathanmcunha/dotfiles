@@ -29,7 +29,6 @@ let
 
     ${builtins.readFile (emacs-config + "/notes.org")}
 
-    ${builtins.readFile (emacs-config + "/ai.org")}
 
     ${builtins.readFile (emacs-config + "/containers.org")}
   '';
