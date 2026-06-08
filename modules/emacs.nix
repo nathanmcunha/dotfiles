@@ -176,6 +176,7 @@ in
     Unit.Description = "Emacs server socket";
     Socket.ListenStream = "%t/emacs/server";
     Socket.SocketMode = "0600";
+    Socket.DirectoryMode = "0700";
     Install.WantedBy = [ "sockets.target" ];
   };
 

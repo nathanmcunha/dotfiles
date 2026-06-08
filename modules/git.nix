@@ -30,6 +30,7 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+    includes = [ "~/.ssh/gcloud_config" ];
     settings = {
       "*" = {
         AddKeysToAgent = "yes";
