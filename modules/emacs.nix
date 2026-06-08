@@ -119,7 +119,8 @@ let
       epkgs.org-appear    # loaded via org-modern hook, no standalone use-package
       epkgs.valign        # no explicit use-package, loaded conditionally
       epkgs.popper        # no use-package at all — loaded implicitly
-      epkgs.solaire-mode  # in theme.org now, parser should see it; kept for safety
+
+      epkgs.autothemer   # required by rose-pine-theme (loaded from local files)
     ];
   };
 
