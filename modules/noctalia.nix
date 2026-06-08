@@ -917,6 +917,13 @@
       ".config/noctalia/templates/omp-theme.json".source = ../files/noctalia/templates/omp-theme.json;
     };
   };
+
+  # colors.json must be force-managed because the activation script
+  # replaces the store symlink with a writable copy (Noctalia needs
+  # runtime writes), making subsequent home-manager checkLinkTargets
+  # see a conflicting file.
+  xdg.configFile."noctalia/colors.json".force = true;
+
   home.activation.noctaliaColorsWritable = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     colorsFile="$HOME/.config/noctalia/colors.json"
     if [ -L "$colorsFile" ]; then

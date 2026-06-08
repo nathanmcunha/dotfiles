@@ -29,6 +29,7 @@ let
 
     ${builtins.readFile (emacs-config + "/notes.org")}
 
+    ${builtins.readFile (emacs-config + "/ai.org")}
 
     ${builtins.readFile (emacs-config + "/containers.org")}
   '';
@@ -55,15 +56,23 @@ let
     "typescript"
     "yaml"
   ];
-  treesit-grammars = pkgs.linkFarm "emacs-treesit-grammars"
-    (lib.filter (g: g != null)
-      (map (name:
-        let grammar = pkgs.tree-sitter.builtGrammars."tree-sitter-${name}" or null;
-        in if grammar != null then {
-          name = "libtree-sitter-${name}.so";
-          path = "${grammar}/parser";
-        } else null
-      ) grammarNames));
+  treesit-grammars = pkgs.linkFarm "emacs-treesit-grammars" (
+    lib.filter (g: g != null) (
+      map (
+        name:
+        let
+          grammar = pkgs.tree-sitter.builtGrammars."tree-sitter-${name}" or null;
+        in
+        if grammar != null then
+          {
+            name = "libtree-sitter-${name}.so";
+            path = "${grammar}/parser";
+          }
+        else
+          null
+      ) grammarNames
+    )
+  );
 
   # Tools Emacs shells out to — only in daemon PATH, not your shell
   emacs-only-tools = with pkgs; [
@@ -82,7 +91,7 @@ let
     tree-sitter
     ispell
     qt6.qtbase
-    gnumake  # magit calls make for some operations
+    gnumake # magit calls make for some operations
   ];
 
   # LSP servers available to Emacs runtime only (not exposed in shell PATH)
@@ -113,14 +122,14 @@ let
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
       # Packages the use-package parser cannot discover:
-      epkgs.diminish      # used via :diminish keyword only
-      epkgs.jinx          # :tangle no block — disabled but kept for re-enable path
-      epkgs.gcmh          # bare use-package with :ensure nil, parser may miss
-      epkgs.org-appear    # loaded via org-modern hook, no standalone use-package
-      epkgs.valign        # no explicit use-package, loaded conditionally
-      epkgs.popper        # no use-package at all — loaded implicitly
+      epkgs.diminish # used via :diminish keyword only
+      epkgs.jinx # :tangle no block — disabled but kept for re-enable path
+      epkgs.gcmh # bare use-package with :ensure nil, parser may miss
+      epkgs.org-appear # loaded via org-modern hook, no standalone use-package
+      epkgs.valign # no explicit use-package, loaded conditionally
+      epkgs.popper # no use-package at all — loaded implicitly
 
-      epkgs.autothemer   # required by rose-pine-theme (loaded from local files)
+      epkgs.autothemer # required by rose-pine-theme (loaded from local files)
     ];
   };
 
@@ -132,11 +141,11 @@ let
   localBootstrapEarlyInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-early-init.el";
 
   # Helper to read file and substitute variables
-  substituteFile = file: replacements:
-    builtins.replaceStrings
-      (lib.mapAttrsToList (k: _: "@${k}@") replacements)
-      (lib.mapAttrsToList (_: v: v) replacements)
-      (builtins.readFile file);
+  substituteFile =
+    file: replacements:
+    builtins.replaceStrings (lib.mapAttrsToList (k: _: "@${k}@") replacements) (lib.mapAttrsToList (
+      _: v: v
+    ) replacements) (builtins.readFile file);
 
   nix-init-content = substituteFile ../files/emacs/nix-init.el {
     inherit emacsRuntimePath localBootstrapInit;
@@ -147,7 +156,7 @@ let
     treesitGrammars = "${treesit-grammars}";
   };
 
-  custom-el-content = substituteFile ../files/emacs/custom.el {};
+  custom-el-content = substituteFile ../files/emacs/custom.el { };
 in
 
 {
@@ -169,7 +178,7 @@ in
       "PATH=${lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers)}"
     ];
     PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
-    RestartSec = 5;  # Wait 5s before restarting to let display settle
+    RestartSec = 5; # Wait 5s before restarting to let display settle
   };
 
   # Socket activation — start Emacs daemon on first emacsclient connection
@@ -193,12 +202,12 @@ in
   # We use activation instead of xdg.configFile so the file stays mutable
   # (Emacs replaces symlinks on save, but write-region on a store symlink fails).
   home.activation.createEmacsCustom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    customFile="$HOME/.config/emacs/custom.el"
-    if [ ! -f "$customFile" ]; then
-      cat > "$customFile" <<'CUSTOM_EOF'
-${custom-el-content}
-CUSTOM_EOF
-    fi
+        customFile="$HOME/.config/emacs/custom.el"
+        if [ ! -f "$customFile" ]; then
+          cat > "$customFile" <<'CUSTOM_EOF'
+    ${custom-el-content}
+    CUSTOM_EOF
+        fi
   '';
   # Runtime libraries needed by Emacs packages (not in shell PATH, only in daemon env)
   # enchant_2: jinx spell-check (in LD_LIBRARY_PATH above)

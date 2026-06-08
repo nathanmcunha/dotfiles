@@ -1,19 +1,19 @@
 final: prev: {
   rtk = prev.rustPlatform.buildRustPackage {
     pname = "rtk";
-    version = "0.42.0";
+    version = "0.42.3";
 
     src = prev.fetchFromGitHub {
       owner = "rtk-ai";
       repo = "rtk";
-      rev = "v0.42.0";
-      hash = "sha256-ZCDVS/AFljljMac+cAzQztYPQgvQrcEhKIHHRhkMsv8=";
+      rev = "v0.42.3";
+      hash = "sha256-UWiu6y3Ci5F5OYQZIB0QuFmgv+tRUTouD9RZfX+PcsA=";
     };
 
     strictDeps = true;
     __structuredAttrs = true;
 
-    cargoHash = "sha256-CFhKBzJc2/+gZDfHq7wxBWEbtHV8EF3OYa+t1b9aL8k=";
+    cargoHash = "sha256-ryOxbRwtkmeVnV/oF33eAZu/WileUd18ucgdsOvb5QU=";
 
     nativeBuildInputs = [
       prev.makeWrapper
@@ -40,7 +40,7 @@ final: prev: {
     doInstallCheck = true;
 
     meta = prev.rtk.meta // {
-      changelog = "https://github.com/rtk-ai/rtk/blob/v0.42.0/CHANGELOG.md";
+      changelog = "https://github.com/rtk-ai/rtk/blob/v0.42.3/CHANGELOG.md";
     };
   };
 }

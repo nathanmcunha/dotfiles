@@ -1,0 +1,12 @@
+{
+  pkgs ? import <nixpkgs> { },
+}:
+
+pkgs.stdenv.mkDerivation {
+  pname = "antigravity-cli";
+  version = "2.0.0";
+  src = pkgs.fetchutils {
+    url = "https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/2.0.3-6242596486512640/linux-x64/Antigravity%20IDE.tar.gz";
+    hash = "00z8rn908zbd07x59iichj2qpbsvimzdgvdl3bwcj0pgkxqgvd80"
+  };
+}
