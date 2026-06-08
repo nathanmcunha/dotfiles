@@ -49,15 +49,7 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
-(setq-default frame-background-mode
-  (if (and (file-exists-p (expand-file-name "~/.config/noctalia/.darkmode"))
-           (string= "1" (string-trim
-                          (with-temp-buffer
-                            (insert-file-contents
-                              (expand-file-name "~/.config/noctalia/.darkmode"))
-                            (buffer-string)))))
-      'dark
-    'light))
+(setq-default frame-background-mode 'dark)
 
 ;; Safe local variable values — avoid repeated prompts in project repos
 (add-to-list 'safe-local-eval-forms
