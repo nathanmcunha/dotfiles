@@ -50,6 +50,12 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (setq-default frame-background-mode 'dark)
+;; Force X11 backend to avoid PGTK/GTK3 display disconnection crashes
+;; on Wayland.  PGTK Emacs on GTK3 cannot survive display disconnects
+;; (e.g. plugging/unplugging monitors, sleep).
+;; Also set GDK_BACKEND=x11 in emacs.nix systemd service Environment
+;; so the running Emacs process itself uses X11.
+(setenv "GDK_BACKEND" "x11")
 
 ;; Safe local variable values — avoid repeated prompts in project repos
 (add-to-list 'safe-local-eval-forms

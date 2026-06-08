@@ -451,7 +451,7 @@
       };
       hooks = {
         colorGeneration = "";
-        darkModeChange = "echo \${1:-0} > ~/.config/noctalia/.darkmode";
+        darkModeChange = "echo \${1:-0} > ~/.config/noctalia/.darkmode && emacsclient -e '(nm/apply-noctalia-theme)' 2>/dev/null || true";
         enabled = true;
         performanceModeDisabled = "";
         performanceModeEnabled = "";
