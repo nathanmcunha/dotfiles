@@ -111,8 +111,8 @@ let
 
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = nixParsedConfig;
-    defaultInitFile = false;
-    package = pkgs.emacs-unstable-pgtk.override {
+    defaultInitFile = true;
+    package = pkgs.emacs30-pgtk.override {
       withNativeCompilation = true;
       withTreeSitter = true;
       withSQLite3 = true;
@@ -122,23 +122,12 @@ let
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
       # Packages the use-package parser cannot discover:
-      epkgs.diminish # used via :diminish keyword only
-      epkgs.jinx # :tangle no block — disabled but kept for re-enable path
-      epkgs.gcmh # bare use-package with :ensure nil, parser may miss
-      epkgs.org-appear # loaded via org-modern hook, no standalone use-package
-      epkgs.valign # no explicit use-package, loaded conditionally
-      epkgs.popper # no use-package at all — loaded implicitly
-
-      epkgs.autothemer # required by rose-pine-theme (loaded from local files)
+      epkgs.jinx # disabled spell-check, kept for easy re-enable
     ];
   };
 
   # Runtime PATH injected into Emacs (contains nixd and other LSP servers)
   emacsRuntimePath = lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers);
-
-  # Local bootstrap files (copied from external config to avoid broken wrappers)
-  localBootstrapInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-init.el";
-  localBootstrapEarlyInit = "${config.home.homeDirectory}/.config/emacs/bootstrap-early-init.el";
 
   # Helper to read file and substitute variables
   substituteFile =
@@ -148,11 +137,11 @@ let
     ) replacements) (builtins.readFile file);
 
   nix-init-content = substituteFile ../files/emacs/nix-init.el {
-    inherit emacsRuntimePath localBootstrapInit;
+    inherit emacsRuntimePath;
   };
 
   nix-early-init-content = substituteFile ../files/emacs/nix-early-init.el {
-    localBootstrapEarlyInit = localBootstrapEarlyInit;
+    inherit emacsRuntimePath;
     treesitGrammars = "${treesit-grammars}";
   };
 

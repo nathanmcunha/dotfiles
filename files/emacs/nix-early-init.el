@@ -16,9 +16,6 @@
 (setq native-comp-async-jobs-number 4)
 (setq native-comp-speed 3)
 
-;; Load the local bootstrap early-init directly.
-(load-file "@localBootstrapEarlyInit@")
-
 ;; Make Nix-provided tree-sitter grammars available at startup so Emacs
 ;; doesn't try to compile/install them at runtime.
 (setq treesit-extra-load-path

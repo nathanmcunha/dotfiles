@@ -14,12 +14,5 @@
 ;; Apply immediately for daemon mode
 (nm/apply-emacs-runtime-path)
 
-;; Load the local bootstrap directly (bypasses broken external wrappers).
-(cl-letf (((symbol-function 'package-install) (lambda (&rest _args) nil))
-          ((symbol-function 'package-vc-install) (lambda (&rest _args) nil))
-          ((symbol-function 'package-vc-install-from-checkout) (lambda (&rest _args) nil))
-          ((symbol-function 'package-vc-install-selected-packages) (lambda (&rest _args) nil)))
-  (load-file "@localBootstrapInit@"))
-
 ;; Ensure runtime PATH stays available even if imported config changes PATH.
 (add-hook 'after-init-hook #'nm/apply-emacs-runtime-path)
