@@ -4,7 +4,16 @@
 
 ;; Disable package loading at startup for faster boot
 (setq package-enable-at-startup nil)
+;; Then initialize packages manually to load autoloads (M-x discovery).
+;; Nix manages packages; this only loads autoloads without installing.
+(package-initialize)
 (setq inhibit-startup-message t)
+
+;; --- Ergonomics ---
+(setq use-short-answers t)                ; y-or-n-p replaces yes-or-no-p
+(setq enable-recursive-minibuffers t)     ; allow minibuffer inside minibuffer
+(setq resize-mini-windows 'grow-only)     ; minibuffer grows but never shrinks
+(setq frame-inhibit-implied-resize t)     ; prevent frame jank during startup
 
 ;; --- Native Compilation Optimizations ---
 (eval-when-compile
