@@ -275,14 +275,14 @@
       };
       colorSchemes = {
         darkMode = false;
-        generationMethod = "faithful";
+        generationMethod = "manual";
         manualSunrise = "06:00";
         manualSunset = "17:00";
         monitorForColors = "";
-        predefinedScheme = "Catppuccin";
+        predefinedScheme = "";
         schedulingMode = "auto";
         syncGsettings = true;
-        useWallpaperColors = true;
+        useWallpaperColors = false;
       };
       controlCenter = {
         cards = [
@@ -451,7 +451,7 @@
       };
       hooks = {
         colorGeneration = "";
-        darkModeChange = "echo \${1:-0} > ~/.config/noctalia/.darkmode && emacsclient -e '(nm/apply-noctalia-theme)' 2>/dev/null || true";
+        darkModeChange = "echo \${1:-0} > ~/.config/noctalia/.darkmode";
         enabled = true;
         performanceModeDisabled = "";
         performanceModeEnabled = "";
@@ -769,22 +769,23 @@
     };
 
     colors = {
-      mPrimary = "#136c5b";
-      mOnPrimary = "#f9fafa";
-      mSecondary = "#8fa329";
-      mOnSecondary = "#090a0a";
-      mTertiary = "#1a244e";
-      mOnTertiary = "#f9fafa";
-      mError = "#fd4663";
-      mOnError = "#f9fafa";
-      mSurface = "#e1eae8";
-      mOnSurface = "#181b1a";
-      mSurfaceVariant = "#d4e2df";
-      mOnSurfaceVariant = "#515958";
-      mOutline = "#608e85";
-      mShadow = "#c4d4d1";
-      mHover = "#1a244e";
-      mOnHover = "#f9fafa";
+      # Squirrelsong Light — https://sapegin.me/squirrelsong/
+      mPrimary = "#80a4be";
+      mOnPrimary = "#000000";
+      mSecondary = "#657d38";
+      mOnSecondary = "#fdfdfe";
+      mTertiary = "#806f9b";
+      mOnTertiary = "#fdfdfe";
+      mError = "#c06159";
+      mOnError = "#fdfdfe";
+      mSurface = "#fdfdfe";
+      mOnSurface = "#3e3d40";
+      mSurfaceVariant = "#f7f6f9";
+      mOnSurfaceVariant = "#78737d";
+      mOutline = "#9c96a2";
+      mShadow = "#dbd7e0";
+      mHover = "#80a4be";
+      mOnHover = "#000000";
     };
 
     plugins = {

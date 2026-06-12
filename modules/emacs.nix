@@ -92,6 +92,10 @@ let
     ispell
     qt6.qtbase
     gnumake # magit calls make for some operations
+    openssh # consistent SSH binary for TRAMP control sockets
+    google-cloud-sdk # gcloud compute ssh / TRAMP gcloud method
+    awscli2 # AWS CLI for SSM Session Manager / TRAMP aws method
+    ssm-session-manager-plugin # AWS SSM SSH proxy (TRAMP aws method)
   ];
 
   # LSP servers available to Emacs runtime only (not exposed in shell PATH)
@@ -123,6 +127,7 @@ let
     extraEmacsPackages = epkgs: [
       # Packages the use-package parser cannot discover:
       epkgs.jinx # disabled spell-check, kept for easy re-enable
+      epkgs.ghostel # terminal emulator (native module auto-downloads)
     ];
   };
 

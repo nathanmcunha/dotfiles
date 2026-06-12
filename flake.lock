@@ -36,8 +36,8 @@
     "emacs-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1781213992,
-        "narHash": "sha256-OoB12weGQpba0FvpN/XdOgK7jcZt9Fy2gUpu+6xmlOg=",
+        "lastModified": 1781284657,
+        "narHash": "sha256-P207Pn6Me4sWHoJ339NR0cowzhBsIof4aOGMAsOlJZs=",
         "path": "/home/nathanmcunha/.config/emacs",
         "type": "path"
       },
@@ -751,11 +751,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781240539,
-        "narHash": "sha256-uuz6RnVK9nZR08pZFAPPpY42+y5J90MGI4GtnmJ/JRg=",
+        "lastModified": 1781279489,
+        "narHash": "sha256-W4Q6rU0XxAD1cmSb/9wHGJ3cCD7/WGoBHkjtLIZ9pok=",
         "owner": "nix-community",
         "repo": "nixpkgs-wayland",
-        "rev": "b247303c1eda5a8b95787fe956b070945d700331",
+        "rev": "b9a7e04e3371b356801260e64522cd5559e972ca",
         "type": "github"
       },
       "original": {
@@ -817,11 +817,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781266166,
-        "narHash": "sha256-xfVs+h7W8rm3CMG0VqJ/ZICI0L7HvdoE+Wd84n9ojN0=",
+        "lastModified": 1781282799,
+        "narHash": "sha256-yMPyOHuoCqUkhnZ+cB8DEl2rV2ad8XOJceiRrMfbfO4=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "2789bc6fbfa44185862f937f2ed336740d333a09",
+        "rev": "59329cb7d00bf5b46aa2807a9f89e3a579b36189",
         "type": "github"
       },
       "original": {
@@ -833,11 +833,11 @@
     "oh-my-pi": {
       "flake": false,
       "locked": {
-        "lastModified": 1781259394,
-        "narHash": "sha256-G0YNDIv6nG8qmwCV2S+PJ93TrlxDGm2YIkWahuSCxTY=",
+        "lastModified": 1781280789,
+        "narHash": "sha256-2fl85K+4bvLnfH/SsDuc2pJ2EA/TmdnAfmdZsnqjvAM=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "e13ad3805f193c53596dd776f0b1b15fb5c7301c",
+        "rev": "db421bb2ef68af2e0bbb5e4fa8c17c4bcaaa725f",
         "type": "github"
       },
       "original": {
