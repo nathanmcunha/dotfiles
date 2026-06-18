@@ -46,7 +46,6 @@
       kind
 
       # AI CLIs
-      github-copilot-cli
       pi-coding-agent
       (pkgs.callPackage ../derivations/antigravity-cli.nix { })
       google-cloud-sdk
@@ -78,7 +77,6 @@
       bitwarden-cli
       protonup-ng
       vscode
-      audacity
       appimage-run
       imagemagick
       ffmpeg
@@ -103,7 +101,6 @@
       cpu-x
       fastfetch
 
-      oci-cli
       vial
       easyeffects
       exercism

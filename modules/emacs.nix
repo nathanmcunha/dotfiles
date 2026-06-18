@@ -32,6 +32,8 @@ let
     ${builtins.readFile (emacs-config + "/ai.org")}
 
     ${builtins.readFile (emacs-config + "/containers.org")}
+
+    ${builtins.readFile (emacs-config + "/eca.org")}
   '';
 
   # Tree-sitter grammars from Nix (avoids manual compilation at runtime)
