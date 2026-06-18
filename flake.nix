@@ -70,7 +70,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    inputs.helium = {
+    helium = {
       url = "github:schembriaiden/helium-browser-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };

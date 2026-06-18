@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   inputs,
@@ -154,13 +153,10 @@ let
 
   custom-el-content = substituteFile ../files/emacs/custom.el { };
 in
-
 {
-  programs.emacs = {
-    enable = true;
-    package = myEmacs;
-  };
 
+  # services.emacs handles package installation and systemd unit + socket.
+  # programs.emacs is redundant — removing it avoids a no-op package drop.
   services.emacs = {
     enable = true;
     package = myEmacs;
@@ -168,12 +164,16 @@ in
   };
 
   # Keep daemon runtime dependencies explicit and isolated from shell config.
+  # DOCKER_HOST is exported here so it's available to every child process
+  # Emacs spawns (docker.el, async-shell-command, TRAMP containers).
+  # Uses %U (systemd specifier) which expands to the user's numeric UID at runtime.
   systemd.user.services.emacs.Service = {
     Environment = [
       "LD_LIBRARY_PATH=${pkgs.enchant_2}/lib"
-      "PATH=${lib.makeBinPath (emacs-only-tools ++ emacs-lsp-servers)}"
+      "PATH=${emacsRuntimePath}"
+      "DOCKER_HOST=unix:///run/user/%U/podman/podman.sock"
     ];
-    PassEnvironment = "WAYLAND_DISPLAY DISPLAY XDG_RUNTIME_DIR";
+    PassEnvironment = [ "WAYLAND_DISPLAY" "DISPLAY" "XDG_RUNTIME_DIR" ];
     RestartSec = 5; # Wait 5s before restarting to let display settle
   };
 
@@ -186,12 +186,13 @@ in
     Install.WantedBy = [ "sockets.target" ];
   };
 
+  # init.el and early-init.el are Nix-generated trampolines that inject
+  # runtime PATH and early-init settings. `force = true` fights existing
+  # Nix store symlinks on every `home-manager switch` — dropping it lets
+  # home-manager manage the symlinks without unnecessary churn.
   xdg.configFile = {
     "emacs/init.el".text = nix-init-content;
-    "emacs/init.el".force = true;
-
     "emacs/early-init.el".text = nix-early-init-content;
-    "emacs/early-init.el".force = true;
   };
 
   # Create a writable custom.el so Emacs can persist safe-local-eval forms.
@@ -209,5 +210,6 @@ in
   # enchant_2: jinx spell-check (in LD_LIBRARY_PATH above)
   home.packages = with pkgs; [
     enchant_2
+    myEmacs
   ];
 }

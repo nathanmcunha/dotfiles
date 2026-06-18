@@ -22,7 +22,7 @@ in
     enable = true;
     enableSshSupport = true;
     enableZshIntegration = true;
-    pinentry.package = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-qt;
     defaultCacheTtl = 28800;
     maxCacheTtl = 28800;
     extraConfig = ''

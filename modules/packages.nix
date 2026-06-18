@@ -88,6 +88,7 @@
       # Browser
       brave
       google-chrome
+      inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Media
       mpv
