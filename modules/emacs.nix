@@ -129,6 +129,7 @@ let
       # Packages the use-package parser cannot discover:
       epkgs.jinx # disabled spell-check, kept for easy re-enable
       epkgs.ghostel # terminal emulator (native module auto-downloads)
+      epkgs.doom-themes # required by the doom-rose-pine custom themes
     ];
   };
 
@@ -193,6 +194,9 @@ in
   xdg.configFile = {
     "emacs/init.el".text = nix-init-content;
     "emacs/early-init.el".text = nix-early-init-content;
+    "emacs/themes/doom-rose-pine-dawn-theme.el".source = ../files/emacs/themes/doom-rose-pine-dawn-theme.el;
+    "emacs/themes/doom-rose-pine-theme.el".source = ../files/emacs/themes/doom-rose-pine-theme.el;
+    "emacs/themes/doom-rose-pine-moon-theme.el".source = ../files/emacs/themes/doom-rose-pine-moon-theme.el;
   };
 
   # Create a writable custom.el so Emacs can persist safe-local-eval forms.

@@ -7,7 +7,7 @@
     settings = {
       general = {
         live_config_reload = true;
-        import = [ "~/.config/alacritty/theme-colors.toml" ];
+        import = [ "~/.config/alacritty/rose-pine-dawn.toml" ];
       };
 
       env.TERM = "alacritty";
@@ -54,4 +54,6 @@
   };
 
   xdg.configFile."alacritty/alacritty.toml".force = true;
+  xdg.configFile."alacritty/rose-pine-dawn.toml".source = ../files/alacritty/rose-pine-dawn.toml;
+  xdg.configFile."alacritty/rose-pine.toml".source = ../files/alacritty/rose-pine.toml;
 }

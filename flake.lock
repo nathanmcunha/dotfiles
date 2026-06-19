@@ -36,8 +36,8 @@
     "emacs-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1781897078,
-        "narHash": "sha256-YEWcPBDjUzr/2SueTVDcdX6wOt/BaAeTIXpVMKNt3pQ=",
+        "lastModified": 1781900344,
+        "narHash": "sha256-U4K6RI5XdTLTShjtVcjVSozW6ECtiIbc3rOloWhN074=",
         "path": "/home/nathanmcunha/.config/emacs",
         "type": "path"
       },

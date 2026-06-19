@@ -687,7 +687,7 @@
             id = "kcolorscheme";
           }
           {
-            enabled = true;
+            enabled = false;
             id = "starship";
           }
           {
@@ -769,23 +769,23 @@
     };
 
     colors = {
-      # Squirrelsong Light — https://sapegin.me/squirrelsong/
-      mPrimary = "#80a4be";
-      mOnPrimary = "#000000";
-      mSecondary = "#657d38";
-      mOnSecondary = "#fdfdfe";
-      mTertiary = "#806f9b";
-      mOnTertiary = "#fdfdfe";
-      mError = "#c06159";
-      mOnError = "#fdfdfe";
-      mSurface = "#fdfdfe";
-      mOnSurface = "#3e3d40";
-      mSurfaceVariant = "#f7f6f9";
-      mOnSurfaceVariant = "#78737d";
-      mOutline = "#9c96a2";
-      mShadow = "#dbd7e0";
-      mHover = "#80a4be";
-      mOnHover = "#000000";
+      # Rosé Pine Dawn — https://rosepinetheme.com/
+      mPrimary = "#286983";
+      mOnPrimary = "#fffaf3";
+      mSecondary = "#56949f";
+      mOnSecondary = "#fffaf3";
+      mTertiary = "#907aa9";
+      mOnTertiary = "#fffaf3";
+      mError = "#b4637a";
+      mOnError = "#fffaf3";
+      mSurface = "#faf4ed";
+      mOnSurface = "#575279";
+      mSurfaceVariant = "#fffaf3";
+      mOnSurfaceVariant = "#797593";
+      mOutline = "#9893a5";
+      mShadow = "#f2e9e1";
+      mHover = "#286983";
+      mOnHover = "#fffaf3";
     };
 
     plugins = {
