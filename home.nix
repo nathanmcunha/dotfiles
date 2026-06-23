@@ -121,5 +121,6 @@ in
     ./modules/easyeffects.nix
     ./modules/pi.nix
     ./modules/zen-browser.nix
+    ./modules/ghostty.nix
   ];
 }
