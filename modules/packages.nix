@@ -81,6 +81,7 @@
       imagemagick
       ffmpeg
       xournalpp
+      pear-desktop
 
       # File manager
       nautilus
@@ -99,7 +100,6 @@
       zathura
 
       # System info
-      cpu-x
       fastfetch
 
       vial

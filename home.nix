@@ -110,7 +110,6 @@ in
     ./modules/zsh.nix
     ./modules/starship.nix
     ./modules/emacs.nix
-    ./modules/alacritty.nix
     ./modules/hyprland.nix
     ./modules/noctalia.nix
     ./modules/podman.nix

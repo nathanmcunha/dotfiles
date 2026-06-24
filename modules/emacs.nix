@@ -33,6 +33,12 @@ let
     ${builtins.readFile (emacs-config + "/containers.org")}
 
     ${builtins.readFile (emacs-config + "/eca.org")}
+
+    ;; Load custom file normally handled by config.org (excluded from Nix
+    ;; to avoid the dolist loader double-loading alongside site-start.el).
+    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+    (when (file-exists-p custom-file)
+      (load custom-file 'noerror))
   '';
 
   # Tree-sitter grammars from Nix (avoids manual compilation at runtime)
@@ -64,13 +70,13 @@ let
         let
           grammar = pkgs.tree-sitter.builtGrammars."tree-sitter-${name}" or null;
         in
-        if grammar != null then
+        if grammar == null then
+          builtins.trace "WARNING: tree-sitter grammar not found in nixpkgs: tree-sitter-${name}" null
+        else
           {
             name = "libtree-sitter-${name}.so";
             path = "${grammar}/parser";
           }
-        else
-          null
       ) grammarNames
     )
   );
@@ -174,7 +180,7 @@ in
       "PATH=${emacsRuntimePath}"
       "DOCKER_HOST=unix:///run/user/%U/podman/podman.sock"
     ];
-    PassEnvironment = [ "WAYLAND_DISPLAY" "DISPLAY" "XDG_RUNTIME_DIR" ];
+    PassEnvironment = [ "WAYLAND_DISPLAY" "DISPLAY" "XDG_RUNTIME_DIR" "SSH_AUTH_SOCK" ];
     RestartSec = 5; # Wait 5s before restarting to let display settle
   };
 
