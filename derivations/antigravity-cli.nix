@@ -8,7 +8,7 @@ pkgs.stdenv.mkDerivation {
   src = pkgs.fetchurl {
     url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.0.2-6109799369277440/linux-x64/cli_linux_x64.tar.gz";
     name = "cli_linux_x64.tar.gz";
-    sha256 = "1jddxaq06rfz599prnyql2kdmq0is4xlfxln4azk74q9sn0cmizn";
+    hash = "sha256-9sfKgNUJkzO/IpZ2RzvREeDapqDY23xTKt9lA7Dqrck=";
   };
   sourceRoot = ".";
   nativeBuildInputs = [ pkgs.autoPatchelfHook ];

@@ -200,7 +200,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ pi-coding-agent jq ];
+    home.packages = with pkgs; [ pi-coding-agent ];
 
     home.file = lib.mkMerge [
       skillsDirFiles
