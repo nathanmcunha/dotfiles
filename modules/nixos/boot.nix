@@ -16,7 +16,7 @@
 
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   boot.kernelParams = [
     "quiet"

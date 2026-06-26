@@ -22,7 +22,7 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland/v0.54.0";
+      url = "github:hyprwm/Hyprland/v0.55.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -40,25 +40,7 @@
       url = "github:obra/superpowers";
       flake = false;
     };
-    oh-my-pi = {
-      url = "github:can1357/oh-my-pi";
-      flake = false;
-    };
 
-    nixpkgs-wayland = {
-      url = "github:nix-community/nixpkgs-wayland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
@@ -82,10 +64,6 @@
       nixpkgs,
       home-manager,
       emacs-overlay,
-      oh-my-pi,
-      nixpkgs-wayland,
-      nix-gaming,
-      nur,
       monique,
       helium,
       ...
@@ -95,9 +73,7 @@
       overlays = [
         emacs-overlay.overlays.default
         (import ./overlays/rtk.nix)
-        nixpkgs-wayland.overlays.default
-        nix-gaming.overlays.default
-        nur.overlays.default
+        (import ./overlays/mimo.nix)
         monique.overlays.default
       ];
       pkgs = import nixpkgs {
@@ -114,7 +90,6 @@
           inherit
             inputs
             system
-            oh-my-pi
             helium
             ;
         };

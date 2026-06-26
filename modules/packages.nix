@@ -46,8 +46,8 @@
       kind
 
       # AI CLIs
-      pi-coding-agent
       (pkgs.callPackage ../derivations/antigravity-cli.nix { })
+      mimo
       google-cloud-sdk
 
       # Wayland / Hyprland apps
@@ -66,11 +66,8 @@
       networkmanagerapplet
 
       # Theming
-      adw-gtk3
       qt6Packages.qt6ct
       nwg-look
-      bibata-cursors
-      papirus-icon-theme
 
       # Desktop apps
       libreoffice
@@ -105,13 +102,6 @@
       vial
       easyeffects
       exercism
-      (bun.overrideAttrs (old: {
-        version = "1.3.14";
-        src = pkgs.fetchurl {
-          url = "https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-linux-x64.zip";
-          hash = "sha256-lR7iruhV8IWVruxiJSJqKY0/6oOj3NZGXAnLzN9+hI8=";
-        };
-      }))
       (writeShellScriptBin "omp" ''
         exec ${bun}/bin/bunx @oh-my-pi/pi-coding-agent "$@"
       '')
