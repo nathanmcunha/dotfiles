@@ -26,6 +26,23 @@
     wget
     curl
     stow
+    nodejs_24
+    pnpm
+    bun
+    temurin-bin-21
+    go
+    rustup
+    pkg-config
+    wrapGAppsHook4
+    gcc
+    cmake
+    python314
+    neovim
+    bat
+    eza
+    ripgrep
+    jq
+    fd
   ];
 
   hardware.enableRedistributableFirmware = true;

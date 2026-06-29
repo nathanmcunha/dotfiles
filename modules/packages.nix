@@ -8,29 +8,16 @@
   home = {
     packages = with pkgs; [
       # CLI essentials
-      bat
-      eza
-      ripgrep
-      fd
-      jq
       monique
       pass
       rtk
       inputs.impala.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Dev tools
-      neovim
-      gcc
-      cmake
       gnupg
-      go
       gradle
-      temurin-bin-21
       maven
-      jetbrains.idea
-      nodejs_24
-      python312
-      rustup
+      # jetbrains.idea
 
       # Nix tools
       nixfmt
@@ -46,7 +33,6 @@
       kind
 
       # AI CLIs
-      (pkgs.callPackage ../derivations/antigravity-cli.nix { })
       mimo
       google-cloud-sdk
 

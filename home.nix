@@ -115,11 +115,9 @@ in
     ./modules/podman.nix
     ./modules/btop.nix
     ./modules/aliases.nix
-    ./modules/mise.nix
     ./modules/nh.nix
     ./modules/easyeffects.nix
     ./modules/pi.nix
-    ./modules/zen-browser.nix
     ./modules/ghostty.nix
   ];
 }

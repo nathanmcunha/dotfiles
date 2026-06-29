@@ -25,66 +25,65 @@
     ];
 
     initContent = ''
-      # Run fastfetch on shell startup
-      fastfetch
+        # Run fastfetch on shell startup
+        fastfetch
 
-      # Load secrets if present
-      [[ -f ~/.env ]] && source ~/.env
+        # Load secrets if present
+        [[ -f ~/.env ]] && source ~/.env
+        # Tell gpg-agent the current TTY so pinentry-curses can prompt
+        gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
-      # Tell gpg-agent the current TTY so pinentry-curses can prompt
-      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+        # SSH_AUTH_SOCK: HM's gpg-agent integration does not set this for zsh
+        export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+        # Emacs client helpers
+        e()   { emacsclient -c "$@" }
+        ec()  { emacsclient -cn "$@" }
 
-      # SSH_AUTH_SOCK: HM's gpg-agent integration does not set this for zsh
-      export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-      # Emacs client helpers
-      e()   { emacsclient -c "$@" }
-      ec()  { emacsclient -cn "$@" }
+        # --- COMPLETION ---
+        # Cache completions for faster startup
+        zstyle ':completion:*' use-cache on
+        zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
 
-      # --- COMPLETION ---
-      # Cache completions for faster startup
-      zstyle ':completion:*' use-cache on
-      zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
+        # Case-insensitive and fuzzy/partial matching
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-      # Case-insensitive and fuzzy/partial matching
-      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+        # Colorize the default completion menu
+        zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
 
-      # Colorize the default completion menu
-      zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
+        # Preview directory contents when completing cd/z
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+        zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
 
-      # Preview directory contents when completing cd/z
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-      zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
+        # Smart open function: Handles files, URLs, and Web Searches
+        open() {
+          if [[ -z "$1" ]]; then
+            xdg-open .
+          elif [[ -f "$1" || -d "$1" || "$1" =~ ^https?:// ]]; then
+            xdg-open "$1"
+          else
+            # Assume it's a search query if it's not a file or URL
+            xdg-open "https://www.google.com/search?q=$*"
+          fi
+        }
 
-      # Smart open function: Handles files, URLs, and Web Searches
-      open() {
-        if [[ -z "$1" ]]; then
-          xdg-open .
-        elif [[ -f "$1" || -d "$1" || "$1" =~ ^https?:// ]]; then
-          xdg-open "$1"
-        else
-          # Assume it's a search query if it's not a file or URL
-          xdg-open "https://www.google.com/search?q=$*"
-        fi
-      }
-
-      # Suffix aliases: open files by extension
-      alias -s pdf='xdg-open'
-      alias -s png='xdg-open'
-      alias -s jpg='xdg-open'
-      alias -s jpeg='xdg-open'
-      alias -s gif='xdg-open'
-      alias -s svg='xdg-open'
-      alias -s mp4='xdg-open'
-      alias -s mkv='xdg-open'
-      alias -s mov='xdg-open'
-      alias -s avi='xdg-open'
-      alias -s webm='xdg-open'
-      alias -s mp3='xdg-open'
-      alias -s flac='xdg-open'
-      alias -s wav='xdg-open'
-      alias -s ogg='xdg-open'
-      alias -s html='xdg-open'
-      alias -s htm='xdg-open'
+        # Suffix aliases: open files by extension
+        alias -s pdf='xdg-open'
+        alias -s png='xdg-open'
+        alias -s jpg='xdg-open'
+        alias -s jpeg='xdg-open'
+        alias -s gif='xdg-open'
+        alias -s svg='xdg-open'
+        alias -s mp4='xdg-open'
+        alias -s mkv='xdg-open'
+        alias -s mov='xdg-open'
+        alias -s avi='xdg-open'
+        alias -s webm='xdg-open'
+        alias -s mp3='xdg-open'
+        alias -s flac='xdg-open'
+        alias -s wav='xdg-open'
+        alias -s ogg='xdg-open'
+        alias -s html='xdg-open'
+        alias -s htm='xdg-open'
     '';
   };
 

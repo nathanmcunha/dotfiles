@@ -40,13 +40,6 @@
       url = "github:obra/superpowers";
       flake = false;
     };
-
-
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     monique = {
       url = "github:ToRvaLDz/monique";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,6 +67,7 @@
         emacs-overlay.overlays.default
         (import ./overlays/rtk.nix)
         (import ./overlays/mimo.nix)
+        (import ./overlays/bun.nix)
         monique.overlays.default
       ];
       pkgs = import nixpkgs {
