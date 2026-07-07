@@ -22,7 +22,7 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland/v0.55.0";
+      url = "github:hyprwm/Hyprland/v0.55.4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -32,7 +32,8 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/57be32b0a81471ef6c5dceff6faad23b534ec7f8";
+      url = "github:noctalia-dev/noctalia/legacy-v4";
+      # url = "github:noctalia-dev/noctalia-shell/57be32b0a81471ef6c5dceff6faad23b534ec7f8";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -50,6 +51,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -59,14 +64,15 @@
       emacs-overlay,
       monique,
       helium,
+      llm-agents,
       ...
     }:
     let
       system = "x86_64-linux";
       overlays = [
         emacs-overlay.overlays.default
-        (import ./overlays/rtk.nix)
-        (import ./overlays/mimo.nix)
+        # (import ./overlays/rtk.nix)
+        # (import ./overlays/mimo.nix)
         (import ./overlays/bun.nix)
         monique.overlays.default
       ];

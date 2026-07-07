@@ -10,7 +10,7 @@
       # CLI essentials
       monique
       pass
-      rtk
+      # rtk
       inputs.impala.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Dev tools
@@ -32,8 +32,11 @@
       kubectx
       kind
 
-      # AI CLIs
-      mimo
+      #AI
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.rtk
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.skills
+
       google-cloud-sdk
 
       # Wayland / Hyprland apps
@@ -88,9 +91,9 @@
       vial
       easyeffects
       exercism
-      (writeShellScriptBin "omp" ''
-        exec ${bun}/bin/bunx @oh-my-pi/pi-coding-agent "$@"
-      '')
+      # (writeShellScriptBin "omp" ''
+      #   exec ${bun}/bin/bunx @oh-my-pi/pi-coding-agent "$@"
+      # '')
     ];
   };
 }

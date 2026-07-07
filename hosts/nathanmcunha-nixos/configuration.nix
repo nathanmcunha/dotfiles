@@ -14,6 +14,7 @@
     ../../modules/nixos/audio.nix
     ../../modules/nixos/bluetooth.nix
     ../../modules/nixos/udev.nix
+    ../../modules/nixos/steam.nix
     ../../modules/nixos/graphics.nix
   ];
 
@@ -45,6 +46,8 @@
     fd
   ];
 
+  # Steam (unfree) is enabled via modules/nixos/steam.nix at the system level.
+  nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
   system.stateVersion = "25.05";
 

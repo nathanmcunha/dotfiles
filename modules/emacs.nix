@@ -28,12 +28,6 @@ let
 
     ${builtins.readFile (emacs-config + "/notes.org")}
 
-    ${builtins.readFile (emacs-config + "/ai.org")}
-
-    ${builtins.readFile (emacs-config + "/containers.org")}
-
-    ${builtins.readFile (emacs-config + "/eca.org")}
-
     ;; Load custom file normally handled by config.org (excluded from Nix
     ;; to avoid the dolist loader double-loading alongside site-start.el).
     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -180,7 +174,12 @@ in
       "PATH=${emacsRuntimePath}"
       "DOCKER_HOST=unix:///run/user/%U/podman/podman.sock"
     ];
-    PassEnvironment = [ "WAYLAND_DISPLAY" "DISPLAY" "XDG_RUNTIME_DIR" "SSH_AUTH_SOCK" ];
+    PassEnvironment = [
+      "WAYLAND_DISPLAY"
+      "DISPLAY"
+      "XDG_RUNTIME_DIR"
+      "SSH_AUTH_SOCK"
+    ];
     RestartSec = 5; # Wait 5s before restarting to let display settle
   };
 
@@ -200,9 +199,11 @@ in
   xdg.configFile = {
     "emacs/init.el".text = nix-init-content;
     "emacs/early-init.el".text = nix-early-init-content;
-    "emacs/themes/doom-rose-pine-dawn-theme.el".source = ../files/emacs/themes/doom-rose-pine-dawn-theme.el;
+    "emacs/themes/doom-rose-pine-dawn-theme.el".source =
+      ../files/emacs/themes/doom-rose-pine-dawn-theme.el;
     "emacs/themes/doom-rose-pine-theme.el".source = ../files/emacs/themes/doom-rose-pine-theme.el;
-    "emacs/themes/doom-rose-pine-moon-theme.el".source = ../files/emacs/themes/doom-rose-pine-moon-theme.el;
+    "emacs/themes/doom-rose-pine-moon-theme.el".source =
+      ../files/emacs/themes/doom-rose-pine-moon-theme.el;
   };
 
   # Create a writable custom.el so Emacs can persist safe-local-eval forms.
