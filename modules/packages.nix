@@ -10,14 +10,14 @@
       # CLI essentials
       monique
       pass
-      # rtk
       inputs.impala.packages.${pkgs.stdenv.hostPlatform.system}.default
+      fabric-ai
 
       # Dev tools
       gnupg
       gradle
       maven
-      # jetbrains.idea
+      sshfs
 
       # Nix tools
       nixfmt
@@ -68,6 +68,7 @@
       ffmpeg
       xournalpp
       pear-desktop
+      discord
 
       # File manager
       nautilus
@@ -88,12 +89,11 @@
       # System info
       fastfetch
 
+      hydralauncher
+
       vial
       easyeffects
       exercism
-      # (writeShellScriptBin "omp" ''
-      #   exec ${bun}/bin/bunx @oh-my-pi/pi-coding-agent "$@"
-      # '')
     ];
   };
 }

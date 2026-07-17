@@ -22,5 +22,12 @@
     openFirewall = true;
   };
 
+  # Work around stale PID file left behind after switch (avahi#5815).
+  # The old process exits but /run/avahi-daemon/pid persists; the new
+  # daemon's O_EXCL open then fails with "File exists".
+  systemd.services.avahi-daemon.serviceConfig.ExecStartPre = [
+    "-${pkgs.coreutils}/bin/rm -f /run/avahi-daemon/pid"
+  ];
+
   services.fstrim.enable = true;
 }

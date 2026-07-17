@@ -29,6 +29,7 @@ in
       allow-loopback-pinentry
     '';
   };
+  # fabric-ai.enableZshIntegration = true;
 
   gtk = {
     enable = true;

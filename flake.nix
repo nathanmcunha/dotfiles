@@ -71,8 +71,6 @@
       system = "x86_64-linux";
       overlays = [
         emacs-overlay.overlays.default
-        # (import ./overlays/rtk.nix)
-        # (import ./overlays/mimo.nix)
         (import ./overlays/bun.nix)
         monique.overlays.default
       ];

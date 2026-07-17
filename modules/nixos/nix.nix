@@ -10,6 +10,9 @@
       "flakes"
     ];
     auto-optimise-store = true;
+    cores = 0;
+    max-jobs = "auto";
+
     trusted-users = [
       "root"
       "nathanmcunha"

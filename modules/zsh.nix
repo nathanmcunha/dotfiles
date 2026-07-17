@@ -99,13 +99,17 @@
       "--margin=1,2"
       "--color=light"
     ];
-    fileWidgetCommand = "fd --type f --hidden --exclude .git";
-    fileWidgetOptions = [
-      "--preview 'bat -n --color=always {}'"
-      "--bind 'ctrl-/:change-preview-window(down|hidden|)'"
-    ];
-    changeDirWidgetCommand = "fd --type d --hidden --exclude .git";
-    changeDirWidgetOptions = [ "--preview 'ls --color=always -l {} | head -200'" ];
+    fileWidget = {
+      command = "fd --type f --hidden --exclude .git";
+      options = [
+        "--preview 'bat -n --color=always {}'"
+        "--bind 'ctrl-/:change-preview-window(down|hidden|)'"
+      ];
+    };
+    changeDirWidget = {
+      command = "fd --type d --hidden --exclude .git";
+      options = [ "--preview 'ls --color=always -l {} | head -200'" ];
+    };
   };
   programs.zoxide = {
     enable = true;
