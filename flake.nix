@@ -1,6 +1,19 @@
 {
   description = "Nathan's NixOS + Home Manager config";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://hyprland.cachix.org"
+      "https://noctalia.cachix.org"
+      "https://cache.numtide.com"
+    ];
+    extra-trusted-public-keys = [
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -23,7 +36,6 @@
 
     hyprland = {
       url = "github:hyprwm/Hyprland/v0.55.4";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     impala = {
@@ -34,7 +46,6 @@
     noctalia = {
       url = "github:noctalia-dev/noctalia/legacy-v4";
       # url = "github:noctalia-dev/noctalia-shell/57be32b0a81471ef6c5dceff6faad23b534ec7f8";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     superpowers = {
