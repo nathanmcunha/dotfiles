@@ -20,10 +20,21 @@
   # Flatpak
   services.flatpak.enable = true;
 
-  # Printing (CUPS) + HP drivers
+  # Printing (CUPS) + Brother + HP drivers
   services.printing = {
     enable = true;
-    drivers = [ pkgs.hplip ];
+    drivers = with pkgs; [
+      hplip
+      brlaser              # Open-source Brother laser driver (fallback)
+      brgenml1lpr          # Brother generic LPR driver
+      brgenml1cupswrapper  # Brother generic CUPS wrapper
+    ];
+  };
+
+  # Scanner — SANE with Brother brscan4 backend
+  hardware.sane = {
+    enable = true;
+    brscan4.enable = true;
   };
 
   programs.kdeconnect.enable = true;

@@ -22,11 +22,15 @@
     openFirewall = true;
   };
 
-  # Work around stale PID file left behind after switch (avahi#5815).
-  # The old process exits but /run/avahi-daemon/pid persists; the new
-  # daemon's O_EXCL open then fails with "File exists".
+  # Work around stale PID file + root-owned runtime dir after switch (avahi#5815).
+  # ExecStartPre removes leftover PID and fixes ownership so the avahi user
+  # (which drops privileges internally) can write to /run/avahi-daemon/.
   systemd.services.avahi-daemon.serviceConfig.ExecStartPre = [
-    "-${pkgs.coreutils}/bin/rm -f /run/avahi-daemon/pid"
+    "${pkgs.writeShellScript "fix-avahi-run" ''
+      rm -f /run/avahi-daemon/pid
+      mkdir -p /run/avahi-daemon
+      chown avahi:avahi /run/avahi-daemon
+    ''}"
   ];
 
   services.fstrim.enable = true;

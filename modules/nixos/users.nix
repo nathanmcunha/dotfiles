@@ -13,7 +13,7 @@
       "audio"
       "video"
       "bluetooth"
-      "lpadmin"
+      "scanner"
       "wireshark"
     ];
   };
