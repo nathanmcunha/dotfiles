@@ -211,15 +211,22 @@
               useMonospaceFont = true;
               usePadding = false;
             }
+
+            {
+              blacklist = [ ];
+              chevronColor = "none";
+              colorizeIcons = false;
+              drawerEnabled = true;
+              hidePassive = true;
+              id = "Tray";
+              pinned = [ ];
+            }
             {
               displayMode = "onhover";
               iconColor = "none";
               id = "Volume";
               middleClickCommand = "pwvucontrol || pavucontrol";
               textColor = "none";
-            }
-            {
-              id = "plugin:display-settings";
             }
             {
               defaultSettings = {
@@ -337,18 +344,6 @@
             name = "DP-3";
             widgets = [
               {
-                hideMode = "visible";
-                id = "MediaPlayer";
-                roundedCorners = true;
-                showAlbumArt = true;
-                showBackground = true;
-                showButtons = true;
-                showVisualizer = true;
-                visualizerType = "linear";
-                x = 422;
-                y = 57;
-              }
-              {
                 clockColor = "none";
                 clockStyle = "digital";
                 customFont = "";
@@ -358,8 +353,8 @@
                 scale = 2.151037257250227;
                 showBackground = true;
                 useCustomFont = false;
-                x = 452;
-                y = 221;
+                x = 200;
+                y = 440;
               }
             ];
           }
