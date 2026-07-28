@@ -84,6 +84,69 @@
         alias -s ogg='xdg-open'
         alias -s html='xdg-open'
         alias -s htm='xdg-open'
+
+        # Least-used packages: check atime on binaries from packages.nix
+        least-used() {
+          local count=''${1:-15}
+          local pkgfile="''${2:-$HOME/dotfiles/modules/packages.nix}"
+          local -A binmap=(
+            imagemagick magick
+            google-chrome google-chrome-stable
+            libnotify    notify-send
+            networkmanagerapplet nm-applet
+            qt6Packages.qt6ct qt6ct
+            protonup-ng  protonup
+            vscode       code
+            pear-desktop pear-desktop
+            bitwarden-cli bw
+            wl-clipboard wl-copy
+            gnupg        gpg
+            maven        mvn
+            google-cloud-sdk gcloud
+            kubernetes-helm helm
+            fabric-ai    fabric
+            hydralauncher hydralauncher
+          )
+
+          # Extract package identifiers from Nix list (skip inputs.* and nix syntax)
+          local -a pkgs=()
+          while IFS= read -r line; do
+            line="''${line##+([[:space:]])}"
+            line="''${line%%[[:space:]]#}"
+            # skip empty, brackety, input refs, comments
+            [[ -z "$line" || "$line" == ']' || "$line" == '['* || "$line" == '#'* || "$line" == inputs.* || "$line" == '}'* ]] && continue
+            # strip trailing commas
+            line="''${line%,}"
+            pkgs+=("$line")
+          done < <(grep -v '^[[:space:]]*#' "$pkgfile" | grep -oP '(?<=^[[:space:]]{6})[a-zA-Z0-9._-]+(?=[[:space:]]*$|[[:space:]]*#)')
+
+          # Resolve each to atime
+          local -a results=()
+          local pkg bin real atime
+          for pkg in "''${pkgs[@]}"; do
+            [[ "$pkg" == inputs.* ]] && continue
+            bin="''${binmap[$pkg]:-$pkg}"
+            real=$(readlink -f "$(whence -p "$bin" 2>/dev/null)" 2>/dev/null)
+            if [[ -n "$real" && -f "$real" ]]; then
+              atime=$(stat --format='%X' "$real" 2>/dev/null)
+              results+=("$atime|$pkg|$bin")
+            fi
+          done
+
+          # Sort and display
+          local IFS=$'\n'
+          local now=$(date +%s)
+          local sorted=($(sort -t'|' -k1 -n <<<"''${results[*]}"))
+          printf '%-14s | %-20s | %-18s | %s\n' 'ATIME' 'PACKAGE' 'BINARY' 'DAYS'
+          printf '%-14s-+-%-20s-+-%-18s-+-%s\n' '──────────────' '────────────────────' '──────────────────' '────'
+          local row epo pname
+          for row in "''${sorted[@]:0:$count}"; do
+            IFS='|' read -r epo pname bin <<<"$row"
+            local atime_str=$(date -d "@$epo" '+%Y-%m-%d %H:%M' 2>/dev/null)
+            local days=$(( (now - epo) / 86400 ))
+            printf '%-14s | %-20s | %-18s | %dd\n' "$atime_str" "$pname" "$bin" "$days"
+          done
+        }
     '';
   };
 
